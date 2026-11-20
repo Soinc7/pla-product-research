@@ -22,7 +22,7 @@ It is **read-only**. It never publishes, activates products, launches ads, or sp
 
 | # | Tool | Why |
 |---|---|---|
-| 1 | A **1688 account**, logged in | Shows real factory price, MOQ and price tiers |
+| 1 | A **1688 price route**, any one of: **Fabulk** (fabulk.com, no login needed), **1688order.com** (free account) or **1688.com** (logged in) | Shows factory price and MOQ. With no route, the run keeps going and pricing waits |
 | 2 | **Google Chrome** that your agent can drive (for example Claude in Chrome, or Playwright attached to your real logged-in Chrome) | The agent reads Kalo and 1688 through it |
 | 3 | **Kalodata**, logged in | Product discovery and video evidence |
 

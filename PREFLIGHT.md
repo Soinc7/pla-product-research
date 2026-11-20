@@ -25,7 +25,7 @@ The machine-readable version is `preflight/checklist.json`.
 | Check | If MISSING | If PARTIAL |
 |---|---|---|
 | B. Chrome | **STOP** | **STOP** (wrong profile or cannot navigate = cannot research) |
-| A. 1688 | **STOP** | Discovery may run. No product can go green. All pricing stays HOLD. |
+| A. 1688 route | **Do not stop.** Ask the user to log in or make a free account on one route, or use Fabulk (no login). Discovery continues; pricing stays HOLD. | Continue; note the route and whether prices are public list prices |
 | C. Kalo | **STOP** | Continue inside the plan limits. Plan the batch across days. |
 | D. Sheets / Drive | Continue. Write output as local files and say so in the report. | Continue with the limit noted |
 | E. Optional tools | Continue. No product can go green without them. | Continue with the limit noted |
@@ -54,24 +54,29 @@ Steps:
 
 **Fix:** Human opens Chrome, reconnects the browser tool, and selects the profile that holds the 1688 and Kalo logins. Then rerun this check.
 
-## A. 1688 account
+## A. 1688 price route (any one of three)
 
-**What to prove:** logged in, and factory price and MOQ are visible.
+1688 can be reached three ways. **Any one is enough.** A missing 1688 login never stops the run.
+
+| Route | Login | What you get |
+|---|---|---|
+| **Fabulk** — fabulk.com | **Not needed** | USD price and MOQ on every result card. Keyword search: `https://www.fabulk.com/searchlist?keyword=<words>`. Photo search: camera icon in the search bar (upload the Kalo main photo). |
+| **1688order** — 1688order.com | Free account | English 1688 agent site with factory prices |
+| **1688.com** | Needed for SKU tiers, image search and counter price | Public search shows CNY list prices without login |
 
 Steps:
 
-1. Open 1688 in the user's Chrome.
-2. Look for a logged-in state (account name or member area shown, no login prompt).
-3. Open any one product offer page.
-4. Confirm you can see the price, the price tiers and the minimum order quantity (MOQ).
+1. Try **Fabulk first**. Run one keyword search and confirm price and MOQ show.
+2. If Fabulk is down, try 1688order.com, then 1688.com, in the user's Chrome.
+3. Open one offer and confirm price and MOQ are visible. Record the route.
 
 | State | When |
 |---|---|
-| PROVEN | Logged in and price, tiers and MOQ are visible on an offer page |
-| PARTIAL | Logged in but price or MOQ is hidden, or a verification page blocks some pages |
-| MISSING | Login prompt shown, or no 1688 account |
+| PROVEN | Any route shows price and MOQ for an offer |
+| PARTIAL | Only 1688.com public list prices (no SKU tiers), or a verification page blocks some pages |
+| MISSING | No route works: Fabulk down and no login on 1688order or 1688.com |
 
-**Fix:** Human logs in to 1688 in that Chrome profile themself and clears any verification step by hand. Then rerun this check. The agent does not touch the login form.
+**If MISSING:** do not stop. Tell the user: "Make a free account or log in on 1688order.com or 1688.com in your own browser, or I can use Fabulk, which needs no login." Keep running discovery, Meta and TrendTrack. Pricing stays HOLD until a route works. The agent never types into a login form.
 
 ## C. Kalodata (Kalo)
 

@@ -29,7 +29,9 @@ description: Read-only TikTok Shop product research. Runs a tool preflight, disc
 ### Step 0 — Preflight
 
 Follow `PREFLIGHT.md`. Record each check as PROVEN / PARTIAL / MISSING.
-Any MISSING on **Chrome, 1688 or Kalo** = STOP. Report the exact fix and end the run.
+Any MISSING on **Chrome or Kalo** = STOP. Report the exact fix and end the run.
+
+**1688 never stops the run.** Use any one route: **Fabulk** (fabulk.com, no login), **1688order.com** (free account) or **1688.com** (logged in). If none works, ask the user to log in or make a free account on one of them, keep doing discovery, Meta and TrendTrack, and hold pricing.
 
 ### Step 1 — Open the batch record
 
@@ -73,7 +75,7 @@ Any MISSING on **Chrome, 1688 or Kalo** = STOP. Report the exact fix and end the
 ### Step 5 — 1688 exact-match factory price (the "counter price")
 
 Follow `PRICING-1688-ARIA.md`, part A.
-Short version: find the **exact** product and variant on 1688 with the logged-in account, compare several independent factories, record offer ID, CNY price, FX date and what the price excludes.
+Short version: find the **exact** product and variant through any 1688 route (Fabulk photo search first: camera icon, upload the Kalo main photo), compare several independent factories, record offer ID, CNY price, FX date and what the price excludes.
 No exact match = `HOLD`.
 
 ### Step 6 — Supplier-agent (Aria) delivered estimate

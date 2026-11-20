@@ -15,7 +15,15 @@ Only the delivered cost is compared to the **under $8** gate.
 
 ## Part A — Find the exact 1688 match
 
-Needs preflight check A = PROVEN. A logged-in account shows the real factory price, MOQ and price tiers.
+Needs preflight check A = PROVEN on **any one route**:
+
+| Route | Login | Notes |
+|---|---|---|
+| **Fabulk** (fabulk.com) | Not needed | USD price + MOQ on results. Keyword: `/searchlist?keyword=<words>`. Photo search: camera icon, upload the Kalo main photo. Agent prices include the agent's margin. Label them "Fabulk USD". |
+| **1688order.com** | Free account | English agent site |
+| **1688.com** | Needed for SKU tiers, image search and counter price | Public search shows CNY list prices without login |
+
+When no route works, do not stop: ask the user to log in or make a free account on one route, and hold pricing only.
 
 ### Steps
 

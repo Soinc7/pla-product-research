@@ -43,7 +43,7 @@ def main(argv):
         if state == "PROVEN":
             continue
         if state == "MISSING":
-            if check["required"]:
+            if check["required"] and check.get("missing_blocks", True):
                 stop = True
                 print("    STOP. Fix: %s" % check["fix"])
             else:

@@ -25,20 +25,41 @@
   "checks": [
     {
       "id": "1688",
-      "label": "A. 1688 account logged in",
+      "label": "A. 1688 price route (any one)",
       "required": true,
-      "on_missing": "STOP",
-      "on_partial": "Discovery may run. No product can go green. All pricing stays HOLD.",
+      "on_missing": "Do NOT stop. Ask the user to create a free account or log in on ONE route (1688order or 1688.com), or just use Fabulk, which needs no login. Discovery and Meta/TrendTrack checks continue; pricing stays HOLD until a route works.",
+      "on_partial": "Continue. Record which route and whether prices are list (public) or logged-in counter prices.",
       "steps": [
-        "Open 1688 in the user's Chrome.",
-        "Confirm a logged-in state: account shown, no login prompt.",
-        "Open any one product offer page.",
-        "Confirm price, price tiers and MOQ are visible."
+        "Try Fabulk first (no login): run one keyword search and confirm USD price and MOQ show on result cards.",
+        "If Fabulk is unreachable, try 1688order.com, then 1688.com, in the user's Chrome.",
+        "Open one offer and confirm price and MOQ are visible.",
+        "Record the route used."
       ],
-      "proven_when": "Logged in and price, tiers and MOQ are visible on an offer page.",
-      "partial_when": "Logged in but price or MOQ hidden, or a verification page blocks some pages.",
-      "missing_when": "Login prompt shown, or no 1688 account.",
-      "fix": "Human logs in to 1688 in that Chrome profile themself and clears any verification by hand. Rerun the check."
+      "proven_when": "Any one route shows price and MOQ for an offer.",
+      "partial_when": "Only 1688.com public list prices (no SKU tiers), or a verification page blocks some pages.",
+      "missing_when": "No route reachable: Fabulk down and no login on 1688order or 1688.com.",
+      "fix": "Ask the user to make a free account or log in on 1688order.com or 1688.com in their own browser (the agent never types credentials), or use Fabulk without login. Rerun the check.",
+      "missing_blocks": false,
+      "routes": [
+        {
+          "name": "Fabulk",
+          "url": "https://www.fabulk.com/",
+          "login": "not needed",
+          "notes": "USD prices with MOQ on search results; keyword search URL /searchlist?keyword=...; photo search via the camera icon (upload the Kalo main photo)."
+        },
+        {
+          "name": "1688order",
+          "url": "https://www.1688order.com/",
+          "login": "needed (free account)",
+          "notes": "English 1688 agent site."
+        },
+        {
+          "name": "1688.com",
+          "url": "https://www.1688.com/",
+          "login": "needed for SKU and counter prices",
+          "notes": "Public search shows list prices in CNY without login; image search and SKU prices need a login."
+        }
+      ]
     },
     {
       "id": "chrome",
