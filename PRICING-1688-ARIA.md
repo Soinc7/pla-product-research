@@ -4,7 +4,7 @@ Two numbers decide the cost gate. They are different things.
 
 | Number | What it is | Where it comes from |
 |---|---|---|
-| **Counter price** | Factory price for the item only, in CNY | 1688, logged-in account |
+| **Counter price** | Factory price for the item only, in CNY (or USD on Fabulk) | Any 1688 route: Fabulk, 1688order or 1688.com |
 | **Delivered cost** | Everything to get one unit to the US, in USD | The supplier agent ("Aria") |
 
 Only the delivered cost is compared to the **under $8** gate.

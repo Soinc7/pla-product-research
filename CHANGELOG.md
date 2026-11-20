@@ -51,3 +51,8 @@ First standalone export for partner use.
 ## 1.2.2 — 2026-11-20
 - Screened both Whites. The Azocek inverter passes Kalo (2.8k / 3.01M / 0.93), TrendTrack (800k) and the Meta check, so it is Green 4. The bathroom organizer fails the TrendTrack appeal check, so it is Orange. The list is now 4 Green, 3 Orange, 3 Yellow.
 - 1688 check blocked: no Chrome profile is logged into 1688.
+
+## 1.3.0 — 2026-11-20
+- **1688 no longer stops a run.** Check A is now "1688 price route (any one)": Fabulk (fabulk.com, no login), 1688order.com (free account) or 1688.com (logged in). If none works, the agent asks the user to log in or make a free account on one, keeps doing discovery, Meta and TrendTrack, and holds pricing only. The evaluator has a new `missing_blocks: false` flag, so a missing 1688 route gives GO_LIMITED, not STOP.
+- PRICING-1688-ARIA.md, SKILL.md, README.md and PREFLIGHT.md updated with the 3 routes and Fabulk photo search (camera icon, upload the Kalo main photo).
+- LIST-2026-11-20.md: item prices from Fabulk. Dryer vent $2.58 (exact photo), windshield $7.31 (close), inverter $17.40–18.29 (generic close). Work light not found, so it needs an Aria quote.
