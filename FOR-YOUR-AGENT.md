@@ -31,6 +31,8 @@ Greens are ranked inside Green by break-even ROAS, lowest first, after they pass
 
 ## What your owner gets each run
 
+Every draft must pass `STANDARD.md`.
+
 **1. The draft sheet, "Product Research — Chapter C · Draft D".** It has 10 rows, ranked 1–10:
 
 | Tier | Rank | What it means for picking |

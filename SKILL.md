@@ -197,6 +197,8 @@ python3 tools/report/build_report.py state/report.json --out reports/<chapter>-<
 
 It writes a self-contained HTML (photos embedded) and a PDF. In Claude Code there are no web artifacts, so this PDF/HTML is the visual deliverable. Download each product's main Kalo photo into `reports/<run>/images/` first (or let the builder fetch it) so no image is ever missing.
 
+`tools/report/merge_lanes.py` builds `state/report.json` from the lane files, and `tools/sheets/build_sheet.py` turns it into the Drive and Sheets request files. Check every draft against `STANDARD.md` before delivery.
+
 ### Step 13 — Paused handoff
 
 Only when there are 3 greens. The handoff contains:

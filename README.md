@@ -101,6 +101,9 @@ HOLD is a normal, correct result. The skill never lowers the bar and never inven
 | `TIERS.md` | Green / Orange / Yellow rules, plus the launch math that ranks Greens. |
 | `CLAUDE.md` | Short brief for Claude Code users. |
 | `state/` | The skill's memory in your own copy: `intake.json`, `feedback.md`, batch and lane files, `report.json`. |
+| `STANDARD.md` | The draft checklist. Every draft must pass it before delivery. |
+| `tools/report/merge_lanes.py` | Merges the lane files into `state/report.json` and applies `TIERS.md`. |
+| `tools/sheets/build_sheet.py` | Turns `state/report.json` into Drive and Sheets API request files. |
 | `tools/report/` | Builds the local PDF and HTML report from `state/report.json`. |
 | `reports/` | Where built reports are written. |
 | `DRAFT-RUN-D36.md` | Live draft run on the last real batch (Draft 36). |

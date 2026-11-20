@@ -69,11 +69,11 @@ Finish: write the output file, then reply with at most 10 lines: files written, 
 1. Preflight. GO or GO_LIMITED, else stop and report.
 2. Open `state/batch-N.json`, pick the filter setup.
 3. Start L1. When it finishes, check it has 10 products with video IDs.
-4. Start L4 in the background. Start L2, then L3, one browser lane at a time.
+4. Start L4 in the background. Start L2, then L3. Browser lanes may run side by side when each worker has its own tab group in the same logged-in Chrome (Claude in Chrome gives each agent its own group). Never touch another agent's tabs.
 5. Collect the files. Check each against the shape in `state/lanes.example.json`. Spot-check links.
 6. Apply `TIERS.md`: L2 verdict `CLEAR` for Orange; Green needs the winning-video proof. `RECHECK` waits at Yellow.
 7. Compute the launch math (`TIERS.md`) and rank the Greens with it.
-8. Start L5, or write the sheet yourself. Read it back. Write `state/report.json` and build the local report (`tools/report/build_report.py`).
+8. Start L5, or write the sheet yourself. Merge the lane files: `python3 tools/report/merge_lanes.py --title "Product Research · Chapter C · Draft D"` (writes `state/report.json`, applies `TIERS.md`). Build the local report: `tools/report/build_report.py`. Build the sheet requests: `python3 tools/sheets/build_sheet.py state/report.json --tab "Chapter C · Draft D" --out state/sheet`. Send its parts with a Sheets connector. Then read the sheet back and check the draft against `STANDARD.md`.
 9. Write the end-of-run report. Update `state/batch-N.json`. Commit `state/intake.json` and `state/feedback.md` to the user's own repo copy.
 
 ## Single-agent fallback

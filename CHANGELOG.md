@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.10.0 — 2026-11-20
+
+- `STANDARD.md`: the draft checklist, set by Chapter 1 · Draft 2.
+- `tools/report/merge_lanes.py`: merges the lane files into `state/report.json`. It picks the highest-revenue video that clears the Green bars.
+- `tools/sheets/build_sheet.py`: builds the sheet (sheet-layout v2.1) as Drive and Sheets request files, in parts of 30 KB or less.
+- Parallel browser lanes: workers run side by side, each in its own tab group.
+- Multi-browser Kalo check (already in `PREFLIGHT.md`).
+
 ## v1.0.0 — 2026-11-20
 
 First standalone export for partner use.
