@@ -1,6 +1,6 @@
 {
   "name": "pla-product-research preflight",
-  "version": "1.0.1",
+  "version": "1.3.0",
   "states": [
     "PROVEN",
     "PARTIAL",
@@ -158,7 +158,7 @@
     }
   ],
   "verdicts": {
-    "STOP": "Any of 1688, chrome, kalo is MISSING or has no state, or chrome is PARTIAL. Do not start research. Report the fix.",
+    "STOP": "chrome or kalo is MISSING or has no state, or chrome is PARTIAL. Do not start research. Report the fix. (A missing 1688 route never stops the run; it gives GO_LIMITED and holds pricing.)",
     "GO_LIMITED": "No required check is MISSING, but at least one check is PARTIAL or a non-required check is MISSING. Research may start inside the noted limits.",
     "GO": "All checks PROVEN."
   }
