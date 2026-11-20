@@ -7,9 +7,9 @@ It is **read-only**. It never publishes, activates products, launches ads, or sp
 
 > **Agents start here → [`FOR-YOUR-AGENT.md`](FOR-YOUR-AGENT.md).** It explains in one page what this skill does, what it hands back (10 ranked products plus competitor files), and how to use it next to a product researcher you already have.
 
-## Getting access (private repo)
+## Getting access
 
-The repo owner adds your GitHub username as a collaborator. Accept the email invite, then clone the repo:
+Clone the repo. If it's private for you, ask the owner to add your GitHub username as a collaborator and accept the email invite first.
 
 ```
 git clone https://github.com/Soinc7/pla-product-research.git
