@@ -43,3 +43,7 @@ First standalone export for partner use.
 ## 1.2.0 — 2026-11-20
 - TIERS.md rewritten to the owner's ladder: Yellow (Kalo demand) → Orange (top-10 Kalo videos not used on Meta, first-frame + extra-frame check) → Green (winning video: Kalo orders, conversion, views + TrendTrack appeal). White = potential. Minimum 3 Greens per list; cost and crowding shown as flags, not gates.
 - Added LIST-2026-11-20-PROVISIONAL.md: 2 Green / 4 Orange / 2 Yellow / 2 White, flagged NEEDS_MORE_CANDIDATES until a fresh Kalo pull.
+
+## 1.2.1 — 2026-11-20
+- Added `LIST-2026-11-20.md`, a live run: Kalo logged in, Meta first-frame check against the Kalo top-10 videos, TrendTrack appeal check. Result: 3 Green, 2 Orange, 3 Yellow, 2 White, so the 3-Green minimum is met.
+- Marked `LIST-2026-11-20-PROVISIONAL.md` as superseded.

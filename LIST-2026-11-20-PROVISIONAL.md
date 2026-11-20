@@ -1,4 +1,4 @@
-# Provisional list, 2026-11-20 (owner's v1.2 ladder)
+# Provisional list, 2026-11-20 (owner's v1.2 ladder) — SUPERSEDED by LIST-2026-11-20.md
 
 - **Input:** the 10 products of the last real batch (Draft 36).
 - **Live today:** Meta Ad Library checks (keywords and video ads) and TrendTrack TikTok-library checks.
