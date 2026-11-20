@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>__TITLE__</title>
+<style>
+:root{
+  --green:#1E8E3E; --orange:#E37400; --yellow:#B08800; --red:#C5221F;
+  --green-bg:#E8F5EC; --orange-bg:#FDF0E1; --yellow-bg:#FBF3D6; --red-bg:#FCE9E8;
+  --green-ink:#125C28; --orange-ink:#8A4500; --yellow-ink:#6B5200; --red-ink:#8E1512;
+  --ink:#14181F; --ink2:#465060; --ink3:#667085; --line:#E4E7EC; --bg:#F4F6F9; --card:#fff;
+  --link:#1558D6; --r:14px;
+  --sh:0 1px 2px rgba(16,24,40,.05),0 4px 14px rgba(16,24,40,.06);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible,label.chip:focus-within{outline:3px solid #8AB4F8;outline-offset:2px;border-radius:8px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 20px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* app bar */
+.bar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:saturate(1.4) blur(10px);
+  border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:14px;min-height:64px;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
+.logo{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;color:#fff;font-weight:800;
+  background:linear-gradient(135deg,#1E8E3E,#0B6B5A);letter-spacing:-.02em}
+.bar h1{margin:0;font-size:17px;font-weight:700;letter-spacing:-.01em;line-height:1.25}
+.bar .sub{font-size:12.5px;color:var(--ink3)}
+.bar .meta{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--ink2);
+  background:#F1F3F7;border:1px solid var(--line);border-radius:999px;padding:5px 11px;white-space:nowrap}
+
+main{padding:24px 0 8px}
+.eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:16px 18px;
+  border-top:4px solid var(--c,var(--line))}
+.stat .n{font-size:32px;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-top:4px;color:var(--c,var(--ink))}
+.stat .l{font-size:12.5px;color:var(--ink3);margin-top:2px}
+
+/* legend */
+.legend{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:18px}
+.legend h2{margin:0 0 12px;font-size:16px;font-weight:800;letter-spacing:-.01em}
+.lg{display:grid;gap:12px}
+.lgi{display:flex;gap:14px;align-items:center;border-radius:12px;padding:14px;background:var(--b);border:1px solid var(--c);
+  border-left-width:6px}
+.lgi .pill{flex:none;min-width:104px;text-align:center;background:var(--c);color:#fff;font-weight:800;font-size:15px;
+  letter-spacing:.06em;border-radius:999px;padding:9px 14px}
+.lgi p{margin:0;font-size:14.5px;font-weight:600;color:var(--i);line-height:1.4}
+
+/* filters */
+.tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:26px 0 14px}
+.tools h2{margin:0 8px 0 0;font-size:18px;font-weight:800;letter-spacing:-.01em}
+.chips{display:flex;gap:8px;flex-wrap:wrap;border:0;padding:0;margin:0}
+.chip{position:relative;cursor:pointer}
+.chip input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.chip span{display:inline-flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;background:#fff;
+  border:1.5px solid var(--line);font-weight:700;font-size:13.5px;color:var(--ink2);transition:background .12s,color .12s,border-color .12s}
+.chip span i{width:9px;height:9px;border-radius:50%;background:var(--c,#98A2B3)}
+.chip span b{font-weight:700;opacity:.75}
+.chip:hover span{border-color:var(--c,#98A2B3)}
+.chip input:checked+span{background:var(--c,var(--ink));border-color:var(--c,var(--ink));color:#fff}
+.chip input:checked+span i{background:#fff}
+.count{margin-left:auto;font-size:13px;color:var(--ink3)}
+
+/* cards */
+.grid{display:grid;grid-template-columns:1fr;gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;
+  display:flex;flex-direction:column;border-top:5px solid var(--c)}
+.card[hidden]{display:none}
+.GREEN{--c:var(--green);--b:var(--green-bg);--i:var(--green-ink)}
+.ORANGE{--c:var(--orange);--b:var(--orange-bg);--i:var(--orange-ink)}
+.YELLOW{--c:var(--yellow);--b:var(--yellow-bg);--i:var(--yellow-ink)}
+.head{display:flex;gap:16px;padding:18px 18px 14px}
+.photo{flex:none;width:124px;height:124px;border-radius:12px;background:#fff;border:1px solid var(--line);
+  display:grid;place-items:center;overflow:hidden;color:var(--ink3);font-size:12px}
+.photo img{width:100%;height:100%;object-fit:contain;background:#fff;display:block}
+.tier{display:inline-block;background:var(--c);color:#fff;font-weight:800;font-size:13.5px;letter-spacing:.07em;
+  border-radius:999px;padding:6px 14px}
+.head h3{margin:10px 0 2px;font-size:19px;font-weight:800;letter-spacing:-.015em;line-height:1.25}
+.variant{color:var(--ink3);font-size:13.5px}
+.body{padding:0 18px 18px;display:flex;flex-direction:column;gap:14px;flex:1}
+
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);
+  border-radius:12px;overflow:hidden}
+.kpi{background:#fff;padding:11px 13px;min-width:0}
+.kpi.wide{grid-column:1/-1;background:#FAFBFC}
+.kpi .k{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.kpi .v{font-size:18px;font-weight:800;letter-spacing:-.02em;margin-top:2px;line-height:1.25}
+.kpi .v a{font-weight:800}
+.kpi .s{font-size:12px;color:var(--ink3);margin-top:2px}
+.star{color:#B26A00}
+
+.cost{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.box{border:1px solid var(--line);border-radius:12px;padding:12px 13px;background:#FAFBFC;min-width:0}
+.box.est{background:#EEF4FF;border-color:#C9DAFB}
+.box .k{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink3)}
+.box .v{font-size:22px;font-weight:800;letter-spacing:-.02em;margin-top:2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.match{font-size:10.5px;font-weight:800;letter-spacing:.07em;border-radius:6px;padding:3px 7px;border:1px solid}
+.m-EXACT{color:var(--green-ink);background:var(--green-bg);border-color:#A9D8B6}
+.m-CLOSE{color:#0B4FA8;background:#E6EFFD;border-color:#B7CEF5}
+.m-SIMILAR{color:var(--ink2);background:#EEF0F4;border-color:#D0D5DD}
+
+.comp{border:1.5px solid #CBD2DC;border-radius:12px;padding:14px;background:#fff}
+.comp h4{margin:0 0 10px;font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.comp h4 small{font-weight:600;color:var(--ink3);font-size:12.5px}
+.fb{width:20px;height:20px;border-radius:6px;background:#1558D6;color:#fff;display:grid;place-items:center;font-size:12px;font-weight:800;flex:none}
+.kws{display:flex;flex-wrap:wrap;gap:7px;list-style:none;margin:0;padding:0}
+.kw{display:inline-flex;align-items:center;gap:8px;border:1px solid #C9DAFB;background:#F3F7FF;border-radius:999px;
+  padding:5px 6px 5px 12px;font-size:13px;font-weight:600;color:#0B4FA8}
+.kw:hover{background:#E6EFFD;text-decoration:none}
+.kw em{font-style:normal;font-weight:800;font-size:12px;background:#fff;border:1px solid #C9DAFB;border-radius:999px;padding:1px 8px;color:var(--ink)}
+.kw.re em{background:var(--orange-bg);border-color:#F0C48E;color:var(--orange-ink)}
+.verdict{margin-top:12px;border-radius:10px;padding:12px 14px;font-weight:800;font-size:16px;line-height:1.3}
+.verdict small{display:block;font-weight:600;font-size:13px;margin-top:3px}
+.verdict.ok{background:var(--green-bg);color:var(--green-ink);border:1.5px solid var(--green)}
+.verdict.bad{background:var(--red-bg);color:var(--red-ink);border:1.5px solid var(--red)}
+.rivals{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:6px}
+.rivals a{display:flex;justify-content:space-between;gap:10px;align-items:center;border:1px solid #F3C4C1;background:#FFF8F7;
+  border-radius:9px;padding:8px 11px;font-weight:700;font-size:13.5px;color:var(--red-ink)}
+.rivals a:hover{background:var(--red-bg);text-decoration:none}
+.rivals span{font-weight:700;font-size:12.5px;color:var(--ink2);white-space:nowrap}
+
+.acts{display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid #D0D5DD;background:#fff;border-radius:9px;padding:8px 12px;
+  font-size:13px;font-weight:700;color:var(--ink)}
+.btn:hover{background:#F4F6F9;text-decoration:none;border-color:#98A2B3}
+.why{margin-top:auto;border-left:4px solid var(--c);background:var(--b);color:var(--i);border-radius:0 10px 10px 0;
+  padding:10px 13px;font-size:14px;font-weight:600}
+.why b{font-weight:800;text-transform:uppercase;font-size:11px;letter-spacing:.07em;margin-right:6px}
+.empty{padding:40px;text-align:center;color:var(--ink3)}
+
+footer{margin:30px 0 48px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;color:var(--ink2);font-size:14px}
+footer h2{margin:0 0 8px;font-size:15px;color:var(--ink);font-weight:800}
+footer ul{margin:0 0 14px;padding-left:20px}
+footer li{margin:4px 0}
+footer .fn{border-top:1px solid var(--line);padding-top:12px;font-size:13px;color:var(--ink3);margin:0}
+.t-g{color:var(--green-ink)}.t-o{color:var(--orange-ink)}.t-y{color:var(--yellow-ink)}
+
+@media (min-width:560px){
+  .kpis{grid-template-columns:repeat(3,1fr)}
+  .kpi.wide{grid-column:auto;background:#fff}
+  .kpi.span2{grid-column:span 2}
+}
+@media (min-width:760px){
+  .stats{grid-template-columns:repeat(4,1fr)}
+  .lg{grid-template-columns:repeat(3,1fr)}
+  .lgi{flex-direction:column;align-items:flex-start}
+}
+@media (min-width:900px){.grid{grid-template-columns:1fr 1fr;gap:20px}}
+@media (max-width:480px){
+  .head{gap:12px}.photo{width:92px;height:92px}.head h3{font-size:17px}
+  .cost{grid-template-columns:1fr}.bar .meta{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+@media print{.bar{position:static}.tools .chips{display:none}.card{break-inside:avoid;box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="bar">
+  <div class="wrap">
+    <div class="logo">PR</div>
+    <div>
+      <h1>__TITLE__</h1>
+      <div class="sub">10 ranked TikTok Shop products</div>
+    </div>
+    <div class="meta">
+      <span class="tag">__DATE__</span>
+      <span class="tag">__SOURCE__</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="stats" id="stats"></section>
+
+  <section class="legend">
+    <h2>Tier legend — what the colors mean</h2>
+    <div class="lg">
+      <div class="lgi GREEN"><span class="pill">GREEN</span><p>Winning video proven + no competitor using its Kalo videos on Meta.</p></div>
+      <div class="lgi ORANGE"><span class="pill">ORANGE</span><p>No competitor copying, but the winning video is not proven yet.</p></div>
+      <div class="lgi YELLOW"><span class="pill">YELLOW</span><p>A competitor already runs one of its Kalo top-10 videos.</p></div>
+    </div>
+  </section>
+
+  <div class="tools">
+    <h2>Ranked products</h2>
+    <fieldset class="chips" id="chips"><legend class="sr">Filter by tier</legend></fieldset>
+    <span class="count" id="count" role="status"></span>
+  </div>
+
+  <section class="grid" id="grid"></section>
+
+  <footer>
+    <h2>How it was graded</h2>
+    <ul>
+      <li><b class="t-g">GREEN</b> — the winning video is proven, and none of the product's Kalo videos showed up in competitor ads on Meta.</li>
+      <li><b class="t-o">ORANGE</b> — no competitor is copying it, but the winning video is not proven yet.</li>
+      <li><b class="t-y">YELLOW</b> — at least one competitor already runs one of its Kalo top-10 videos.</li>
+    </ul>
+    <p class="fn">Est. delivered = item cost + $5.00 standard (shipping + fees). Replace with a real supplier quote when you have one.</p>
+  </footer>
+</main>
+
+<script>
+const DATA = __DATA__;
+(function(){
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const A = (href, cls, html) => '<a' + (cls ? ' class="' + cls + '"' : '') + ' href="' + esc(href) + '" target="_blank" rel="noopener">' + html + '</a>';
+  const usd = n => '$' + Number(n).toFixed(2);
+  const revK = n => n >= 1e6 ? '$' + (n / 1e6).toFixed(2) + 'M' : '$' + (n / 1000).toFixed(1) + 'K';
+  const TIERS = ['GREEN', 'ORANGE', 'YELLOW'];
+  const cap = t => t.charAt(0) + t.slice(1).toLowerCase();
+  const n = {GREEN: 0, ORANGE: 0, YELLOW: 0};
+  DATA.forEach(p => n[p.color]++);
+  const avg = DATA.reduce((a, p) => a + p.est, 0) / DATA.length;
+
+  $('stats').innerHTML =
+    TIERS.map(t => '<div class="stat" style="--c:var(--' + t.toLowerCase() + ')"><div class="eyebrow">' + cap(t) +
+      '</div><div class="n">' + n[t] + '</div><div class="l">product' + (n[t] === 1 ? '' : 's') + '</div></div>').join('') +
+    '<div class="stat" style="--c:#1558D6"><div class="eyebrow">Avg est. delivered cost</div><div class="n" style="color:var(--ink)">' +
+      usd(avg) + '</div><div class="l">across ' + DATA.length + ' products · standard</div></div>';
+
+  $('chips').insertAdjacentHTML('beforeend', ['ALL'].concat(TIERS).map((t, i) =>
+    '<label class="chip"' + (i ? ' style="--c:var(--' + t.toLowerCase() + ')"' : '') + '><input type="radio" name="tier" value="' + t + '"' +
+    (i ? '' : ' checked') + '><span>' + (i ? '<i></i>' : '') + cap(t) + ' <b>' + (i ? n[t] : DATA.length) + '</b></span></label>').join(''));
+
+  function card(p){
+    const kws = p.keywords.map(k => {
+      const re = !k.results || k.results === '—';
+      return '<li>' + A(k.url, 'kw' + (re ? ' re' : ''), esc(k.q) + ' <em>' + (re ? 're-check' : esc(k.results)) + '</em>') + '</li>';
+    }).join('');
+    const c = p.competitors || [];
+    let verdict;
+    if (!c.length){
+      verdict = '<div class="verdict ok">✓ No competitor using the Kalo videos' +
+        (p.sellers != null ? '<small>' + esc(p.sellers) + ' pages sell this product</small>' : '') + '</div>';
+    } else {
+      verdict = '<div class="verdict bad">✗ ' + c.length + (c.length === 1 ? ' competitor runs' : ' competitors run') + ' its Kalo videos' +
+        (p.sellers != null ? '<small>' + esc(p.sellers) + ' pages sell this product</small>' : '') + '</div>' +
+        '<ul class="rivals">' + c.map(x => '<li>' + A(x.ad, '', esc(x.name) + ' ↗<span>Kalo ' + esc(x.videos) + '</span>') + '</li>').join('') + '</ul>';
+    }
+    const hasTop = p.topvid && p.topvid !== '—';
+    return '<article class="card ' + p.color + '" data-tier="' + p.color + '">' +
+      '<div class="head"><div class="photo"><img loading="lazy" decoding="async" width="124" height="124" src="' +
+        'img/' + p.rank + '.jpg' + '" alt="' + esc(p.name) + '" onerror="this.replaceWith(document.createTextNode(\'No photo\'))"></div>' +
+        '<div><span class="tier">' + esc(p.tier) + '</span><h3>' + esc(p.name) + '</h3>' +
+        (p.variant ? '<div class="variant">' + esc(p.variant) + '</div>' : '') + '</div></div>' +
+      '<div class="body">' +
+      '<div class="kpis">' +
+        '<div class="kpi"><div class="k">Price</div><div class="v">' + usd(p.price) + '</div></div>' +
+        '<div class="kpi"><div class="k">30-day revenue</div><div class="v">' + revK(p.rev) + '</div></div>' +
+        '<div class="kpi wide"><div class="k">Rating</div><div class="v">' + Number(p.rating).toFixed(1) + ' <span class="star">★</span></div></div>' +
+        '<div class="kpi"><div class="k">Winning video</div><div class="v">' + A(p.video, '', esc(p.views) + ' views ↗') +
+          '</div><div class="s">' + esc(p.orders) + ' orders</div></div>' +
+        '<div class="kpi span2"><div class="k">Sales per 1K views</div><div class="v">' + esc(p.cvr) +
+          '</div><div class="s">1 sale per ~' + Number(p.per).toLocaleString('en-US') + ' views · not ROAS</div></div>' +
+      '</div>' +
+      '<div class="cost">' +
+        '<div class="box"><div class="k">1688 / Fabulk item cost</div><div class="v">' + A(p.item_url, '', esc(p.item_txt) + ' ↗') +
+          '<span class="match m-' + esc(p.match) + '">' + esc(p.match) + '</span></div></div>' +
+        '<div class="box est"><div class="k">Est. delivered (standard)</div><div class="v">' + usd(p.est) + '</div></div>' +
+      '</div>' +
+      '<div class="comp"><h4><span class="fb">f</span>Meta Ad Library · ' + p.keywords.length + ' keywords searched <small>tap a keyword to open the search</small></h4>' +
+        '<ul class="kws">' + kws + '</ul>' + verdict + '</div>' +
+      '<div class="acts">' + A(p.kalo, 'btn', 'Open Kalo ↗') +
+        A(p.comp_file, 'btn', 'Competitor file' + (hasTop ? ' · top video ' + esc(p.topvid) : '') + ' ↗') +
+        A(p.trends, 'btn', 'Google Trends ↗') + '</div>' +
+      '<div class="why"><b>Why</b>' + esc(p.why) + '</div>' +
+      '</div></article>';
+  }
+
+  const grid = $('grid');
+  grid.innerHTML = DATA.slice().sort((a, b) => a.rank - b.rank).map(card).join('');
+  const cards = Array.prototype.slice.call(grid.children);
+  function apply(t){
+    let shown = 0;
+    cards.forEach(el => { const on = t === 'ALL' || el.dataset.tier === t; el.hidden = !on; if (on) shown++; });
+    $('count').textContent = 'Showing ' + shown + ' of ' + cards.length;
+  }
+  $('chips').addEventListener('change', e => apply(e.target.value));
+  apply('ALL');
+})();
+</script>
+</body>
+</html>
