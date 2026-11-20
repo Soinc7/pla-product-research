@@ -1,15 +1,37 @@
-# Pricing: 1688 factory price and the supplier-agent (Aria) delivered quote
+# Pricing: 1688 factory price and the supplier agent delivered quote
 
 Two numbers decide the cost gate. They are different things.
 
 | Number | What it is | Where it comes from |
 |---|---|---|
 | **Counter price** | Factory price for the item only, in CNY (or USD on Fabulk) | Any 1688 route: Fabulk, 1688order or 1688.com |
-| **Delivered cost** | Everything to get one unit to the US, in USD | The supplier agent ("Aria") |
+| **Delivered cost** | Everything to get one unit to the US, in USD | The supplier agent |
 
 Only the delivered cost is compared to the **under $8** gate.
 
-"Aria" is the supplier agent's role name in this package. Older sheets call the same role "Maria". The Draft 36 column is labeled "Aurea estimate — delivered US · USD".
+## Prices on every row (standard from v1.8.0)
+
+Every row on the sheet gets a price, whether it is Green, Orange or Yellow. Two separate numbers:
+
+| Column | What it shows |
+|---|---|
+| **1688 / Fabulk item cost** | The item cost for the closest product found, as a link to the offer, with a match label (below). "—" only when nothing was found (`NOT_FOUND`). |
+| **Est. delivered (standard)** | Item cost + **$5.00 flat**. A planning number, labeled "est." until a real supplier-agent quote replaces it. |
+
+Match labels:
+
+| Label | Meaning |
+|---|---|
+| `EXACT` | Same product, design, variant and pack |
+| `CLOSE` | Same product type and look, a small difference (brand, color, size) |
+| `SIMILAR` | Same function, different design. Rough guide only |
+| `NOT_FOUND` | No usable match. Show "—" |
+
+Rules:
+- The $5.00 flat is a stand-in for China freight, agent fee, packaging and US freight. Replace it as soon as a real quote exists, and then write `QUOTE` next to the number.
+- The estimate **ranks** products (cheaper first, among equals). It never releases a Green by itself. The gate below still needs an exact match and a real delivered quote under $8.
+- Never write the estimate in the `supplier_landed_cost_usd` field. That field is for real quotes only.
+
 
 ---
 
@@ -52,7 +74,7 @@ When no route works, do not stop: ask the user to log in or make a free account 
 | USD item price | CNY ÷ rate. Label it "item-only". |
 | Excluded charges | What the price does not cover: China freight, packaging, agent fee, US freight, customs |
 | Variant, weight, province | As shown |
-| Match status | `EXACT`, `BRAND_DIFFERS`, `VARIANT_DIFFERS` or `NO_MATCH` |
+| Match status | `EXACT`, `BRAND_DIFFERS`, `VARIANT_DIFFERS` or `NO_MATCH`. On the sheet these show as `EXACT` / `CLOSE` / `SIMILAR` / `NOT_FOUND` |
 
 7. **Set the 1688 source status.**
 
@@ -79,7 +101,7 @@ These are examples of the record format, not current prices.
 
 ---
 
-## Part B — Supplier-agent (Aria) delivered quote
+## Part B — Supplier-agent delivered quote
 
 ### What to ask for
 
@@ -114,9 +136,10 @@ Confirm what the quote includes so nothing is counted twice or left out.
 
 ### Estimating when there is no quote yet
 
-- An estimate may be built from **historical anchors**: past factory price vs past supplier-agent price for the **same SKU, currency, quantity and services**.
+- **Default estimate: item cost + $5.00 flat** (see "Prices on every row").
+- A better estimate may be built from **historical anchors**: past factory price vs past supplier-agent price for the **same SKU, currency, quantity and services**.
 - If there is no such history, the markup is `UNKNOWN`. Do not guess a percentage.
-- An estimate is a planning number. It can rank products. It **cannot release a green**.
+- Any estimate is a planning number. It can rank products. It **cannot release a green**.
 
 ---
 

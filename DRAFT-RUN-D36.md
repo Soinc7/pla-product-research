@@ -3,8 +3,8 @@
 - **Run date:** 2026-11-20, about 16:50–17:10 UTC.
 - **Input:** the last real batch, "Product Research Draft 36" (2026-10-03). Filter setup AVD-36: US, video only, Sep 3–Oct 2, revenue $20k–$100k, average price $10–$30, commission 10–100%.
 - **Live today:** Meta Ad Library keyword searches and the reference-video match, run in a real Chrome. TikTok players were rate-limited, so frames were compared from thumbnails.
-- **Taken from the sheet, not re-run:** Kalo metrics, the supplier-agent ("Aria") delivered estimates, and the 1688 status. No exact 1688 match was verified for any product.
-- **Not run:** new 1688 searches and real Aria quotes. Those need the logged-in 1688 account and a human to relay the quote.
+- **Taken from the sheet, not re-run:** Kalo metrics, the supplier agent delivered estimates, and the 1688 status. No exact 1688 match was verified for any product.
+- **Not run:** new 1688 searches and real supplier-agent quotes. Those need the logged-in 1688 account and a human to relay the quote.
 
 ## Result
 
@@ -15,7 +15,7 @@
 | 🟡 YELLOW | **5** | #7 Outlet wallplate spacers · #4 Savings-challenge binder · #9 Corner-angle finder · #1 Tweezer tongs · #2 Cupcake stand set |
 | Not tiered | **4** | #3 Stove-gap covers · #5 Freezer baskets · #6 Utility knife/scraper · #8 Carboy brush |
 
-**Batch result: HOLD** (0 Greens). Work order: get a real Aria quote and an exact 1688 match for **#10** first, then **#7**.
+**Batch result: HOLD** (0 Greens). Work order: get a real supplier-agent quote and an exact 1688 match for **#10** first, then **#7**.
 
 ## Meta Ad Library: what was found
 
@@ -38,9 +38,9 @@ Brand counts include only ads whose text names the product. A brand that runs se
 
 ## Tier for each product
 
-| # | Product | Aria estimate | Kalo price | Meta band | Tier | Why | Next step |
+| # | Product | Supplier-agent estimate | Kalo price | Meta band | Tier | Why | Next step |
 |---|---|---|---|---|---|---|---|
-| 10 | Door-reinforcement lock | $8.50 | $15.99 | LIGHT | 🟠 **ORANGE** | The estimate is under $9 and Meta is open. It is not Green: no 1688 match and no real quote yet, and nobody has proved it on Meta for 30+ days. | Exact 1688 match plus a real Aria quote. Below $8 makes it Green-eligible. Watch the low $16 price (small margin). |
+| 10 | Door-reinforcement lock | $8.50 | $15.99 | LIGHT | 🟠 **ORANGE** | The estimate is under $9 and Meta is open. It is not Green: no 1688 match and no real quote yet, and nobody has proved it on Meta for 30+ days. | Exact 1688 match plus a real supplier-agent quote. Below $8 makes it Green-eligible. Watch the low $16 price (small margin). |
 | 7 | Outlet wallplate spacers | $7.00 | $25.97–59.77 | SATURATED | 🟡 **YELLOW** | Lowest cost and the strongest proof of demand (one brand has run 93 days). But 22 brands use cloned copy, and one top Kalo video is likely already running as an ad. Saturation caps it at Yellow. | Only worth entering with a new angle and new footage. Get a quote first. |
 | 4 | Savings-challenge binder | $9.50 | $11.49–14.94 | LIGHT | 🟡 **YELLOW** | The estimate is over $9. The low price gives a thin margin. Retail crowding was already flagged in the sheet. | A cheaper factory on 1688. |
 | 9 | Corner-angle finder | $10.00 | $24.98 | SATURATED | 🟡 **YELLOW** | 24 brands, with one ad running since April. | A cheaper factory, and a reason to stand out. |

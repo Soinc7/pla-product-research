@@ -23,10 +23,10 @@ Then tell your agent: `Read FOR-YOUR-AGENT.md, then SKILL.md, and run the prefli
 2. Uses Kalodata ("Kalo") to find 10 candidate products with a named filter setup.
 3. Proves each one has 10 real product videos.
 4. Finds the exact same product on 1688 to get the factory price (the "counter price").
-5. Gets a delivered-to-US cost from the supplier agent ("Aria").
+5. Shows a price on every row: 1688 / Fabulk item cost (EXACT / CLOSE / SIMILAR) plus an estimated delivered cost (item + $5.00 flat) until the supplier agent gives a real quote.
 6. Applies the cost gate: all-in cost under $8, sale value $30 or less.
 7. Scores each product on 8 points.
-8. Checks Meta Ad Library: competitor brands, how long their ads have run, and whether the top Kalo videos are already running as ads.
+8. Checks Meta Ad Library with **5 different keywords** per product (all 5 must clear for Orange or Green): competitor brands, how long their ads have run, and whether the top Kalo videos are already running as ads.
 9. Sorts every product into **Green** (best), **Orange** (second) or **Yellow** (third). If fewer than 3 are Green, the batch result is **HOLD**.
 10. Writes a sheet and a paused handoff note.
 
@@ -49,6 +49,10 @@ Needed later to release a green (not to start): TrendTrack, Google Trends, Meta 
 4. Give your agent Google Sheets / Drive access.
 5. Tell your agent: `Read SKILL.md and run the preflight only.`
 6. Fix anything it reports as MISSING. Each check comes with the exact fix. See `PREFLIGHT.md`.
+
+## Save tokens with several agents
+
+The skill can run as a host plus cheap workers, one lane each. See [`AGENTS.md`](AGENTS.md). It works in Claude Code, Codex or any agent that can start sub-agents, and falls back to one agent if yours cannot.
 
 ## Run a batch
 
@@ -74,10 +78,11 @@ HOLD is a normal, correct result. The skill never lowers the bar and never inven
 | File | Use |
 |---|---|
 | `FOR-YOUR-AGENT.md` | One-page brief for an agent: what this does, outputs, modes. Read first. |
+| `AGENTS.md` | Host and worker lanes to save tokens. |
 | `SKILL.md` | The full run procedure. |
 | `PREFLIGHT.md`, `preflight/` | The tool and safety check. |
 | `FILTER-SETUPS.md` | Every filter setup, with names and steps. |
-| `PRICING-1688-ARIA.md` | Factory price and delivered-quote method. |
+| `PRICING-1688-SUPPLIER.md` | Factory price and delivered-quote method. |
 | `META-AD-LIBRARY.md` | Competitor and reference-video check. |
 | `TIERS.md` | Green / Orange / Yellow rules. |
 | `DRAFT-RUN-D36.md` | Live draft run on the last real batch (Draft 36). |

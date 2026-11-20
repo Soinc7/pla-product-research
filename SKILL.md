@@ -5,6 +5,8 @@ description: Read-only TikTok Shop product research. Runs a tool preflight, disc
 
 # PLA Product Research
 
+> Running with several agents to save tokens? Read [`AGENTS.md`](AGENTS.md): the host runs preflight and checks, cheap workers each take one lane. Single-agent runs follow the steps below as written.
+
 ## Hard rules (read first)
 
 1. **Read-only.** No publishing. No product activation. No ad launch. No spend. Ever.
@@ -15,7 +17,7 @@ description: Read-only TikTok Shop product research. Runs a tool preflight, disc
 6. **Never lower the bar.** Fewer than 3 qualifying products means `HOLD`. Never fabricate a third.
 7. **Nothing private in outputs.** No account IDs, customer data or financial account data.
 8. **Run to completion. Never pause for "go".** Once preflight says GO or GO_LIMITED, run every step through to the delivered draft sheet in one pass. Do not stop to ask "should I continue?", and do not end a turn with a half-done draft. The only reasons to stop early are a hard STOP (Chrome or Kalo MISSING), a login, CAPTCHA or consent wall that only the human can clear, or an explicit "stop" from the human. Even then, first write everything already found into the draft sheet, marking the rest HOLD or MISSING, and deliver it.
-9. **A draft is done only when the sheet exists.** Done means: the next-numbered batch sheet (named as in Step 1; the owner's own runs use "Product Research Draft N") is in the same Drive folder as the last one, with all 10 rows, tier fills, notes and the Candidates tab, and it has been read back. A chat summary or repo file alone is not a delivered draft.
+9. **A draft is done only when the sheet exists.** Done means: the next-numbered batch sheet (named as in Step 1) is in the same Drive folder as the last one, with all 10 rows, tier fills, notes and the Candidates tab, and it has been read back. A chat summary or repo file alone is not a delivered draft.
 10. **Never block on one product.** If one product's 1688 match, Meta check or TrendTrack check stalls, mark that field MISSING with the reason, keep going with the rest, and finish the sheet.
 
 ## Outcome words
@@ -38,7 +40,7 @@ Any MISSING on **Chrome or Kalo** = STOP. Report the exact fix and end the run.
 
 ### Step 1 — Open the batch record
 
-- Name the batch `Codex Product Research N`. Your own numbering: your first batch is N = 1. Read the last N from `state/` (highest `batch-N.json`); if none exists, N = 1. Older "Product Research Draft" titles do not advance N.
+- Name the batch `Product Research Batch N`. Your own numbering: your first batch is N = 1. Read the last N from `state/` (highest `batch-N.json`); if none exists, N = 1. Older "Product Research Draft" titles do not advance N.
 - Create `state/batch-N.json` from `templates/batch-state.json`. Update it after every page, every Kalo detail visit and every quote request.
 - Record: `observed_at_utc`, `region`, `currency`, `account_check` (`MATCH`, `MISMATCH` or `NOT_CHECKED`). Never store the account ID itself.
 - Pick the filter setup from `FILTER-SETUPS.md`. Default: **AVD-36**.
@@ -77,13 +79,14 @@ Any MISSING on **Chrome or Kalo** = STOP. Report the exact fix and end the run.
 
 ### Step 5 — 1688 exact-match factory price (the "counter price")
 
-Follow `PRICING-1688-ARIA.md`, part A.
+Follow `PRICING-1688-SUPPLIER.md`, part A.
 Short version: find the **exact** product and variant through any 1688 route (Fabulk photo search first: camera icon, upload the Kalo main photo), compare several independent factories, record offer ID, CNY price, FX date and what the price excludes.
 No exact match = `HOLD`.
 
-### Step 6 — Supplier-agent (Aria) delivered estimate
+### Step 6 — Supplier-agent delivered estimate
 
-Follow `PRICING-1688-ARIA.md`, part B.
+Follow `PRICING-1688-SUPPLIER.md`, part B.
+Until a real quote exists, show "Est. delivered (standard)" = item cost + $5.00 flat on every row. It ranks, it never releases a Green.
 Record low / base / high delivered-to-US cost in USD and the method.
 An item-only 1688 price is **not** a delivered quote.
 
@@ -99,7 +102,7 @@ An item-only 1688 price is **not** a delivered quote.
 
 ### Step 7b — Meta Ad Library check (required for any tier)
 
-Run `META-AD-LIBRARY.md` for every candidate: exact-phrase keyword searches, competitor brands grouped and counted, oldest active ad, cloned copy, and the Kalo top-3 videos matched against running video ads. Record the competition band (`NONE` / `LIGHT` / `HEALTHY` / `CROWDED` / `SATURATED`). Not run = the product cannot be tiered.
+Run `META-AD-LIBRARY.md` for every candidate: **5 different keywords** (mix exact-phrase and unordered; a product must clear all 5 to be Orange or Green), competitor brands grouped and counted, oldest active ad, cloned copy, and the Kalo top-3 videos matched against running video ads. Record the competition band (`NONE` / `LIGHT` / `HEALTHY` / `CROWDED` / `SATURATED`). Not run, or any keyword throttled (`RECHECK`) = the product cannot be Orange or Green. Never conclude "no competitor" from a throttled search.
 
 ### Step 8 — Green evidence checklist
 

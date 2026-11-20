@@ -9,7 +9,7 @@ Two models built this skill on their own from the same source pack. Then each on
 | Onboarding ease | 7 | 7 |
 | Preflight safety check | 5 | 6 |
 | Filter-setup guide | 8 | 7 |
-| 1688 / Aria pricing | 7 | 7 |
+| 1688 / supplier-agent pricing | 7 | 7 |
 | Dry-run honesty | 7 | 7 |
 | Agent can run it cold | 6 | 5 |
 | Privacy | 9 | 9 |

@@ -142,7 +142,7 @@
     },
     {
       "id": "supplier_agent",
-      "label": "F. Supplier-agent (Aria) quote channel",
+      "label": "F. Supplier-agent quote channel",
       "required": false,
       "on_missing": "Continue. Research may run, but all delivered pricing stays HOLD and no product can go green.",
       "on_partial": "Continue. Quotes may be slow; record pending quotes in the batch state file.",

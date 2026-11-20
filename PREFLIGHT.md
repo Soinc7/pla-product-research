@@ -29,7 +29,7 @@ The machine-readable version is `preflight/checklist.json`.
 | C. Kalo | **STOP** | Continue inside the plan limits. Plan the batch across days. |
 | D. Sheets / Drive | Continue. Write output as local files and say so in the report. | Continue with the limit noted |
 | E. Optional tools | Continue. No product can go green without them. | Continue with the limit noted |
-| F. Supplier agent (Aria) | Continue. All delivered pricing stays HOLD; no green. | Continue; log pending quotes in the batch state file |
+| F. Supplier agent | Continue. All delivered pricing stays HOLD; no green. | Continue; log pending quotes in the batch state file |
 
 Run order: **B first** (the others need Chrome), then A, C, D, E, F.
 
@@ -147,7 +147,7 @@ Notes must never contain passwords, keys or account IDs.
 
 ---
 
-## F. Supplier-agent (Aria) quote channel
+## F. Supplier-agent quote channel
 
 **What to prove:** someone can get a delivered US quote this batch.
 

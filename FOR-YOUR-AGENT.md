@@ -8,6 +8,10 @@
 
 This repo holds the product researcher only. It does not include a store builder, launch system or ad-buying procedure.
 
+## Save tokens: use sub-agents
+
+If you can start sub-agents, read [`AGENTS.md`](AGENTS.md). You act as the host (preflight, tier decisions, sheet, read-back) and give cheap workers one lane each: Kalo discovery, Meta Ad Library sweep, 1688 pricing, TrendTrack. Pass file paths, not pasted data. If you cannot start sub-agents, run the lanes yourself in the same order.
+
 ## What your owner gets each run
 
 **1. The draft sheet, "Product Research — Chapter C · Draft D".** It has 10 rows, ranked 1–10:
@@ -15,14 +19,15 @@ This repo holds the product researcher only. It does not include a store builder
 | Tier | Rank | What it means for picking |
 |---|---|---|
 | 🟢 GREEN | top ranks (e.g. 1–4) | Proven demand. No competitor on Meta is running its top Kalo videos. A winning video is verified on orders, conversion, views and appeal. **Pick from here first.** |
-| 🟠 ORANGE | middle (e.g. 5–7) | Proven demand, and no competitor is copying its videos. It has no verified winning video yet. **Good backup.** |
+| 🟠 ORANGE | middle (e.g. 5–7) | Proven demand, and all 5 Meta Ad Library keyword searches show no competitor using its Kalo videos. No verified winning video yet. **Good backup.** |
 | 🟡 YELLOW | bottom (e.g. 8–10) | Proven demand, but a competitor is already running its top videos on Meta. The cell links to that ad. **Riskier.** |
 
 Key columns:
 - **Sales per 1K views (not ROAS).** TikTok orders divided by video views, times 1,000, for the winning video. "0.62 / 1 per 1.6K" means about one sale every 1,600 views. It is a conversion signal, not a Meta ROAS forecast.
-- **Competitor check.** On every row it shows the Meta Ad Library search that was run, and who is copying, if anyone.
+- **Competitor check.** Every product is searched with 5 different keywords (exact-phrase and unordered; brand, function and problem words). It must clear all 5 to be Orange or Green. The sheet lists all 5 keywords as clickable links with result counts, then the verdict: "✓ No competitor using the Kalo videos · N pages sell it", or "✗ N competitors run its Kalo videos" with each competitor's Ad Library link and which Kalo videos (#) they use. If Meta throttles the searches, the keywords are marked "re-check", never "no competitor".
 - **Competitor file.** Opens that product's tab in the companion workbook (see 2).
-- **1688 / Fabulk cost.** The factory price for the exact matching item, or "—" if none was confirmed.
+- **1688 / Fabulk item cost (every row, Green, Orange and Yellow).** The item cost of the closest product found, labeled EXACT, CLOSE or SIMILAR, or "—" if none was found.
+- **Est. delivered (standard).** Item cost + $5.00 flat, labeled "est." until a real supplier-agent quote replaces it. It ranks products. It never releases a Green by itself.
 
 **2. "Competitor Files — Chapter C · Draft D".** This workbook has one tab per product, and each tab lists:
 - the competitor stores selling it, with price, estimated 30-day revenue and active ads
@@ -54,6 +59,7 @@ Do not replace or edit it. Install this as a **separate** skill named `pla-produ
 
 - Never ask for, type or store passwords, keys or codes. The human does every login.
 - Evidence is PROVEN, PARTIAL or MISSING. Never write 0 for an unknown, and never invent a URL, price or sales number.
+- Competitor check = 5 keywords, all must clear. Never conclude "no competitor" from a throttled Meta search.
 - Run to completion once preflight says GO. A draft is done only when the sheet exists and has been read back.
 
 ## Quick start

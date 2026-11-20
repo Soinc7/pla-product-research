@@ -1,0 +1,41 @@
+{
+  "_note": "Example shapes for the lane output files in state/. Values are made up. Unknown stays null or MISSING, never 0.",
+  "lane-L2-meta.json": {
+    "meta_sweep": [
+      {
+        "product": "Example tongs",
+        "keywords": [
+          { "q": "\"example tongs\"", "type": "exact", "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22example%20tongs%22&search_type=keyword_exact_phrase&media_type=all", "results": 12 },
+          { "q": "\"examplebrand\"", "type": "exact", "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22examplebrand%22&search_type=keyword_exact_phrase&media_type=all", "results": 3 },
+          { "q": "tongs kitchen grip", "type": "unordered", "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=tongs%20kitchen%20grip&search_type=keyword_unordered&media_type=all", "results": 30 },
+          { "q": "\"hot pan handle\"", "type": "exact", "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22hot%20pan%20handle%22&search_type=keyword_exact_phrase&media_type=all", "results": 0 },
+          { "q": "burn hand lift hot", "type": "unordered", "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=burn%20hand%20lift%20hot&search_type=keyword_unordered&media_type=all", "results": null, "status": "RECHECK" }
+        ],
+        "sellers_count": 9,
+        "competitors_using_kalo": [
+          { "advertiser": "Example Page", "library_id": "000000000000000", "kalo_videos": [2, 5] }
+        ],
+        "verdict": "RECHECK"
+      }
+    ]
+  },
+  "lane-L3-pricing.json": {
+    "pricing": [
+      {
+        "product": "Example tongs",
+        "item_usd": 2.58,
+        "match": "EXACT",
+        "source_url": "https://fabulk.com/example-offer",
+        "est_delivered_usd": 7.58
+      },
+      {
+        "product": "Example light",
+        "item_usd": null,
+        "match": "NOT_FOUND",
+        "source_url": null,
+        "est_delivered_usd": null
+      }
+    ],
+    "_rules": "verdict is one of CLEAR | MATCH | LIKELY | RECHECK. match is one of EXACT | CLOSE | SIMILAR | NOT_FOUND. est_delivered_usd = item_usd + 5.00 until a real supplier-agent quote replaces it."
+  }
+}

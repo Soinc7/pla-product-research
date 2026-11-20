@@ -1,11 +1,11 @@
 # Tiers: Yellow → Orange → Green (and White)
 
-v1.2, 2026-11-20. This is the owner's ladder and it replaces the v1.1 rules. A product **starts at Yellow and graduates upward**. Each step needs its own proof.
+v1.3, 2026-11-20 (v1.2 ladder, with the 5-keyword competitor check). This is the owner's ladder and it replaces the v1.1 rules. A product **starts at Yellow and graduates upward**. Each step needs its own proof.
 
 | Tier | Sheet fill | How a product gets here |
 |---|---|---|
 | 🟢 **GREEN** | `#00FF00` | It is Orange **and** a winning video is verified. Every list needs **at least 3 Greens**. |
-| 🟠 **ORANGE** | `#FFA500` | It is Yellow **and** competitors on Meta are **not** using any of its top-10 Kalo videos. |
+| 🟠 **ORANGE** | `#FFA500` | It is Yellow **and** competitors on Meta are **not** using its Kalo videos, after 5 different keyword searches all clear. |
 | 🟡 **YELLOW** | `#FFFF00` | It passed the Kalo demand filters (the filter setup's revenue, price, commission and video rules). |
 | ⚪ **WHITE** | no fill | A potential, not a tier. It fails a hard gate or its evidence is incomplete. |
 
@@ -15,16 +15,17 @@ v1.2, 2026-11-20. This is the owner's ladder and it replaces the v1.1 rules. A p
 - It has at least 10 same-product videos with their IDs recorded (the top 10 by revenue).
 - Perceived sale value is $30 or less, and there is no fatal risk such as a branded or patented design, safety or medical claims, or an unclear pack size. A product that fails here is **White**.
 
-## Step 2. Yellow → Orange: the top-10 videos are not taken on Meta
+## Step 2. Yellow → Orange: no competitor uses the Kalo videos (5-keyword check)
 
 Run `META-AD-LIBRARY.md` for the product.
 
-1. Take the **first frame** of each of the product's **top 10 Kalo videos**. Use the thumbnail on Kalo's "Video & Ad" tab.
-2. Search the Meta Ad Library with exact-phrase keywords, filtered to video ads, and compare first frames.
+1. **Search 5 different keywords** that describe the product (mix exact-phrase and unordered; brand, function and problem words). The product must clear **all 5**.
+2. Take the **first frame** of each of the product's **top 10 Kalo videos** (the thumbnail on Kalo's "Video & Ad" tab) and compare them with the video ads the searches return.
 3. **If unsure, check more frames.** Open the ad and step through it (about 1s, 3s, 5s), and compare person, setting, product shot and overlay text.
 4. Record each Kalo video as `MATCHED`, `LIKELY` or `NOT_FOUND`.
-5. **All 10 `NOT_FOUND` → Orange.** Any `MATCHED` or `LIKELY` → stays Yellow. Note who is using it.
-6. If no competitor is running video ads for the exact product, that counts as all `NOT_FOUND`. Say so in the record.
+5. Verdict `CLEAR` (all 5 keywords searched, all 10 `NOT_FOUND`) → Orange. Any `MATCHED` or `LIKELY` → stays Yellow, and the sheet names each competitor and which Kalo videos (#) it uses.
+6. Any keyword throttled or not searched → verdict `RECHECK`. The product waits at Yellow. Never treat a throttled 0 as "no competitor".
+7. If no competitor is running video ads for the exact product, that counts as all `NOT_FOUND`. Say so in the record.
 
 ## Step 3. Orange → Green: a winning video is verified
 
@@ -47,7 +48,7 @@ If any check is missing, the product stays Orange. Missing never counts as a pas
 
 ## Shown on every row, but not a tier gate
 
-- **Cost:** the exact 1688 match and the Aria delivered quote (`PRICING-1688-ARIA.md`). These must be cleared before any launch handoff.
+- **Cost:** shown on every row (Green, Orange and Yellow): the 1688 / Fabulk item cost with a match label `EXACT` / `CLOSE` / `SIMILAR`, and "Est. delivered (standard)" = item cost + $5.00 flat. See `PRICING-1688-SUPPLIER.md`. Estimates rank products but never release a Green by themselves. A real exact match and supplier-agent quote must be cleared before any launch handoff.
 - **Meta crowding:** brand count, the oldest ad, and copied ad text. This helps choose between Greens.
 
 The numbers marked PROPOSED (500 orders, 0.6 per 1,000, 300k, 100k) can be changed by the owner. Note any change in `CHANGELOG.md`.

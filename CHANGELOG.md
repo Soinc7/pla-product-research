@@ -28,7 +28,7 @@ First standalone export for partner use.
 
 ## 1.0.1 — 2026-11-20
 - Chrome PARTIAL now STOPs (evaluator + docs).
-- Added check F: supplier-agent (Aria) quote channel.
+- Added check F: supplier agent quote channel.
 - Added `state/batch-N.json` batch state + resume rule; partner numbering starts at 1.
 - Test run: revenue gate shown as undecided (video revenue only); video evidence shown as PARTIAL.
 - Marked photo search, storefront rule and 2-factory minimum as PROPOSED.
@@ -54,8 +54,8 @@ First standalone export for partner use.
 
 ## 1.3.0 — 2026-11-20
 - **1688 no longer stops a run.** Check A is now "1688 price route (any one)": Fabulk (fabulk.com, no login), 1688order.com (free account) or 1688.com (logged in). If none works, the agent asks the user to log in or make a free account on one, keeps doing discovery, Meta and TrendTrack, and holds pricing only. The evaluator has a new `missing_blocks: false` flag, so a missing 1688 route gives GO_LIMITED, not STOP.
-- PRICING-1688-ARIA.md, SKILL.md, README.md and PREFLIGHT.md updated with the 3 routes and Fabulk photo search (camera icon, upload the Kalo main photo).
-- LIST-2026-11-20.md: item prices from Fabulk. Dryer vent $2.58 (exact photo), windshield $7.31 (close), inverter $17.40–18.29 (generic close). Work light not found, so it needs an Aria quote.
+- PRICING-1688-SUPPLIER.md, SKILL.md, README.md and PREFLIGHT.md updated with the 3 routes and Fabulk photo search (camera icon, upload the Kalo main photo).
+- LIST-2026-11-20.md: item prices from Fabulk. Dryer vent $2.58 (exact photo), windshield $7.31 (close), inverter $17.40–18.29 (generic close). Work light not found, so it needs a supplier-agent quote.
 
 ## 1.4.0 — 2026-11-20
 - **Run-to-completion rules** (SKILL.md hard rules 8–10): never pause for "go"; a draft counts as done only when the next-numbered Draft sheet is in Drive and has been read back; one stalled product never blocks the batch. On an early stop, the agent still writes and delivers what it has.
@@ -76,3 +76,10 @@ First standalone export for partner use.
 ## 1.5.0 — 2026-11-20
 - New sheet design (`templates/sheet-layout.md` v2, "Chapter" format): banner rows, real product photos via `IMAGE(url,1)`, tier chips, and clickable proof columns for Kalo, the winning video, the Meta search, the competitor ad (by Library ID), TrendTrack, Google Trends and 1688/Fabulk. The "Why" line is short and crisp. The 0–5 score columns are dropped.
 - Delivered "Product Research — Chapter 1 · Draft 1" (4 Green / 3 Orange / 3 Yellow). Photos need the owner's one-time "Allow access" click in Sheets.
+
+## v1.8.0 — 2026-11-20
+- Added `AGENTS.md`: host and worker lanes (Kalo, Meta sweep, pricing, TrendTrack, sheet builder) so several cheaper agents can share a run and save tokens. Includes a short worker prompt, token-saving rules and a single-agent fallback. Linked from README, SKILL.md and FOR-YOUR-AGENT.md. Added `state/lanes.example.json` with the lane output shapes.
+- New competitor standard: every product is searched with 5 different Meta Ad Library keywords (exact-phrase and unordered). It must clear all 5 to be Orange or Green. The sheet shows all 5 keywords as links with counts, then a verdict line, with each competitor's Ad Library link and the Kalo videos (#) it uses. Added the throttle rule (about 40-50 searches, pause 10+ minutes, mark `RECHECK`). Updated META-AD-LIBRARY.md, TIERS.md (v1.3), SKILL.md, sheet-layout.md and FOR-YOUR-AGENT.md.
+- Prices on every row (Green, Orange, Yellow): item cost with an EXACT / CLOSE / SIMILAR label, plus "Est. delivered (standard)" = item cost + $5.00 flat until a real quote replaces it. Estimates rank products and never release a Green by themselves.
+- Sheet banner: no "delivered quotes pending" text. The legend is now a row of colored chips.
+- Cleaned for a public repo: removed personal and owner-specific names and details. The supplier-agent role is now just "supplier agent". The pricing file is now `PRICING-1688-SUPPLIER.md`. Batch name is now `Product Research Batch N`.

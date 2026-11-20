@@ -5,7 +5,7 @@ Write what you **actually entered**, not what the setup says. Use `NOT_APPLIED` 
 
 ```
 FILTER RECEIPT
-Batch name:              Codex Product Research N
+Batch name:              Product Research Batch N
 Batch number / parity:   N / ODD or EVEN
 Price-cap code:          ODD_BATCH_80_CAP or EVEN_BATCH_60_CAP
 Observed at (UTC):       YYYY-MM-DDTHH:MM:SSZ

@@ -40,7 +40,7 @@ Trial plan reminder: 10 keyword searches and 10 detail visits per day, counted s
 
 ## 1. SPEC-ROTATE (proposed code)
 
-**Original label:** "Codex Product Research N" (the written skill spec, 2026-08-27). Contains the two real codes `ODD_BATCH_80_CAP` / `EVEN_BATCH_60_CAP`.
+**Original label:** "Product Research Batch N" (the written skill spec, 2026-08-27). Contains the two real codes `ODD_BATCH_80_CAP` / `EVEN_BATCH_60_CAP`.
 
 **When to use:** when you want a wider price net than the default, or when asked to follow the written spec exactly.
 
@@ -68,7 +68,7 @@ Trial plan reminder: 10 keyword searches and 10 detail visits per day, counted s
 | Odd (1, 3, 5 …) | $10–$80 | `ODD_BATCH_80_CAP` |
 | Even (2, 4, 6 …) | $10–$60 | `EVEN_BATCH_60_CAP` |
 
-- The batch number is the N in `Codex Product Research N`. It starts at 1.
+- The batch number is the N in `Product Research Batch N`. It starts at 1.
 - Always record the batch's parity and code in the receipt.
 - The rotation sets the cap **in SPEC-ROTATE**. In AVD-36 the band is $10–$30, which is tighter than both caps, so the rotation changes nothing there.
 - Note: a product priced $30–$80 can pass this setup's band and still fail the later sale-value rule ($30 or less). Expect that.
@@ -213,7 +213,7 @@ Note: the $5 floor is below the $10 minimum used by SPEC-ROTATE and AVD-36.
 
 | # | Proposed code | Original sheet label | Draft / date | Tool | Price band | Revenue / sales screen | Window | Special |
 |---|---|---|---|---|---|---|---|---|
-| 1 | SPEC-ROTATE | "Codex Product Research N" spec; `ODD_BATCH_80_CAP` / `EVEN_BATCH_60_CAP` | Spec, 2026-08-27 | Kalo | $10–$80 odd, $10–$60 even | 30-day revenue $20k–$100k | 30 + 90 days | Commission 10%+, shop top-10 snapshot |
+| 1 | SPEC-ROTATE | "Product Research Batch N" spec; `ODD_BATCH_80_CAP` / `EVEN_BATCH_60_CAP` | Spec, 2026-08-27 | Kalo | $10–$80 odd, $10–$60 even | 30-day revenue $20k–$100k | 30 + 90 days | Commission 10%+, shop top-10 snapshot |
 | 2 | FM-VIDEO | "FastMoss video-only intake" | Draft 29, 2026-09-15/16 | FastMoss | None recorded | Video revenue $20k+, 300+ units | 17 Aug – 15 Sep | COGS target under $8; sale-price direction in conflict |
 | 3 | KALO-PRO-VIDEO | "Kalo Professional" video screen | Draft 31, 2026-09-16 | Kalo (Professional) | None recorded | Video revenue $20k+, 300+ units | Aug 16 – Sep 14 | GREEN = review only; cost risk = Reserve |
 | 4 | OLDER-BUYER | "September older-buyer screening" | Draft 32, 2026-09-16 | Kalo | None recorded | Same sales screen as #3 | Not recorded | 45+/55+/65+ hypothesis, Trends, competitor count |

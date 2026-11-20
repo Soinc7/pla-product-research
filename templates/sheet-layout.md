@@ -1,13 +1,13 @@
-# Sheet layout (v2 — "Chapter" format, 2026-11-20)
+# Sheet layout (v2.1 — "Chapter" format, 2026-11-20)
 
 One Google Sheet per draft, named `Product Research — Chapter C · Draft D`, saved in the same Drive folder as the last draft. Reference build: Chapter 1 · Draft 1.
 
 ## Tab 1 — "Chapter C · Draft D"
 
-**Banner rows (merged A:P)**
+**Banner rows (merged A:Q)**
 1. Title, Montserrat 16 bold white on `#1F4E3D`.
-2. Date · Kalo filter and window · tier counts · cost status, Montserrat 10 white on `#2F6F56`.
-3. Tier legend in one line, italic 9, grey `#F1F3F4`.
+2. Date · Kalo filter and window · tier counts, Montserrat 10 white on `#2F6F56`. Do not write "delivered quotes pending". Cost is shown on every row (columns P and Q), so the banner needs no cost-status text.
+3. Legend row, **visually prominent**: one colored chip per item, not a faint italic line. Chips use the tier colors with bold white or dark text, Montserrat 10 bold, with a thick white border between chips: `GREEN = winning video verified` (`#1E8E3E`), `ORANGE = no competitor uses the Kalo videos, all 5 keywords clear` (`#E37400`), `YELLOW = demand proven, a competitor uses the videos or a check is pending` (`#B08800`), then `EXACT / CLOSE / SIMILAR = price match` on grey `#5F6368`. Row height 28.
 
 **Row 4 headers:** Montserrat 10 bold white on `#2F6F56`, centered and wrapped, with a medium bottom border. Freeze at D5.
 
@@ -23,12 +23,13 @@ One Google Sheet per draft, named `Product Research — Chapter C · Draft D`, s
 | H | Rating | 0.0★. Red if under 4.0 |
 | I | Winning video | `HYPERLINK(Kalo video URL,"<views> views · <orders> orders ↗")` |
 | J | Sales per 1K views (not ROAS) | Kalo orders ÷ video views × 1,000 for the winning video. Show `0.62` and on a second line `1 per 1.6K` (one sale per that many views). It is a TikTok conversion signal, never a Meta ROAS prediction. Red if under 0.6 |
-| K | Meta Ad Library | `HYPERLINK(exact search URL used,"Search ↗")` |
-| L | Competitor check (Meta Ad Library) | Every row must show the check was done. Yellow rows: `HYPERLINK(https://www.facebook.com/ads/library/?id=<Library ID>,"<Brand> ↗ copies Kalo #n")`, bold red. Green and Orange rows: `HYPERLINK(<exact Meta search URL used>,"Checked ✓ none copying ↗")` — never plain text |
+| K | Meta Ad Library: 5 keywords | All 5 keywords that were searched, one per line, each a clickable link to the exact search used, with its result count, e.g. `"tweezer tongs" (exact) · 12 ↗`. Mix of exact-phrase and unordered. One cell with 5 rich-text link runs (Sheets API `textFormatRuns`, USER_ENTERED does not support several links in one formula). A throttled search shows `RECHECK` instead of a count |
+| L | Competitor verdict | The verdict for the 5 searches. Clear (Green or Orange): `✓ No competitor using the Kalo videos · N pages sell it`, green text. Not clear (Yellow): `✗ N competitors run its Kalo videos`, bold red, then one line per competitor: `HYPERLINK(https://www.facebook.com/ads/library/?id=<Library ID>,"<Brand> ↗ uses Kalo #n, #m")`. `RECHECK` (any keyword throttled): `⟳ Re-check: <n> keywords throttled`, amber. Never plain text, never "none" from a throttled search |
 | M | Competitor file | `HYPERLINK(<Competitor Files sheet>#gid=<product tab>,"Open file ↗ · top video <views>")`. Opens that product's tab in the Competitor Files workbook (see below), not a single TikTok video |
 | N | Google Trends | `HYPERLINK(trends explore URL, 3-month US, keyword,"Trends ↗")` |
-| O | 1688 / Fabulk item cost | `HYPERLINK(offer URL,"$x · match ↗")`, or "—" |
-| P | Why | One crisp line, 60 characters or fewer. Fill `#E6F4EA` / `#FEF0E0` / `#FFF8D6` by tier |
+| O | 1688 / Fabulk item cost | On **every** row (Green, Orange, Yellow): `HYPERLINK(offer URL,"$x · EXACT ↗")`. Match label `EXACT`, `CLOSE` or `SIMILAR`, or "—" when `NOT_FOUND`. See `PRICING-1688-SUPPLIER.md` |
+| P | Est. delivered (standard) | Item cost + **$5.00 flat**, shown as `$x.xx est.` Replaced by the real supplier-agent quote when one exists (then labeled `QUOTE`). Ranks products, never releases a Green by itself. "—" when no item cost |
+| Q | Why | One crisp line, 60 characters or fewer. Fill `#E6F4EA` / `#FEF0E0` / `#FFF8D6` by tier |
 
 Body: Arial 10, wrapped, vertically centered. Banded rows `#FFFFFF` / `#F7F9FA`, with a thin bottom border `#D9DEE3`. Links in `#1155CC`.
 
@@ -51,6 +52,7 @@ Step · what was checked · bar to pass. Covers demand, the no-copycat check, th
 
 ## Rules
 - Unknown = "—" or MISSING. Never 0.
+- Prices on every row. Est. delivered is always labeled "est." until a real quote replaces it.
 - Green chip only on verified Greens.
 - Every claim in K–O must be a clickable link to the exact search, ad, video or offer that was used.
 - No 0–5 score columns. Evidence columns replaced them in v2.
