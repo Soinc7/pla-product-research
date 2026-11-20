@@ -1,0 +1,30 @@
+{
+  "observed_at_utc": "YYYY-MM-DDTHH:MM:SSZ",
+  "account_check": "NOT_CHECKED",
+  "checks": {
+    "chrome": {
+      "state": "PROVEN",
+      "note": "Opened a tab and read a page in the user's profile."
+    },
+    "1688": {
+      "state": "PROVEN",
+      "note": "Logged in. Price, tiers and MOQ visible on one offer page."
+    },
+    "kalo": {
+      "state": "PARTIAL",
+      "note": "Trial plan: 10 searches and 10 detail visits per day."
+    },
+    "sheets": {
+      "state": "PROVEN",
+      "note": "Output folder agreed with the human."
+    },
+    "optional_sources": {
+      "state": "PARTIAL",
+      "note": "Google Trends and Meta Ad Library open. TrendTrack not connected."
+    },
+    "supplier_agent": {
+      "state": "PARTIAL",
+      "note": "Supplier agent named; reply time unknown."
+    }
+  }
+}

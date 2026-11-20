@@ -1,0 +1,25 @@
+{
+  "batch_name": "Codex Product Research N",
+  "batch_number": 0,
+  "filter_setup": "AVD-36",
+  "price_cap_code": "ODD_BATCH_80_CAP | EVEN_BATCH_60_CAP",
+  "started_at_utc": "",
+  "updated_at_utc": "",
+  "next_step": "step_2_kalo_discovery",
+  "kalo": {
+    "plan": "trial|other",
+    "searches_used_today": 0,
+    "detail_visits_used_today": 0,
+    "last_page": 0,
+    "last_rank": 0
+  },
+  "candidates_kept": [],
+  "pending_quotes": [
+    {
+      "candidate_rank": 0,
+      "requested_at_utc": "",
+      "status": "PENDING|RECEIVED|DECLINED"
+    }
+  ],
+  "done_steps": []
+}

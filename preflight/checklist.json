@@ -1,0 +1,144 @@
+{
+  "name": "pla-product-research preflight",
+  "version": "1.0.1",
+  "states": [
+    "PROVEN",
+    "PARTIAL",
+    "MISSING"
+  ],
+  "run_order": [
+    "chrome",
+    "1688",
+    "kalo",
+    "sheets",
+    "optional_sources",
+    "supplier_agent"
+  ],
+  "global_rules": [
+    "The human logs in. The agent only looks.",
+    "Never ask for, type, read or store passwords, keys, codes or passkeys.",
+    "Do not sign in or accept consent screens for the user. Report the wall and stop.",
+    "One agent drives Chrome at a time.",
+    "Never record an account ID. Use account_check: MATCH | MISMATCH | NOT_CHECKED.",
+    "Preflight is look-only. Do not spend Kalo searches on it."
+  ],
+  "checks": [
+    {
+      "id": "1688",
+      "label": "A. 1688 account logged in",
+      "required": true,
+      "on_missing": "STOP",
+      "on_partial": "Discovery may run. No product can go green. All pricing stays HOLD.",
+      "steps": [
+        "Open 1688 in the user's Chrome.",
+        "Confirm a logged-in state: account shown, no login prompt.",
+        "Open any one product offer page.",
+        "Confirm price, price tiers and MOQ are visible."
+      ],
+      "proven_when": "Logged in and price, tiers and MOQ are visible on an offer page.",
+      "partial_when": "Logged in but price or MOQ hidden, or a verification page blocks some pages.",
+      "missing_when": "Login prompt shown, or no 1688 account.",
+      "fix": "Human logs in to 1688 in that Chrome profile themself and clears any verification by hand. Rerun the check."
+    },
+    {
+      "id": "chrome",
+      "label": "B. Chrome connection",
+      "required": true,
+      "on_missing": "STOP",
+      "on_partial": "STOP. A Chrome session that lacks the logins or cannot navigate cannot do research.",
+      "steps": [
+        "List the browsers or tabs the automation tool can see.",
+        "Open a new tab, load a simple page, read its title back.",
+        "Confirm it is the user's real Chrome profile with their logins.",
+        "Confirm no other agent is driving this Chrome."
+      ],
+      "proven_when": "Tool opens a tab, navigates and reads the page in the user's real profile.",
+      "partial_when": "Tool connects but the profile lacks the logins, or it can read but not navigate.",
+      "missing_when": "No browser tool, or it cannot reach Chrome.",
+      "fix": "Human opens Chrome, reconnects the browser tool, and selects the profile holding the 1688 and Kalo logins. Rerun the check.",
+      "partial_blocks": true
+    },
+    {
+      "id": "kalo",
+      "label": "C. Kalodata logged in, plan limits noted",
+      "required": true,
+      "on_missing": "STOP",
+      "on_partial": "Continue inside the plan limits. Plan the batch across days.",
+      "steps": [
+        "Open Kalodata in the user's Chrome.",
+        "Confirm a logged-in state: no login wall.",
+        "Read the plan type from the account area, or ask the human.",
+        "Write the plan limits into the batch record."
+      ],
+      "known_limits": {
+        "trial": {
+          "keyword_searches_per_day": 10,
+          "detail_visits_per_day": 10,
+          "note": "Separate counters."
+        },
+        "other_plans": "UNKNOWN - read from the account page or ask the human"
+      },
+      "proven_when": "Logged in, plan known, enough daily allowance for today's work.",
+      "partial_when": "Logged in on a trial, or today's allowance is partly used. Record what is left.",
+      "missing_when": "Login wall, or no Kalo account.",
+      "fix": "Human logs in to Kalodata in that Chrome profile themself. If the daily allowance is used up, continue tomorrow or use a higher plan."
+    },
+    {
+      "id": "sheets",
+      "label": "D. Google Sheets / Drive access for output",
+      "required": false,
+      "on_missing": "Continue. Write output as local files and say so in the report.",
+      "on_partial": "Continue with the limit noted.",
+      "steps": [
+        "Confirm a Sheets/Drive tool is connected, or Sheets opens logged in inside Chrome.",
+        "Ask the human which folder the output sheet goes in.",
+        "Do not create test files unless the human agrees."
+      ],
+      "proven_when": "Can create and edit a sheet in the agreed place.",
+      "partial_when": "Read-only access, or no agreed folder yet.",
+      "missing_when": "No access.",
+      "fix": "Human connects Google Drive/Sheets to the agent, or logs in to Google in Chrome themself, and names the output folder."
+    },
+    {
+      "id": "optional_sources",
+      "label": "E. TrendTrack / Google Trends / Meta Ad Library",
+      "required": false,
+      "on_missing": "Continue. No product can go green until all three are checked for that exact product.",
+      "on_partial": "Continue with the limit noted.",
+      "sub_checks": [
+        "trendtrack",
+        "google_trends",
+        "meta_ad_library"
+      ],
+      "steps": [
+        "Open each tool and confirm it can be read.",
+        "Record one state per tool."
+      ],
+      "proven_when": "All three open and can be read.",
+      "partial_when": "One or two of the three work.",
+      "missing_when": "None of the three work.",
+      "fix": "Human connects or logs in to the missing tool. Google Trends and Meta Ad Library need only a working browser."
+    },
+    {
+      "id": "supplier_agent",
+      "label": "F. Supplier-agent (Aria) quote channel",
+      "required": false,
+      "on_missing": "Continue. Research may run, but all delivered pricing stays HOLD and no product can go green.",
+      "on_partial": "Continue. Quotes may be slow; record pending quotes in the batch state file.",
+      "steps": [
+        "Ask the human which supplier agent will quote delivered US cost.",
+        "Confirm the human can send a quote request and paste the reply back.",
+        "Do not contact the supplier agent yourself unless the human says so."
+      ],
+      "proven_when": "A named supplier-agent channel exists and the human confirms quotes can be requested this batch.",
+      "partial_when": "Channel exists but reply time is unknown or slow.",
+      "missing_when": "No supplier agent available.",
+      "fix": "Human names the supplier agent and the channel (for example WhatsApp) and agrees to relay quote requests."
+    }
+  ],
+  "verdicts": {
+    "STOP": "Any of 1688, chrome, kalo is MISSING or has no state, or chrome is PARTIAL. Do not start research. Report the fix.",
+    "GO_LIMITED": "No required check is MISSING, but at least one check is PARTIAL or a non-required check is MISSING. Research may start inside the noted limits.",
+    "GO": "All checks PROVEN."
+  }
+}
