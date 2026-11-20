@@ -1,19 +1,100 @@
 {
-  "_note": "Example shapes for the lane output files in state/. Values are made up. Unknown stays null or MISSING, never 0.",
+  "_note": "Example shapes for the lane output files in state/. Values are made up. Unknown stays null or MISSING, never 0. Key on video IDs, not only on #n.",
+  "lane-L1-kalo.json": {
+    "batch": 1,
+    "filter_setup": "AVD-36",
+    "observed_at_utc": "2026-01-01T00:00:00Z",
+    "kalo_usage": {
+      "searches": 1,
+      "detail_visits": 10,
+      "limit_hit": false
+    },
+    "products": [
+      {
+        "rank": 1,
+        "pid": "0000000000000000000",
+        "name": "Example tongs",
+        "variant": "2-pack",
+        "kalo_url": "https://www.kalodata.com/product/detail?id=0000000000000000000&region=US&currency=USD&language=en-US",
+        "shop": "Example Shop",
+        "price": 16.99,
+        "rev_30d": 54000,
+        "orders_30d": 3100,
+        "rev_90d": null,
+        "rating": 4.5,
+        "commission_pct": 15,
+        "category": "Kitchenware",
+        "buyer_split": "either",
+        "result_page": 1,
+        "result_rank": 7,
+        "main_image_url": "https://img.kalocdn.com/tiktok.product.images/example.png",
+        "videos": [
+          {
+            "n": 1,
+            "vid": "0000000000000000001",
+            "views": 1200000,
+            "orders": 800,
+            "revenue": 13500,
+            "cover": "https://img.kalocdn.com/tiktok.video/0000000000000000001/cover.png"
+          }
+        ],
+        "video_count_valid": 10,
+        "evidence": "PROVEN",
+        "why": "Lifts hot pans without burns"
+      }
+    ]
+  },
   "lane-L2-meta.json": {
     "meta_sweep": [
       {
         "product": "Example tongs",
         "keywords": [
-          { "q": "\"example tongs\"", "type": "exact", "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22example%20tongs%22&search_type=keyword_exact_phrase&media_type=all", "results": 12 },
-          { "q": "\"examplebrand\"", "type": "exact", "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22examplebrand%22&search_type=keyword_exact_phrase&media_type=all", "results": 3 },
-          { "q": "tongs kitchen grip", "type": "unordered", "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=tongs%20kitchen%20grip&search_type=keyword_unordered&media_type=all", "results": 30 },
-          { "q": "\"hot pan handle\"", "type": "exact", "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22hot%20pan%20handle%22&search_type=keyword_exact_phrase&media_type=all", "results": 0 },
-          { "q": "burn hand lift hot", "type": "unordered", "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=burn%20hand%20lift%20hot&search_type=keyword_unordered&media_type=all", "results": null, "status": "RECHECK" }
+          {
+            "q": "\"example tongs\"",
+            "type": "exact",
+            "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22example%20tongs%22&search_type=keyword_exact_phrase&media_type=video",
+            "results": 12
+          },
+          {
+            "q": "\"examplebrand\"",
+            "type": "exact",
+            "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22examplebrand%22&search_type=keyword_exact_phrase&media_type=video",
+            "results": 3
+          },
+          {
+            "q": "tongs kitchen grip",
+            "type": "unordered",
+            "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=tongs%20kitchen%20grip&search_type=keyword_unordered&media_type=video",
+            "results": 30
+          },
+          {
+            "q": "\"hot pan handle\"",
+            "type": "exact",
+            "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22hot%20pan%20handle%22&search_type=keyword_exact_phrase&media_type=video",
+            "results": 0
+          },
+          {
+            "q": "burn hand lift hot",
+            "type": "unordered",
+            "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=burn%20hand%20lift%20hot&search_type=keyword_unordered&media_type=video",
+            "results": null,
+            "status": "RECHECK"
+          }
         ],
         "sellers_count": 9,
         "competitors_using_kalo": [
-          { "advertiser": "Example Page", "library_id": "000000000000000", "kalo_videos": [2, 5] }
+          {
+            "advertiser": "Example Page",
+            "library_id": "000000000000000",
+            "kalo_videos": [
+              2,
+              5
+            ],
+            "kalo_video_ids": [
+              "0000000000000000002",
+              "0000000000000000005"
+            ]
+          }
         ],
         "verdict": "RECHECK"
       }
@@ -37,5 +118,29 @@
       }
     ],
     "_rules": "verdict is one of CLEAR | MATCH | LIKELY | RECHECK. match is one of EXACT | CLOSE | SIMILAR | NOT_FOUND. est_delivered_usd = item_usd + 5.00 until a real supplier-agent quote replaces it."
+  },
+  "lane-L4-trendtrack.json": {
+    "trendtrack": [
+      {
+        "product": "Example tongs",
+        "pid": "0000000000000000000",
+        "top_tiktok": [
+          {
+            "url": "https://www.tiktok.com/@example/video/0000000000000000001",
+            "views": 450000,
+            "hook": "Stop burning your hands"
+          }
+        ],
+        "best_appeal_views": 450000,
+        "appeal_100k": "PROVEN",
+        "competitor_stores": [
+          {
+            "domain": "example-store.com",
+            "active_ads": 12
+          }
+        ],
+        "evidence": "PROVEN"
+      }
+    ]
   }
 }

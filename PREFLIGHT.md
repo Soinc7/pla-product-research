@@ -29,7 +29,7 @@ The machine-readable version is `preflight/checklist.json`.
 | C. Kalo | **STOP** | Continue inside the plan limits. Plan the batch across days. |
 | D. Sheets / Drive | Continue. Write output as local files and say so in the report. | Continue with the limit noted |
 | E. Optional tools | Continue. No product can go green without them. | Continue with the limit noted |
-| F. Supplier agent | Continue. All delivered pricing stays HOLD; no green. | Continue; log pending quotes in the batch state file |
+| F. Supplier agent | Continue. Rows use Est. delivered (item + $5.00). Tiers follow `TIERS.md`; no launch handoff until a real quote exists. | Continue; log pending quotes in the batch state file |
 
 Run order: **B first** (the others need Chrome), then A, C, D, E, F.
 
@@ -41,7 +41,7 @@ Run order: **B first** (the others need Chrome), then A, C, D, E, F.
 
 Steps:
 
-1. List the browsers or tabs your tool can see.
+1. List the browsers or tabs your tool can see. If more than one Chrome is connected (for example "Browser 1" and "Browser 2"), open Kalodata in each and use the one that is logged in. A login page in one browser does not mean Kalo is logged out.
 2. Open a new tab. Load any simple page. Read its title back.
 3. Confirm this is the user's real Chrome profile (the one with their logins), not a blank or throwaway browser.
 4. Confirm no other agent is driving this Chrome right now.
@@ -138,6 +138,8 @@ These do not block the start of research. But a product **cannot be green** unti
 python3 preflight/evaluate.py path/to/your-result.json
 ```
 
+(On Windows: `python preflight/evaluate.py ...`.)
+
 It prints `GO`, `GO_LIMITED` or `STOP` and the fix for each problem. Exit code 2 means STOP.
 
 3. Copy the five states into the filter receipt for the batch.
@@ -155,4 +157,4 @@ Notes must never contain passwords, keys or account IDs.
 2. Confirm the human will relay quote requests and paste replies back.
 3. Do not message the supplier agent yourself unless the human says so.
 
-PROVEN: channel named and quotes can be requested now. PARTIAL: channel exists, reply time unknown. MISSING: no supplier agent — research may run, but nothing can go green.
+PROVEN: channel named and quotes can be requested now. PARTIAL: channel exists, reply time unknown. MISSING: no supplier agent. Research runs with the +$5.00 estimate and tiers follow `TIERS.md`, but nothing is handed off for launch until a real quote exists.

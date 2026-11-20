@@ -30,6 +30,8 @@ Every product is searched with **5 different keywords** that describe it. A prod
 5. Count only the **relevant** ads, meaning the ad text names the product. Group them by brand.
 6. Keep big retailers (Target, Walmart, Amazon, Lowe's, Home Depot, Temu and similar) separate. They show that the product category sells, but they are not direct dropshipping competition.
 
+**Control keyword.** Before the sweep, and again about every 15 searches, search a control keyword that always has ads (for example `"dryer vent"`, about 2,300 US video ads). If the control returns 0, you are throttled: everything since the last good control is `RECHECK`.
+
 **Throttling.** Meta Ad Library may start returning 0 results, even for queries that worked before, after about 40-50 searches in a session. If a known query suddenly returns 0, stop. Pause about 10 minutes or more, then resume. Mark the keywords searched during the throttle as `RECHECK`. Never conclude "no competitor" from a throttled search. A product with any `RECHECK` keyword cannot be Orange or Green yet.
 
 **Verdict per product**

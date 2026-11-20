@@ -144,7 +144,7 @@
       "id": "supplier_agent",
       "label": "F. Supplier-agent quote channel",
       "required": false,
-      "on_missing": "Continue. Research may run, but all delivered pricing stays HOLD and no product can go green.",
+      "on_missing": "Continue. Rows show Est. delivered = item cost + $5.00. Research tiers follow TIERS.md (a product can still reach Green on a verified winning video), but no launch handoff (SKILL.md Step 13) until a real delivered quote exists.",
       "on_partial": "Continue. Quotes may be slow; record pending quotes in the batch state file.",
       "steps": [
         "Ask the human which supplier agent will quote delivered US cost.",

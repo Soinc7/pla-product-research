@@ -61,6 +61,7 @@ Any MISSING on **Chrome or Kalo** = STOP. Report the exact fix and end the run.
 ### Step 1 — Open the batch record
 
 - Name the batch `Product Research Batch N`. Your own numbering: your first batch is N = 1. Read the last N from `state/` (highest `batch-N.json`); if none exists, N = 1. Older "Product Research Draft" titles do not advance N.
+- Owner-facing names: each batch is a **Chapter**, and each delivered version of it is a **Draft** ("Product Research — Chapter C · Draft D"). A fresh 10-product hunt starts a new chapter at Draft 1. A correction or re-check of the same 10 products is the next draft of the same chapter. Write the mapping in `state/batch-N.json` (`report_name`, e.g. `chapter2-draft1`).
 - Create `state/batch-N.json` from `templates/batch-state.json`. Update it after every page, every Kalo detail visit and every quote request.
 - Record: `observed_at_utc`, `region`, `currency`, `account_check` (`MATCH`, `MISMATCH` or `NOT_CHECKED`). Never store the account ID itself.
 - Pick the filter setup from `FILTER-SETUPS.md`. Default: **AVD-36**.
@@ -111,6 +112,8 @@ Record low / base / high delivered-to-US cost in USD and the method.
 An item-only 1688 price is **not** a delivered quote.
 
 ### Step 7 — COGS gate
+
+> **Which rule sets the tier?** The research tier (Green / Orange / Yellow) comes from `TIERS.md` (v1.3 ladder). Steps 7-10 are the **launch gate**: they must all pass before the paused handoff in Step 13. An estimate-only cost never blocks a research Green and never releases a launch.
 
 | Gate | Rule |
 |---|---|

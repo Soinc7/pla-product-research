@@ -10,6 +10,7 @@ Read-only TikTok Shop product research. It never publishes, activates products, 
 6. Outputs every run: the Google Sheet (if Sheets access exists) and the local report:
    `python3 tools/report/build_report.py state/report.json --out reports/<chapter>-<draft>` (PDF + HTML).
    Download each product's main Kalo photo into `reports/<run>/images/` so no image is missing.
+   On Windows use `python` (or `py -3`) instead of `python3`, which opens the Microsoft Store.
 7. Rank Greens by launch math (`TIERS.md`); show weak math as a watch-out with the price or bundle fix.
 8. Meta Ad Library throttle: after about 40-50 searches, stop, wait 10+ minutes, mark throttled keywords `RECHECK`. Never conclude "no competitor" from a throttled search.
 9. Evidence is PROVEN, PARTIAL or MISSING. Never invent a URL, price or number. Fewer than 3 Greens = HOLD.

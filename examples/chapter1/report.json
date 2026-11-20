@@ -635,12 +635,12 @@
    "gid": 934776758,
    "topvid": "82K",
    "trend": "solar flood light",
-   "sellers": null,
+   "sellers": 1,
    "item": 2.34,
    "item_txt": "$2.34",
    "match": "SIMILAR",
    "item_url": "https://www.fabulk.com/searchlist?keyword=solar+portable+flood+light+power+outage",
-   "why": "Copycat since Nov 18 · TikTok appeal < 100K",
+   "why": "Re-checked 11/20 (no throttle): Gladchaser runs 2 of its Kalo videos since Nov 18 · TikTok appeal < 100K",
    "rank": 10,
    "tier": "YELLOW 10",
    "color": "YELLOW",
@@ -651,34 +651,39 @@
     {
      "q": "\"solar flood light\"",
      "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22solar%20flood%20light%22&search_type=keyword_exact_phrase&media_type=video",
-     "results": "—"
+     "results": "2"
     },
     {
      "q": "\"solar flood\"",
      "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22solar%20flood%22&search_type=keyword_exact_phrase&media_type=video",
-     "results": "—"
+     "results": "3"
     },
     {
      "q": "\"solar light\"",
      "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22solar%20light%22&search_type=keyword_exact_phrase&media_type=video",
-     "results": "—"
+     "results": "590"
     },
     {
      "q": "\"dias sin luz\"",
      "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22dias%20sin%20luz%22&search_type=keyword_exact_phrase&media_type=video",
-     "results": "—"
+     "results": "0"
     },
     {
      "q": "\"solar powered light\"",
      "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22solar%20powered%20light%22&search_type=keyword_exact_phrase&media_type=video",
-     "results": "—"
+     "results": "83"
     }
    ],
    "competitors": [
     {
      "name": "Gladchaser",
      "ad": "https://www.facebook.com/ads/library/?id=2233460854227292",
-     "videos": "#2 #6"
+     "videos": "#1"
+    },
+    {
+     "name": "Gladchaser (2nd ad, likely)",
+     "ad": "https://www.facebook.com/ads/library/?id=1398261138799298",
+     "videos": "#2"
     }
    ],
    "per": 630.0,

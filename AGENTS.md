@@ -32,6 +32,8 @@ Parallel rules:
 
 Output shapes are in `state/lanes.example.json`.
 
+**Video numbers.** "Kalo #n" means the n-th video in the product's "Video & Ad" tab, last 30 days, sorted by revenue, as L1 recorded it. Always store the video ID next to the number. Later lanes match on the ID, never on the number alone.
+
 ## Worker prompt template
 
 Keep it this short. Paste it with the blanks filled in.

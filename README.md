@@ -15,6 +15,17 @@ Clone the repo. If it's private for you, ask the owner to add your GitHub userna
 git clone https://github.com/Soinc7/pla-product-research.git
 ```
 
+While the repo is private, git needs your GitHub login, and an agent can't type it for you. Sign in once yourself with the GitHub CLI, then clone:
+
+```
+gh auth login --hostname github.com --git-protocol https --web
+gh auth setup-git
+```
+
+No GitHub CLI? Install it first (`winget install --id GitHub.cli -e` on Windows, `brew install gh` on Mac), and open a new terminal afterwards. If your agent has a GitHub connector signed in to an account with access, it can also copy the files through that.
+
+**Windows:** run the scripts with `python` (or `py -3`). On Windows, `python3` usually opens the Microsoft Store instead.
+
 Then tell your agent: `Read FOR-YOUR-AGENT.md, then SKILL.md, and run the preflight only.`
 
 ## What it does

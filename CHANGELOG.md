@@ -90,3 +90,12 @@ First standalone export for partner use.
 - **Launch math.** TIERS.md and FOR-YOUR-AGENT.md define margin, break-even ROAS, sales/day to break even and the price needed for 2.0 ROAS. Greens are ranked by lowest break-even ROAS; weak math (margin <= 0 or ROAS above `breakeven_roas_max`) is a watch-out with a price or bundle fix. PROPOSED default: `breakeven_roas_max` = 3.
 - **Deliverables.** Each run gives the Google Sheet (if Sheets access exists) and a local PDF + HTML report from `tools/report/build_report.py`. `state/report.json` is the documented hand-off format (reference `examples/chapter1/report.json`).
 - Added `CLAUDE.md` for Claude Code users. README files table updated.
+
+## v1.9.1 — 2026-11-20 (Claude Code run-through fixes)
+- README: how to log in to clone a private repo (`gh auth login`, `gh auth setup-git`, installing the GitHub CLI), and a connector fallback. Windows note: use `python` / `py -3`, because `python3` opens the Microsoft Store. The same note is in CLAUDE.md and PREFLIGHT.md.
+- One rule for "no supplier agent". The research tier follows TIERS.md v1.3, and the +$5.00 estimate ranks products. SKILL.md Steps 7-10 are the launch gate before the Step 13 handoff. Updated the preflight checklist message, PREFLIGHT.md and a note in SKILL.md Step 7.
+- SKILL.md Step 1: maps "Batch N" to the owner's "Chapter C · Draft D" names (`report_name` in `batch-N.json`).
+- META-AD-LIBRARY.md: search a control keyword before the sweep and about every 15 searches to catch throttling.
+- AGENTS.md: "Kalo #n" means revenue order on "Video & Ad"; always store the video ID too.
+- `state/lanes.example.json`: added the L1 (Kalo) and L4 (TrendTrack) shapes, video IDs on competitors, and `media_type=video` in the Meta URLs.
+- Chapter 1 example: the solar flood light re-check (no throttle) found Gladchaser running 2 of its Kalo videos. Rebuilt `reports/chapter1-draft3`.
