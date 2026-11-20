@@ -30,8 +30,8 @@ Row 1 is the header. Rows 2–11 are the 10 products in rank order.
 Formatting:
 
 - Header row: fill `#5B95F9`, bold, 12 pt.
-- Green fill `#00FF00` on the **name cell** of exactly 3 products, and only when they are eligible greens.
-- On a HOLD batch, fill no names green.
+- Tier fill on the **name cell**: Green `#00FF00`, Orange `#FFA500`, Yellow `#FFFF00`, not tiered = no fill (see `TIERS.md`).
+- Green fill only on verified Greens. A HOLD batch can still show Orange and Yellow.
 - Unknown values: leave the cell empty or write `MISSING`. Never write 0 for unknown.
 
 Notes on this layout:

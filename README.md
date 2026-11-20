@@ -14,8 +14,9 @@ It is **read-only**. It never publishes, activates products, launches ads, or sp
 5. Gets a delivered-to-US cost from the supplier agent ("Aria").
 6. Applies the cost gate: all-in cost under $8, sale value $30 or less.
 7. Scores each product on 8 points.
-8. Marks the top 3 green, or says **HOLD** if fewer than 3 qualify.
-9. Writes a sheet and a paused handoff note.
+8. Checks Meta Ad Library: competitor brands, how long their ads have run, and whether the top Kalo videos are already running as ads.
+9. Sorts every product into **Green** (best), **Orange** (second) or **Yellow** (third). If fewer than 3 are Green, the batch result is **HOLD**.
+10. Writes a sheet and a paused handoff note.
 
 ## The 3 tools you need
 
@@ -67,6 +68,9 @@ HOLD is a normal, correct result. The skill never lowers the bar and never inven
 | `PREFLIGHT.md`, `preflight/` | The tool and safety check. |
 | `FILTER-SETUPS.md` | Every filter setup, with names and steps. |
 | `PRICING-1688-ARIA.md` | Factory price and delivered-quote method. |
+| `META-AD-LIBRARY.md` | Competitor and reference-video check. |
+| `TIERS.md` | Green / Orange / Yellow rules. |
+| `DRAFT-RUN-D36.md` | Live draft run on the last real batch (Draft 36). |
 | `templates/` | Record schema, filter receipt, sheet layout. |
 | `TEST-RUN.md` | A worked dry run on 10 real past candidates. |
 | `CHANGELOG.md` | Version history. |

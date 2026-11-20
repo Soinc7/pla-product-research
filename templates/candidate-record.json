@@ -3,172 +3,610 @@
   "title": "pla-product-research candidate record",
   "description": "One record per candidate. Unknown values are null with evidence state MISSING. Never use 0 for unknown. Never store account IDs, passwords or keys.",
   "type": "object",
-  "required": ["batch", "rank", "product_name", "kalo", "videos", "source_1688", "supplier_agent", "gates", "scores", "outcome"],
+  "required": [
+    "batch",
+    "rank",
+    "product_name",
+    "kalo",
+    "videos",
+    "source_1688",
+    "supplier_agent",
+    "gates",
+    "scores",
+    "outcome"
+  ],
   "$defs": {
-    "evidence": { "enum": ["PROVEN", "PARTIAL", "MISSING"] },
-    "money": { "type": ["number", "null"], "minimum": 0 },
+    "evidence": {
+      "enum": [
+        "PROVEN",
+        "PARTIAL",
+        "MISSING"
+      ]
+    },
+    "money": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
     "score": {
       "type": "object",
-      "required": ["value", "evidence"],
+      "required": [
+        "value",
+        "evidence"
+      ],
       "properties": {
-        "value": { "type": ["integer", "null"], "minimum": 0, "maximum": 5 },
-        "evidence": { "$ref": "#/$defs/evidence" },
-        "note": { "type": "string" }
+        "value": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 5
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        },
+        "note": {
+          "type": "string"
+        }
       }
     }
   },
   "properties": {
     "batch": {
       "type": "object",
-      "required": ["name", "number", "observed_at_utc", "region", "currency", "account_check", "filter_setup"],
+      "required": [
+        "name",
+        "number",
+        "observed_at_utc",
+        "region",
+        "currency",
+        "account_check",
+        "filter_setup"
+      ],
       "properties": {
-        "name": { "type": "string", "description": "Codex Product Research N" },
-        "number": { "type": "integer", "minimum": 1 },
-        "observed_at_utc": { "type": "string", "format": "date-time" },
-        "region": { "type": "string" },
-        "currency": { "type": "string" },
-        "account_check": { "enum": ["MATCH", "MISMATCH", "NOT_CHECKED"] },
-        "filter_setup": { "type": "string", "description": "Proposed code plus original sheet label" },
-        "price_cap_code": { "enum": ["ODD_BATCH_80_CAP", "EVEN_BATCH_60_CAP"] }
+        "name": {
+          "type": "string",
+          "description": "Codex Product Research N"
+        },
+        "number": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "observed_at_utc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "region": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "account_check": {
+          "enum": [
+            "MATCH",
+            "MISMATCH",
+            "NOT_CHECKED"
+          ]
+        },
+        "filter_setup": {
+          "type": "string",
+          "description": "Proposed code plus original sheet label"
+        },
+        "price_cap_code": {
+          "enum": [
+            "ODD_BATCH_80_CAP",
+            "EVEN_BATCH_60_CAP"
+          ]
+        }
       }
     },
-    "rank": { "type": "integer", "minimum": 1, "maximum": 10 },
-    "product_name": { "type": "string" },
-    "target_group": { "enum": ["WOMEN", "MEN", "UNKNOWN"] },
+    "rank": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "target_group": {
+      "enum": [
+        "WOMEN",
+        "MEN",
+        "UNKNOWN"
+      ]
+    },
     "kalo": {
       "type": "object",
-      "required": ["product_id", "detail_url", "content_type"],
+      "required": [
+        "product_id",
+        "detail_url",
+        "content_type"
+      ],
       "properties": {
-        "product_id": { "type": ["string", "null"] },
-        "detail_url": { "type": ["string", "null"], "description": "Direct product-detail URL. Never invented." },
-        "result_page": { "type": ["integer", "null"] },
-        "result_rank": { "type": ["integer", "null"] },
-        "content_type": { "const": "TikTok Shop product videos", "description": "Lives excluded and never counted." },
-        "price_low_usd": { "$ref": "#/$defs/money" },
-        "price_high_usd": { "$ref": "#/$defs/money" },
-        "commission_pct": { "type": ["number", "null"] },
-        "revenue_30d_usd": { "$ref": "#/$defs/money" },
-        "orders_30d": { "type": ["integer", "null"] },
-        "revenue_90d_usd": { "$ref": "#/$defs/money" },
-        "orders_90d": { "type": ["integer", "null"] },
-        "video_revenue_30d_usd": { "$ref": "#/$defs/money" },
-        "video_units_30d": { "type": ["integer", "null"] },
-        "shop_top10_by_30d_revenue": { "type": "array", "maxItems": 10, "items": { "type": "object" } },
-        "evidence": { "$ref": "#/$defs/evidence" }
+        "product_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "detail_url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Direct product-detail URL. Never invented."
+        },
+        "result_page": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "result_rank": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "content_type": {
+          "const": "TikTok Shop product videos",
+          "description": "Lives excluded and never counted."
+        },
+        "price_low_usd": {
+          "$ref": "#/$defs/money"
+        },
+        "price_high_usd": {
+          "$ref": "#/$defs/money"
+        },
+        "commission_pct": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "revenue_30d_usd": {
+          "$ref": "#/$defs/money"
+        },
+        "orders_30d": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "revenue_90d_usd": {
+          "$ref": "#/$defs/money"
+        },
+        "orders_90d": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "video_revenue_30d_usd": {
+          "$ref": "#/$defs/money"
+        },
+        "video_units_30d": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "shop_top10_by_30d_revenue": {
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "type": "object"
+          }
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
       }
     },
     "videos": {
       "type": "object",
-      "required": ["video_ids", "evidence"],
+      "required": [
+        "video_ids",
+        "evidence"
+      ],
       "properties": {
         "video_ids": {
           "type": "array",
           "uniqueItems": true,
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Unique videos whose product ID exactly matches kalo.product_id. No Lives, duplicates, compilations or wrong product. 10 needed."
         },
-        "evidence": { "$ref": "#/$defs/evidence" }
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
       }
     },
     "source_1688": {
       "type": "object",
-      "required": ["status", "offers", "evidence"],
+      "required": [
+        "status",
+        "offers",
+        "evidence"
+      ],
       "properties": {
-        "status": { "enum": ["VERIFIED_EXACT_MULTI_FACTORY", "EXACT_SINGLE_FACTORY", "SIMILAR_NOT_EXACT", "NO_VERIFIED_EXACT_MATCH"] },
+        "status": {
+          "enum": [
+            "VERIFIED_EXACT_MULTI_FACTORY",
+            "EXACT_SINGLE_FACTORY",
+            "SIMILAR_NOT_EXACT",
+            "NO_VERIFIED_EXACT_MATCH"
+          ]
+        },
         "offers": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["offer_id", "price_cny", "fx_date", "match"],
+            "required": [
+              "offer_id",
+              "price_cny",
+              "fx_date",
+              "match"
+            ],
             "properties": {
-              "offer_id": { "type": "string" },
-              "price_cny": { "$ref": "#/$defs/money" },
-              "moq": { "type": ["integer", "null"] },
-              "price_tiers": { "type": "string" },
-              "fx_rate_cny_per_usd": { "type": ["number", "null"] },
-              "fx_date": { "type": ["string", "null"], "format": "date" },
-              "item_only_usd": { "$ref": "#/$defs/money" },
-              "excluded_charges": { "type": "array", "items": { "type": "string" } },
-              "variant": { "type": "string" },
-              "weight": { "type": "string" },
-              "province": { "type": "string" },
-              "match": { "enum": ["EXACT", "BRAND_DIFFERS", "VARIANT_DIFFERS", "NO_MATCH"] }
+              "offer_id": {
+                "type": "string"
+              },
+              "price_cny": {
+                "$ref": "#/$defs/money"
+              },
+              "moq": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "price_tiers": {
+                "type": "string"
+              },
+              "fx_rate_cny_per_usd": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "fx_date": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date"
+              },
+              "item_only_usd": {
+                "$ref": "#/$defs/money"
+              },
+              "excluded_charges": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "variant": {
+                "type": "string"
+              },
+              "weight": {
+                "type": "string"
+              },
+              "province": {
+                "type": "string"
+              },
+              "match": {
+                "enum": [
+                  "EXACT",
+                  "BRAND_DIFFERS",
+                  "VARIANT_DIFFERS",
+                  "NO_MATCH"
+                ]
+              }
             }
           }
         },
-        "alibaba_notes": { "type": "string", "description": "Kept separate. Not 1688 proof." },
-        "evidence": { "$ref": "#/$defs/evidence" }
+        "alibaba_notes": {
+          "type": "string",
+          "description": "Kept separate. Not 1688 proof."
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
       }
     },
     "supplier_agent": {
       "type": "object",
-      "required": ["type", "evidence"],
+      "required": [
+        "type",
+        "evidence"
+      ],
       "properties": {
-        "type": { "enum": ["QUOTE", "ESTIMATE", "NONE"] },
-        "delivered_low_usd": { "$ref": "#/$defs/money" },
-        "delivered_base_usd": { "$ref": "#/$defs/money" },
-        "delivered_high_usd": { "$ref": "#/$defs/money" },
-        "method": { "type": "string", "description": "For ESTIMATE: the historical supplier anchors used. No same-SKU history means markup UNKNOWN." },
-        "quote_date": { "type": ["string", "null"], "format": "date" },
-        "quantity": { "type": ["integer", "null"] },
+        "type": {
+          "enum": [
+            "QUOTE",
+            "ESTIMATE",
+            "NONE"
+          ]
+        },
+        "delivered_low_usd": {
+          "$ref": "#/$defs/money"
+        },
+        "delivered_base_usd": {
+          "$ref": "#/$defs/money"
+        },
+        "delivered_high_usd": {
+          "$ref": "#/$defs/money"
+        },
+        "method": {
+          "type": "string",
+          "description": "For ESTIMATE: the historical supplier anchors used. No same-SKU history means markup UNKNOWN."
+        },
+        "quote_date": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date"
+        },
+        "quantity": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
         "includes": {
           "type": "array",
-          "items": { "enum": ["FACTORY_MERCHANDISE", "CHINA_FREIGHT", "AGENT_MARGIN", "PACKAGING_HANDLING", "US_FREIGHT_CUSTOMS_FULFILLMENT"] }
+          "items": {
+            "enum": [
+              "FACTORY_MERCHANDISE",
+              "CHINA_FREIGHT",
+              "AGENT_MARGIN",
+              "PACKAGING_HANDLING",
+              "US_FREIGHT_CUSTOMS_FULFILLMENT"
+            ]
+          }
         },
-        "supplier_landed_cost_usd": { "$ref": "#/$defs/money", "description": "From an exact QUOTE only. Never copied from the Kalo price." },
-        "evidence": { "$ref": "#/$defs/evidence" }
+        "supplier_landed_cost_usd": {
+          "$ref": "#/$defs/money",
+          "description": "From an exact QUOTE only. Never copied from the Kalo price."
+        },
+        "evidence": {
+          "$ref": "#/$defs/evidence"
+        }
       }
     },
     "green_evidence": {
       "type": "object",
       "properties": {
-        "trendtrack": { "$ref": "#/$defs/evidence" },
-        "google_trends": { "$ref": "#/$defs/evidence" },
-        "meta_ad_library": { "$ref": "#/$defs/evidence" },
-        "buyer_age_45_plus": { "$ref": "#/$defs/evidence" },
-        "store_age_cohorts": { "$ref": "#/$defs/evidence" },
-        "current_trend": { "$ref": "#/$defs/evidence" }
+        "trendtrack": {
+          "$ref": "#/$defs/evidence"
+        },
+        "google_trends": {
+          "$ref": "#/$defs/evidence"
+        },
+        "meta_ad_library": {
+          "$ref": "#/$defs/evidence"
+        },
+        "buyer_age_45_plus": {
+          "$ref": "#/$defs/evidence"
+        },
+        "store_age_cohorts": {
+          "$ref": "#/$defs/evidence"
+        },
+        "current_trend": {
+          "$ref": "#/$defs/evidence"
+        }
       }
     },
     "gates": {
       "type": "object",
       "description": "Each gate: PASS, FAIL, HOLD (not yet provable) or BATCH_FILTERED (price band only).",
       "properties": {
-        "revenue_20k_100k": { "enum": ["PASS", "FAIL", "HOLD"] },
-        "commission_min_10": { "enum": ["PASS", "FAIL", "HOLD"] },
-        "price_band": { "enum": ["PASS", "BATCH_FILTERED", "HOLD"] },
-        "videos_10_exact": { "enum": ["PASS", "FAIL", "HOLD"] },
-        "video_units_300": { "enum": ["PASS", "FAIL", "HOLD"] },
-        "exact_1688_match": { "enum": ["PASS", "FAIL", "HOLD"] },
-        "cogs_under_8": { "enum": ["PASS", "FAIL", "HOLD"] },
-        "sale_value_max_30": { "enum": ["PASS", "FAIL", "HOLD"] }
+        "revenue_20k_100k": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "HOLD"
+          ]
+        },
+        "commission_min_10": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "HOLD"
+          ]
+        },
+        "price_band": {
+          "enum": [
+            "PASS",
+            "BATCH_FILTERED",
+            "HOLD"
+          ]
+        },
+        "videos_10_exact": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "HOLD"
+          ]
+        },
+        "video_units_300": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "HOLD"
+          ]
+        },
+        "exact_1688_match": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "HOLD"
+          ]
+        },
+        "cogs_under_8": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "HOLD"
+          ]
+        },
+        "sale_value_max_30": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "HOLD"
+          ]
+        }
       }
     },
     "scores": {
       "type": "object",
       "properties": {
-        "perceived_value": { "$ref": "#/$defs/score" },
-        "problem_solving": { "$ref": "#/$defs/score" },
-        "emotional_problem": { "$ref": "#/$defs/score" },
-        "proven_sales_demand": { "$ref": "#/$defs/score" },
-        "appeals_to_impulse_purchasers": { "$ref": "#/$defs/score" },
-        "content": { "$ref": "#/$defs/score" },
-        "evergreen": { "$ref": "#/$defs/score" },
-        "brandable": { "$ref": "#/$defs/score" },
-        "total_out_of_100": { "type": ["number", "null"], "description": "Null unless all 8 are scored. Conversion from 40 to 100 is PROPOSED as total x 2.5; confirm with the owner." }
+        "perceived_value": {
+          "$ref": "#/$defs/score"
+        },
+        "problem_solving": {
+          "$ref": "#/$defs/score"
+        },
+        "emotional_problem": {
+          "$ref": "#/$defs/score"
+        },
+        "proven_sales_demand": {
+          "$ref": "#/$defs/score"
+        },
+        "appeals_to_impulse_purchasers": {
+          "$ref": "#/$defs/score"
+        },
+        "content": {
+          "$ref": "#/$defs/score"
+        },
+        "evergreen": {
+          "$ref": "#/$defs/score"
+        },
+        "brandable": {
+          "$ref": "#/$defs/score"
+        },
+        "total_out_of_100": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "description": "Null unless all 8 are scored. Conversion from 40 to 100 is PROPOSED as total x 2.5; confirm with the owner."
+        }
       }
     },
-    "day_one_label": { "enum": ["DAY1_REJECT", "SEASONAL_TARGET_MISS", "DAY1_TARGET", "DAY1_ABOVE_TARGET", "DAY1_MISSING"], "default": "DAY1_MISSING" },
-    "fatal_risk": { "type": ["string", "null"] },
-    "outcome": { "enum": ["GREEN", "HOLD", "FAIL", "BATCH_FILTERED"] },
-    "outcome_reason": { "type": "string" },
-    "to_clear": { "type": "array", "items": { "type": "string" }, "description": "Exact next steps to clear a HOLD." },
+    "day_one_label": {
+      "enum": [
+        "DAY1_REJECT",
+        "SEASONAL_TARGET_MISS",
+        "DAY1_TARGET",
+        "DAY1_ABOVE_TARGET",
+        "DAY1_MISSING"
+      ],
+      "default": "DAY1_MISSING"
+    },
+    "fatal_risk": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "GREEN",
+        "HOLD",
+        "FAIL",
+        "BATCH_FILTERED"
+      ]
+    },
+    "outcome_reason": {
+      "type": "string"
+    },
+    "to_clear": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Exact next steps to clear a HOLD."
+    },
     "handoff": {
       "type": "object",
       "description": "Only for GREEN. Research never launches, publishes or spends.",
       "properties": {
-        "authorized_spend_usd": { "const": 0 },
-        "state": { "const": "PAUSED/OFF" }
+        "authorized_spend_usd": {
+          "const": 0
+        },
+        "state": {
+          "const": "PAUSED/OFF"
+        }
+      }
+    },
+    "tier": {
+      "type": "string",
+      "enum": [
+        "GREEN",
+        "ORANGE",
+        "YELLOW",
+        "NOT_TIERED"
+      ]
+    },
+    "meta_ad_library": {
+      "type": "object",
+      "properties": {
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "results_count": {
+          "type": "string"
+        },
+        "dtc_brands": {
+          "type": [
+            "integer",
+            "string"
+          ]
+        },
+        "big_box": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "oldest_active_start": {
+          "type": "string"
+        },
+        "clone_copy": {
+          "type": "string"
+        },
+        "band": {
+          "type": "string",
+          "enum": [
+            "NONE",
+            "LIGHT",
+            "HEALTHY",
+            "CROWDED",
+            "SATURATED",
+            "MISSING"
+          ]
+        },
+        "ref_video_matches": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "checked_at_utc": {
+          "type": "string"
+        }
       }
     }
   }

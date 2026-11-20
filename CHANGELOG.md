@@ -33,3 +33,9 @@ First standalone export for partner use.
 - Test run: revenue gate shown as undecided (video revenue only); video evidence shown as PARTIAL.
 - Marked photo search, storefront rule and 2-factory minimum as PROPOSED.
 - Picked as winner of a Fable 5.2 vs Opus 5.5 bake-off with cross-rebuttal.
+
+## 1.1.0 — 2026-11-20
+- Added `META-AD-LIBRARY.md`: exact-phrase keyword search, competitor brands grouped and counted, oldest active ad, cloned copy, and matching the Kalo top-3 videos against running Meta video ads. Competition bands NONE / LIGHT / HEALTHY / CROWDED / SATURATED.
+- Added `TIERS.md`: GREEN (top) > ORANGE (second) > YELLOW (third) > not tiered, with sheet fills #00FF00 / #FFA500 / #FFFF00. Band and cost thresholds are PROPOSED defaults the owner can change.
+- SKILL.md: new Step 7b (Meta check required for any tier); Step 11 now tiers every candidate.
+- Added `DRAFT-RUN-D36.md`: live draft run on Draft 36, with 0 Green / 1 Orange / 5 Yellow / 4 not tiered; the batch result is HOLD.

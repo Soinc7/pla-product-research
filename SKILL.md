@@ -92,13 +92,17 @@ An item-only 1688 price is **not** a delivered quote.
 
 `supplier_landed_cost_usd` is its own field. It is never copied from the Kalo price.
 
+### Step 7b — Meta Ad Library check (required for any tier)
+
+Run `META-AD-LIBRARY.md` for every candidate: exact-phrase keyword searches, competitor brands grouped and counted, oldest active ad, cloned copy, and the Kalo top-3 videos matched against running video ads. Record the competition band (`NONE` / `LIGHT` / `HEALTHY` / `CROWDED` / `SATURATED`). Not run = the product cannot be tiered.
+
 ### Step 8 — Green evidence checklist
 
 A green needs all of these for the exact product. Any one missing = HOLD.
 
 | Evidence | Rule |
 |---|---|
-| Sources | Kalo, 1688, TrendTrack, Google Trends, Meta Ad Library all checked |
+| Sources | Kalo, 1688, TrendTrack, Google Trends checked; Meta Ad Library band `HEALTHY` (see `META-AD-LIBRARY.md`) |
 | Buyer age | Purchasers proven 45+, better 55+ or 65+, with conversion data (period and sample). Search interest or creator audience is not proof. Target buyer is 55–65 and not tech-savvy. |
 | Store-age cohorts | Real store creation dates for 30-day and 180-day cohorts. Product first-seen dates and ad start dates do not count. |
 | Current trend | Recent vs prior Kalo video revenue and units, plus monthly seasonal search |
@@ -134,16 +138,17 @@ These labels describe first-day purchases. Never call a winner from revenue or R
 Research has no launch data, so the label is `DAY1_MISSING` until the launch side reports back.
 UNKNOWN: the method for the "projected seasonal day-one floor" is not in the source. Ask the owner; until then mark it MISSING.
 
-### Step 11 — Decide: top 3 greens or HOLD
+### Step 11 — Tier every candidate: Green, Orange, Yellow
 
-- Rank the products that pass everything. Take the top 3.
-- Fewer than 3 = batch result `HOLD`. List, per product, exactly what is missing and who can supply it.
+- Apply `TIERS.md` to all 10: **GREEN** (highest) > **ORANGE** (second) > **YELLOW** (third) > not tiered.
+- 3+ Greens: release the top 3. Fewer than 3: batch result `HOLD`, but still list Orange and Yellow with the one next step for each.
+- Never promote an Orange to fill a missing Green.
 
 ### Step 12 — Sheet output
 
 Build the sheet from `templates/sheet-layout.md`:
 
-- Tab 1 **Template**: 10 names, LINK cells to the Kalo URL, cost and score columns. Exactly 3 names filled `#00FF00`, and only when eligible. On HOLD, fill none.
+- Tab 1 **Template**: 10 names, LINK cells to the Kalo URL, cost and score columns. Fill each name by tier: Green `#00FF00`, Orange `#FFA500`, Yellow `#FFFF00`, not tiered = no fill. Green fill only on verified Greens.
 - Tab 2 **Candidates**: filter receipt on top, evidence table below.
 - Also save one record per product using `templates/candidate-record.json`.
 
