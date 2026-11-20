@@ -47,3 +47,7 @@ First standalone export for partner use.
 ## 1.2.1 — 2026-11-20
 - Added `LIST-2026-11-20.md`, a live run: Kalo logged in, Meta first-frame check against the Kalo top-10 videos, TrendTrack appeal check. Result: 3 Green, 2 Orange, 3 Yellow, 2 White, so the 3-Green minimum is met.
 - Marked `LIST-2026-11-20-PROVISIONAL.md` as superseded.
+
+## 1.2.2 — 2026-11-20
+- Screened both Whites. The Azocek inverter passes Kalo (2.8k / 3.01M / 0.93), TrendTrack (800k) and the Meta check, so it is Green 4. The bathroom organizer fails the TrendTrack appeal check, so it is Orange. The list is now 4 Green, 3 Orange, 3 Yellow.
+- 1688 check blocked: no Chrome profile is logged into 1688.
