@@ -62,6 +62,10 @@ First standalone export for partner use.
 - sheet-layout.md: Kalo images can't be embedded in Sheets, so column C uses `HYPERLINK(...,"PHOTO")`.
 - Delivered "Product Research Draft 37" (Google Sheet, same folder as Draft 36): 4 Green, 3 Orange, 3 Yellow.
 
+## 1.7.0 — 2026-11-20
+- Added `FOR-YOUR-AGENT.md`, a one-page brief so a partner's agent knows what this skill does, what it returns (10 ranked products plus Competitor Files) and how to run it next to its own product researcher: standalone, second opinion or side by side.
+- README: points agents to the brief first, adds a "Getting access" section for the private repo, and updates "What you get" to the Chapter format.
+
 ## 1.6.0 — 2026-11-20
 - Tiers ranked 1–10 across the draft (GREEN 1–4, ORANGE 5–7, YELLOW 8–10 for a 4/3/3 draft).
 - Column J renamed "Sales per 1K views (not ROAS)" with a "1 per N views" line, so it isn't read as Meta ROAS.

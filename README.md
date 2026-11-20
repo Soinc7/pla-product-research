@@ -5,6 +5,18 @@ It finds TikTok Shop products worth testing, checks the real factory price on 16
 
 It is **read-only**. It never publishes, activates products, launches ads, or spends money.
 
+> **Agents start here → [`FOR-YOUR-AGENT.md`](FOR-YOUR-AGENT.md).** It explains in one page what this skill does, what it hands back (10 ranked products plus competitor files), and how to use it next to a product researcher you already have.
+
+## Getting access (private repo)
+
+The repo owner adds your GitHub username as a collaborator. Accept the email invite, then clone the repo:
+
+```
+git clone https://github.com/Soinc7/pla-product-research.git
+```
+
+Then tell your agent: `Read FOR-YOUR-AGENT.md, then SKILL.md, and run the preflight only.`
+
 ## What it does
 
 1. Checks that your tools work (the preflight). No tools, no research.
@@ -51,12 +63,9 @@ A Kalodata trial account allows 10 searches and 10 detail visits a day, so a bat
 
 ## What you get
 
-- A Google Sheet with two tabs:
-  - **Template** — 10 products, links, cost, price, margin, 8 scores. Up to 3 names filled green.
-  - **Candidates** — the filter receipt (exactly which filters ran) and the evidence for every product.
-- One of two results:
-  - **3 greens** plus a handoff note. The handoff is always paused, with spend set to $0.
-  - **HOLD**, with a list of what is missing for each product.
+- **Product Research — Chapter C · Draft D**: 10 products ranked 1–10 (GREEN → ORANGE → YELLOW), with a product photo and clickable proof for every claim. Tabs: the draft, Top videos, How it was graded.
+- **Competitor Files — Chapter C · Draft D**: one tab per product with competitor stores, their running Meta ads and hooks, top TrendTrack TikTok videos, and a reference photo.
+- An end-of-run report: **3+ Greens** plus a paused handoff (spend $0), or **HOLD** with what's missing per product.
 
 HOLD is a normal, correct result. The skill never lowers the bar and never invents a third product.
 
@@ -64,7 +73,8 @@ HOLD is a normal, correct result. The skill never lowers the bar and never inven
 
 | File | Use |
 |---|---|
-| `SKILL.md` | Agent entry point. The full run procedure. |
+| `FOR-YOUR-AGENT.md` | One-page brief for an agent: what this does, outputs, modes. Read first. |
+| `SKILL.md` | The full run procedure. |
 | `PREFLIGHT.md`, `preflight/` | The tool and safety check. |
 | `FILTER-SETUPS.md` | Every filter setup, with names and steps. |
 | `PRICING-1688-ARIA.md` | Factory price and delivered-quote method. |
