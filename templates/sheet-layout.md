@@ -1,59 +1,47 @@
-# Sheet layout
+# Sheet layout (v2 — "Chapter" format, 2026-11-20)
 
-One Google Sheet per batch. Title = the batch name. Two tabs.
+One Google Sheet per draft, named `Product Research — Chapter C · Draft D`, saved in the same Drive folder as the last draft. Reference build: Chapter 1 · Draft 1.
 
-## Tab 1 — "Template" (range A1:R11)
+## Tab 1 — "Chapter C · Draft D"
 
-Row 1 is the header. Rows 2–11 are the 10 products in rank order.
+**Banner rows (merged A:P)**
+1. Title, Montserrat 16 bold white on `#1F4E3D`.
+2. Date · Kalo filter and window · tier counts · cost status, Montserrat 10 white on `#2F6F56`.
+3. Tier legend in one line, italic 9, grey `#F1F3F4`.
 
-| Col | Header | What goes in rows 2–11 |
+**Row 4 headers:** Montserrat 10 bold white on `#2F6F56`, centered and wrapped, with a medium bottom border. Freeze at D5.
+
+| Col | Header | Content |
 |---|---|---|
-| A | (product name) | The 10 names, A2:A11 |
-| B | (link) | The word `LINK` as a rich hyperlink to the product's Kalo URL, B2:B11 |
-| C | Pictures | Product picture. Kalo's image host blocks Google Sheets `=IMAGE()` (shows #REF!), so use `=HYPERLINK("<image url>","PHOTO")` |
-| D | Amazon Link | Link, if found. Leave blank if not. Never invent. |
-| E | COGS | All-in delivered cost, USD |
-| F | Selling Price | Planned sale price, USD |
-| G | (spacer) | Empty |
-| H | Gross Profit % | From E and F |
-| I | Margin $ | F minus E |
-| J | Perceived Value | Score 0–5 |
-| K | Problem Solving | Score 0–5 |
-| L | Emotional problem | Score 0–5 |
-| M | Proven Sales Demand | Score 0–5 |
-| N | Appeals To Impulse Purchasers | Score 0–5 |
-| O | Content | Score 0–5 |
-| P | Evergreen | Score 0–5 |
-| Q | Brandable | Score 0–5 |
-| R | Notes | Outcome, reason, what is missing |
+| A | # | Rank (narrow) |
+| B | Picture | `=IMAGE("<Kalo product image URL>",1)`. Row height 96. Column ~118 px |
+| C | Product | Short name · key variant. Montserrat bold |
+| D | Tier | GREEN n / ORANGE / YELLOW chip. White bold on `#1E8E3E` / `#E37400` / `#B08800` |
+| E | Kalo | `HYPERLINK(product URL,"Open Kalo ↗")` |
+| F | Price | Kalo list price, $0.00 |
+| G | 30-day revenue | $0.0K |
+| H | Rating | 0.0★. Red if under 4.0 |
+| I | Winning video | `HYPERLINK(Kalo video URL,"<views> views · <orders> orders ↗")` |
+| J | Orders per 1K views | 0.00. Red if under 0.6 |
+| K | Meta Ad Library | `HYPERLINK(exact search URL used,"Search ↗")` |
+| L | Competitor using a Kalo top-10 video | Yellow rows: `HYPERLINK(https://www.facebook.com/ads/library/?id=<Library ID>,"<Brand> ↗ copies Kalo #n")`, bold red. Others: "None found ✓" |
+| M | TrendTrack appeal | `HYPERLINK(TikTok video URL,"<views> · <what it is>")`. Mark ✗ if under 100K or off-product |
+| N | Google Trends | `HYPERLINK(trends explore URL, 3-month US, keyword,"Trends ↗")` |
+| O | 1688 / Fabulk item cost | `HYPERLINK(offer URL,"$x · match ↗")`, or "—" |
+| P | Why | One crisp line, 60 characters or fewer. Fill `#E6F4EA` / `#FEF0E0` / `#FFF8D6` by tier |
 
-Formatting:
+Body: Arial 10, wrapped, vertically centered. Banded rows `#FFFFFF` / `#F7F9FA`, with a thin bottom border `#D9DEE3`. Links in `#1155CC`.
 
-- Header row: fill `#5B95F9`, bold, 12 pt.
-- Tier fill on the **name cell**: Green `#00FF00`, Orange `#FFA500`, Yellow `#FFFF00`, not tiered = no fill (see `TIERS.md`).
-- Green fill only on verified Greens. A HOLD batch can still show Orange and Yellow.
-- Unknown values: leave the cell empty or write `MISSING`. Never write 0 for unknown.
+**Photos:** Sheets shows "Some formulas are trying to send and receive data from external parties". The file owner must click **Allow access** once, or the IMAGE cells show #REF!. The agent never clicks it; tell the owner. When building from an .xlsx upload, write the IMAGE formulas after conversion with the Sheets API (USER_ENTERED), because they don't survive conversion.
 
-Notes on this layout:
+## Tab 2 — "Top videos"
+Product · Tier chip · Video #1–#3 as `HYPERLINK(Kalo video URL,"<views> views · <orders> orders ↗")` · note on the frame check.
 
-- The header text for columns A and B is not recorded in the source (UNKNOWN). Proposed: "Product" and "Link".
-- Formulas for H and I are not recorded. Proposed: `I = F − E`, `H = I ÷ F`.
-- Enter COGS in column E only from an exact delivered quote. If you only have an estimate, put it in Notes and mark it as an estimate.
+## Tab 3 — "How it was graded"
+Step · what was checked · bar to pass. Covers demand, the no-copycat check, the winning video, cost (a flag) and Google Trends (shown, not scored).
 
-## Tab 2 — "Candidates"
-
-Top of the tab: the **FILTER RECEIPT** (`templates/filter-receipt.md`).
-Below it: one evidence row per candidate.
-
-The source fixes the receipt-above-headers rule but not the exact evidence headers. The columns below are **proposed**. They follow `templates/candidate-record.json`.
-
-| Group | Columns |
-|---|---|
-| Identity | Rank, Product name, Target group, Kalo product ID, Kalo detail URL, Result page, Result rank |
-| Kalo metrics | Price low, Price high, Commission %, 30d revenue, 30d orders, 90d revenue, 90d orders, 30d video revenue, 30d video units |
-| Videos | Video ID 1 … Video ID 10, Video evidence state |
-| Shop | Shop top-10 snapshot (link or note) |
-| 1688 | 1688 source status, Offer ID(s), CNY price, MOQ, FX rate, FX date, Item-only USD, Excluded charges, Match status |
-| Supplier agent | Type (QUOTE / ESTIMATE), Delivered low, Delivered base, Delivered high, Method, Quote date, Inclusions |
-| Green evidence | TrendTrack, Google Trends, Meta Ad Library, Buyer age, Store-age cohorts, Current trend (each PROVEN / PARTIAL / MISSING) |
-| Decision | Gate results, Score /100, Day-one label, Fatal risk, Outcome, Reason, To clear |
+## Rules
+- Unknown = "—" or MISSING. Never 0.
+- Green chip only on verified Greens.
+- Every claim in K–O must be a clickable link to the exact search, ad, video or offer that was used.
+- No 0–5 score columns. Evidence columns replaced them in v2.

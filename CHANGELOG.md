@@ -61,3 +61,7 @@ First standalone export for partner use.
 - **Run-to-completion rules** (SKILL.md hard rules 8–10): never pause for "go"; a draft counts as done only when the next-numbered Draft sheet is in Drive and has been read back; one stalled product never blocks the batch. On an early stop, the agent still writes and delivers what it has.
 - sheet-layout.md: Kalo images can't be embedded in Sheets, so column C uses `HYPERLINK(...,"PHOTO")`.
 - Delivered "Product Research Draft 37" (Google Sheet, same folder as Draft 36): 4 Green, 3 Orange, 3 Yellow.
+
+## 1.5.0 — 2026-11-20
+- New sheet design (`templates/sheet-layout.md` v2, "Chapter" format): banner rows, real product photos via `IMAGE(url,1)`, tier chips, and clickable proof columns for Kalo, the winning video, the Meta search, the competitor ad (by Library ID), TrendTrack, Google Trends and 1688/Fabulk. The "Why" line is short and crisp. The 0–5 score columns are dropped.
+- Delivered "Product Research — Chapter 1 · Draft 1" (4 Green / 3 Orange / 3 Yellow). Photos need the owner's one-time "Allow access" click in Sheets.
