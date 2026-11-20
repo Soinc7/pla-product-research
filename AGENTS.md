@@ -18,14 +18,14 @@ Works in Claude Code (Agent tool, run in background, cheaper model for workers),
 
 | Lane | Job | Input | Output (in `state/`) | Model tier | Parallel? |
 |---|---|---|---|---|---|
-| L1 | Kalo discovery + the top-10 video IDs per product | filter setup name, batch file | `lane-L1-kalo.json` | cheap | No. Browser, one owner |
-| L2 | Meta Ad Library 5-keyword sweep per product, plus first-frame check | `lane-L1-kalo.json` | `lane-L2-meta.json` | cheap | No. Browser, one owner |
-| L3 | 1688 / Fabulk item price and match label per product | `lane-L1-kalo.json` | `lane-L3-pricing.json` | cheap | No. Browser, one owner |
+| L1 | Kalo discovery + the top-10 video IDs per product | filter setup name, batch file | `lane-L1-kalo.json` | cheap | Yes, in its own tab group (browser) |
+| L2 | Meta Ad Library 5-keyword sweep per product, plus first-frame check | `lane-L1-kalo.json` | `lane-L2-meta.json` | cheap | Yes, in its own tab group (browser) |
+| L3 | 1688 / Fabulk item price and match label per product | `lane-L1-kalo.json` | `lane-L3-pricing.json` | cheap | Yes, in its own tab group (browser) |
 | L4 | TrendTrack: TikTok top videos, competitor stores and ads | `lane-L1-kalo.json` | `lane-L4-trendtrack.json` | cheap | Yes. API, no browser |
 | L5 | Sheet and Competitor Files builder | all lane files | the Sheets (or local files) | cheap, host reviews | After L1-L4. No browser |
 
 Parallel rules:
-- **One Chrome owner at a time.** L1, L2 and L3 use the browser, so run them one after another. Run them side by side only if your agent tool gives each worker its own separate tab or profile.
+- **Browser lanes share Chrome through their own tab groups.** L1, L2 and L3 use the browser. Run them side by side when your agent tool gives each worker its own tab group (Claude in Chrome does). A worker uses only tabs it opened and never touches another's. If your tool cannot separate tabs, run them one after another.
 - L4 uses an API (TrendTrack), so it runs alongside any browser lane.
 - L2 and L3 need L1's output. L4 needs only L1's product names. Start L4 as soon as L1 finishes.
 - Splitting one lane by product (for example L2 on products 1-5 and 6-10) is fine, but each piece writes its own file: `lane-L2-meta-a.json`, `lane-L2-meta-b.json`.

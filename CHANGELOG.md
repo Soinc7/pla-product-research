@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.10.1 — 2026-11-20
+
+- `tools/report/build_page.py` + `templates/draft-page.html`: the draft web page built from `report.json`, photos saved as `img/<rank>.jpg`.
+- `tools/sheets/competitor_links.py`: links Sheet column M to the Competitor Files tabs.
+- `merge_lanes.py`: reads every round's lane files, `--top 10`, `--l1` to pick rounds, and fills `competitor_file` from `state/competitor-files*.json`.
+- `build_sheet.py`: legend row 52 px and header row 64 px so no text is cut; no frozen columns (they conflict with the merged banners); column M links to the Competitor File.
+- `AGENTS.md`: browser lanes run in parallel in their own tab groups.
+- Owner rules: every batch aims for 3 Greens; later drafts reuse saved lane data and links instead of new Kalo work.
+
 ## v1.10.0 — 2026-11-20
 
 - `STANDARD.md`: the draft checklist, set by Chapter 1 · Draft 2.

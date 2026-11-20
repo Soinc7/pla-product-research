@@ -54,6 +54,8 @@ def main():
     ap.add_argument("--out", default=None)
     ap.add_argument("--source", default="Kalodata · US · last 30 days")
     ap.add_argument("--top", type=int, default=10, help="keep the best N after ranking (0 = all)")
+    ap.add_argument("--l1", default="lane-L1-kalo*.json",
+                    help="which Kalo lane files supply candidates (default: every round; 'lane-L1-kalo.json' = round 1 only)")
     a = ap.parse_args()
     st = a.state
     intake = load(os.path.join(st, "intake.json"), {}) or {}
@@ -66,7 +68,7 @@ def main():
         return out
     l1 = {"products": [], "observed_at_utc": None}
     seen = set()
-    for fn in sorted(glob.glob(os.path.join(st, "lane-L1-kalo*.json"))):
+    for fn in sorted(glob.glob(os.path.join(st, a.l1))):
         d = load(fn, {}) or {}
         l1["observed_at_utc"] = l1["observed_at_utc"] or d.get("observed_at_utc")
         for p in d.get("products", []) or []:
@@ -77,6 +79,12 @@ def main():
     l3 = lane("lane-L3-pricing", "pricing")
     l4 = lane("lane-L4-trendtrack", "trendtrack")
     over = load(os.path.join(st, "host-overrides.json"), {}) or {}
+    # Competitor Files workbook tabs (state/competitor-files*.json: {tabs: [{pid, gid_url}]}).
+    cfile = {}
+    for fn in sorted(glob.glob(os.path.join(st, "competitor-files*.json"))):
+        for t in (load(fn, {}) or {}).get("tabs", []) or []:
+            if t.get("pid") and t.get("gid_url"):
+                cfile[t["pid"]] = t["gid_url"]
     budget = intake.get("cbo_daily_budget_usd") or 150
     roas_max = intake.get("breakeven_roas_max") or 3
 
@@ -153,7 +161,7 @@ def main():
             "kalo": p.get("kalo_url"),
             "video": "https://www.kalodata.com/video/detail?id=%s&region=US" % best.get("vid") if best.get("vid") else "",
             "trends": "https://trends.google.com/trends/explore?date=today%203-m&geo=US&q=" + quote(trend_q),
-            "keywords": kws, "competitors": comps, "per": per, "competitor_file": "",
+            "keywords": kws, "competitors": comps, "per": per, "competitor_file": cfile.get(pid, ""),
             "_be": be if be is not None else math.inf, "_margin": margin,
             "_watch": (margin is not None and margin <= 0) or (be is not None and be > roas_max),
         })

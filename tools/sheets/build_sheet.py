@@ -85,16 +85,18 @@ def main():
               open(os.path.join(a.out, "1-create.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
     reqs = [
+        # Rows 1-4 frozen. Columns can't be frozen: the banner rows merge A:Q, and Sheets refuses
+        # merges that cross a frozen column edge.
         {"updateSheetProperties": {"properties": {"sheetId": 0, "title": a.tab,
-                                                  "gridProperties": {"frozenRowCount": 4, "frozenColumnCount": 3}},
-                                   "fields": "title,gridProperties.frozenRowCount,gridProperties.frozenColumnCount"}},
+                                                  "gridProperties": {"frozenRowCount": 4}},
+                                   "fields": "title,gridProperties.frozenRowCount"}},
         {"addSheet": {"properties": {"sheetId": 1001, "title": "Top videos"}}},
         {"addSheet": {"properties": {"sheetId": 1002, "title": "How it was graded"}}},
     ]
     for i, w in enumerate(WIDTHS):
         reqs.append({"updateDimensionProperties": {"range": {"sheetId": 0, "dimension": "COLUMNS", "startIndex": i, "endIndex": i + 1},
                                                    "properties": {"pixelSize": w}, "fields": "pixelSize"}})
-    for r0, h in ((0, 34), (1, 24), (2, 28), (3, 44)):
+    for r0, h in ((0, 34), (1, 24), (2, 52), (3, 64)):  # rows 3-4 tall enough that wrapped chip and header text never cut off
         reqs.append({"updateDimensionProperties": {"range": {"sheetId": 0, "dimension": "ROWS", "startIndex": r0, "endIndex": r0 + 1},
                                                    "properties": {"pixelSize": h}, "fields": "pixelSize"}})
     reqs.append({"updateDimensionProperties": {"range": {"sheetId": 0, "dimension": "ROWS", "startIndex": 4, "endIndex": 4 + len(ps)},
@@ -181,7 +183,8 @@ def main():
              "userEnteredFormat": {"textFormat": {"foregroundColor": rgb("#CC1919" if cvr is not None and cvr < 0.6 else "#000000")}}},
             runs_cell(kw_parts) if kw_parts else {"userEnteredValue": {"stringValue": "—"}},
             ver,
-            {"userEnteredValue": {"stringValue": "top video %s" % p.get("topvid", "—") if p.get("topvid") not in (None, "—") else "—"}},
+            link_cell(p.get("competitor_file"), "Open file ↗ · top video %s" % (p.get("topvid") or "—")) if p.get("competitor_file")
+            else {"userEnteredValue": {"stringValue": "top video %s" % p.get("topvid") if p.get("topvid") not in (None, "—") else "—"}},
             link_cell(p.get("trends"), "Trends ↗"),
             link_cell(p.get("item_url"), item_lbl),
             {"userEnteredValue": {"stringValue": ("$%.2f est." % est) if est is not None else "—"}},
