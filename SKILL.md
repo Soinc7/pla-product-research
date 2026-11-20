@@ -17,7 +17,7 @@ description: Read-only TikTok Shop product research. Runs a tool preflight, disc
 6. **Never lower the bar.** Fewer than 3 qualifying products means `HOLD`. Never fabricate a third.
 7. **Nothing private in outputs.** No account IDs, customer data or financial account data.
 8. **Run to completion. Never pause for "go".** Once preflight says GO or GO_LIMITED, run every step through to the delivered draft sheet in one pass. Do not stop to ask "should I continue?", and do not end a turn with a half-done draft. The only reasons to stop early are a hard STOP (Chrome or Kalo MISSING), a login, CAPTCHA or consent wall that only the human can clear, or an explicit "stop" from the human. Even then, first write everything already found into the draft sheet, marking the rest HOLD or MISSING, and deliver it.
-9. **A draft is done only when the sheet exists.** Done means: the next-numbered batch sheet (named as in Step 1) is in the same Drive folder as the last one, with all 10 rows, tier fills, notes and the Candidates tab, and it has been read back. A chat summary or repo file alone is not a delivered draft.
+9. **A draft is done only when the deliverables exist: the sheet (if Sheets access exists) and the local report.** Done means: the next-numbered batch sheet (named as in Step 1) is in the same Drive folder as the last one, with all 10 rows, tier fills, notes and the Candidates tab, and it has been read back. A chat summary or repo file alone is not a delivered draft.
 10. **Never block on one product.** If one product's 1688 match, Meta check or TrendTrack check stalls, mark that field MISSING with the reason, keep going with the rest, and finish the sheet.
 
 ## Outcome words
@@ -31,7 +31,27 @@ description: Read-only TikTok Shop product research. Runs a tool preflight, disc
 
 ## Run procedure
 
-### Step 0 — Preflight
+### Step 0 — Intake (once, before any search)
+
+Look for `state/intake.json`. If it exists, reuse it and **do not ask again**. Also read `state/feedback.md` and apply every rule in it to this draft. Only redo the intake if the user says the buyer or the budget changed.
+
+If there is no `state/intake.json`, ask the user **in one message**, before opening any page:
+
+1. Daily CBO budget the products will launch with (if they say "default": **$150/day**).
+2. CBO setup name (default: **Flash Plus CBO**).
+3. Target buyer / demographic.
+4. Price band and categories (default: the filter setup's).
+5. Anything to avoid.
+
+Then write a **rough-draft paragraph of 4-6 sentences**: what kind of 10 products you intend to find for that buyer and budget. Show it to the user and **start the hunt**. Do not wait for approval unless the user asked to approve first.
+
+Save `state/intake.json` from `templates/intake.json` (fields: `cbo_daily_budget_usd`, `cbo_setup`, `demographic`, `price_band`, `categories`, `avoid`, `brief`, `created`, plus `breakeven_roas_max`, default 3).
+
+**Memory in the repo.** `state/intake.json` and `state/feedback.md` live in the user's own copy of this repo. Commit both to their fork or clone at the end of the run. When the owner corrects a draft, add a row to `state/feedback.md` (date, correction, rule it became; template `templates/feedback.md`). Every later draft reuses the saved intake and applies all earlier corrections. See `state/README.md`.
+
+The budget feeds the launch math in `TIERS.md`, which ranks the Greens.
+
+### Step 0b — Preflight
 
 Follow `PREFLIGHT.md`. Record each check as PROVEN / PARTIAL / MISSING.
 Any MISSING on **Chrome or Kalo** = STOP. Report the exact fix and end the run.
@@ -148,16 +168,31 @@ UNKNOWN: the method for the "projected seasonal day-one floor" is not in the sou
 
 ### Step 11 — Tier every candidate: Green, Orange, Yellow
 
-- Apply `TIERS.md` (v1.2 owner ladder): every product starts **YELLOW** (Kalo demand), graduates to **ORANGE** when no Meta competitor uses any of its top-10 Kalo videos (first-frame match, more frames when unsure), and to **GREEN** when a winning video is verified (Kalo orders + conversion + views, TrendTrack appeal). **WHITE** = potential, fails a hard gate.
+- Apply `TIERS.md` (v1.2 owner ladder, then the launch math to rank inside each tier): every product starts **YELLOW** (Kalo demand), graduates to **ORANGE** when no Meta competitor uses any of its top-10 Kalo videos (first-frame match, more frames when unsure), and to **GREEN** when a winning video is verified (Kalo orders + conversion + views, TrendTrack appeal). **WHITE** = potential, fails a hard gate.
 - A list needs at least 3 Greens: keep pulling Kalo candidates until it has them. Never promote without proof.
 
-### Step 12 — Sheet output
+### Step 11b — Launch math
+
+For each product compute the launch math in `TIERS.md` using the saved intake budget. Rank Greens by it (lower break-even ROAS first), after they pass every gate. A weak result (margin <= 0 or break-even ROAS above `breakeven_roas_max`) is a watch-out, and the report says what price or bundle fixes it.
+
+### Step 12 — Outputs
+Every run delivers two things: (1) the Google Sheet below, if Sheets access exists, and (2) the local report (Step 12b).
 
 Build the sheet from `templates/sheet-layout.md`:
 
 - Tab 1 **Template**: 10 names, LINK cells to the Kalo URL, cost and score columns. Fill each name by tier: Green `#00FF00`, Orange `#FFA500`, Yellow `#FFFF00`, not tiered = no fill. Green fill only on verified Greens.
 - Tab 2 **Candidates**: filter receipt on top, evidence table below.
 - Also save one record per product using `templates/candidate-record.json`.
+
+### Step 12b — Local report (PDF + HTML)
+
+Write `state/report.json` (format in `FOR-YOUR-AGENT.md`; reference `examples/chapter1/report.json`), then run:
+
+```
+python3 tools/report/build_report.py state/report.json --out reports/<chapter>-<draft>
+```
+
+It writes a self-contained HTML (photos embedded) and a PDF. In Claude Code there are no web artifacts, so this PDF/HTML is the visual deliverable. Download each product's main Kalo photo into `reports/<run>/images/` first (or let the builder fetch it) so no image is ever missing.
 
 ### Step 13 — Paused handoff
 
@@ -171,4 +206,4 @@ Then stop. Research never launches, publishes or spends. A human decides what ha
 
 ## End-of-run report
 
-Report in plain words: batch name, filter setup used, preflight states, 10 candidates with outcome and reason, greens or HOLD, sheet link, and every item still MISSING.
+Report in plain words: the intake used (budget, buyer), batch name, filter setup used, preflight states, 10 candidates with outcome and reason, greens or HOLD, sheet link, report path, the launch-math watch-outs, and every item still MISSING.

@@ -40,6 +40,22 @@ All of these must be true. The data comes from Kalo (orders per video) and Trend
 
 If any check is missing, the product stays Orange. Missing never counts as a pass.
 
+## Launch math: ranking inside a tier
+
+Uses the intake budget (`state/intake.json`). Price = the TikTok price as reference, unless the user gives a store price.
+
+| Term | Formula |
+|---|---|
+| Margin | sale price − est. delivered |
+| Break-even ROAS | price ÷ margin |
+| Sales/day to break even | daily CBO budget ÷ margin |
+| Price needed for 2.0 break-even ROAS | 2 × est. delivered |
+
+- Greens are ranked inside Green by launch math, **lower break-even ROAS first**, after they pass every gate. Launch math never promotes a product to a higher tier.
+- **Weak launch math** = margin ≤ 0 or break-even ROAS above `breakeven_roas_max`. Show it as a watch-out on the row, and the report says what price or bundle fixes it (use the price needed for 2.0 break-even ROAS).
+- **PROPOSED default:** `breakeven_roas_max` = 3. The owner can change it in `state/intake.json`. Note any change in `CHANGELOG.md`.
+- Example: price $16.63, est. delivered $7.58 → margin $9.05, break-even ROAS 1.84, at $150/day about 17 sales/day to break even, and 2.0 ROAS needs a price of $15.16 or more.
+
 ## Minimum 3 Greens
 
 - A list must reach **at least 3 Greens**. Pull more Kalo candidates, from the next pages or another filter setup, until it does.

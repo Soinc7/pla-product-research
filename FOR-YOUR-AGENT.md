@@ -12,6 +12,23 @@ This repo holds the product researcher only. It does not include a store builder
 
 If you can start sub-agents, read [`AGENTS.md`](AGENTS.md). You act as the host (preflight, tier decisions, sheet, read-back) and give cheap workers one lane each: Kalo discovery, Meta Ad Library sweep, 1688 pricing, TrendTrack. Pass file paths, not pasted data. If you cannot start sub-agents, run the lanes yourself in the same order.
 
+## Intake, once
+
+Before any search, ask the user in one message: (1) daily CBO budget (default $150/day), (2) CBO setup name (default "Flash Plus CBO"), (3) target buyer, (4) price band and categories (default the filter setup's), (5) anything to avoid. Then show a 4-6 sentence brief of the 10 products you intend to find and start; do not wait for approval unless asked. Save it to `state/intake.json` (template `templates/intake.json`).
+
+This happens **once**. It lives in the user's own repo copy, together with `state/feedback.md` (a running log of owner corrections and the rule each became). Commit both. Every later draft reuses the intake and applies all feedback rules. Redo the intake only if the user says the buyer or budget changed. See `state/README.md`.
+
+## Launch math (budget-driven ranking)
+
+Use the TikTok price as reference unless the user gives a store price.
+
+- Margin = sale price − est. delivered
+- Break-even ROAS = price ÷ margin
+- Sales/day to break even = daily CBO budget ÷ margin
+- Price needed for 2.0 break-even ROAS = 2 × est. delivered
+
+Greens are ranked inside Green by break-even ROAS, lowest first, after they pass the gates. Margin ≤ 0 or break-even ROAS above 3 is a watch-out, and the report says what price or bundle fixes it. The 3 is a PROPOSED default: the owner can change `breakeven_roas_max` in `state/intake.json`. Full rules: `TIERS.md`.
+
 ## What your owner gets each run
 
 **1. The draft sheet, "Product Research — Chapter C · Draft D".** It has 10 rows, ranked 1–10:
@@ -35,7 +52,17 @@ Key columns:
 - the top TrendTrack TikTok videos for the product, with views and hooks
 - a reference product photo for making custom images
 
-**3. The end-of-run report.** The tier counts, what is still MISSING, and a paused handoff. A batch with fewer than 3 Greens ends as **HOLD**, which is a correct result. The skill never invents a product to fill a slot.
+**3. The local report (PDF + HTML).** Built from `state/report.json`:
+
+```
+python3 tools/report/build_report.py state/report.json --out reports/<chapter>-<draft>
+```
+
+It writes one self-contained HTML (photos embedded) and a PDF. In Claude Code there are no web artifacts, so this is the visual deliverable. Download each product's main Kalo photo into `reports/<run>/images/` first (or let the builder fetch it) so no image is missing.
+
+`state/report.json` is the hand-off format the builder reads. Reference: `examples/chapter1/report.json` (do not edit it). Top level: `title`, `date`, `source`, `intake` (the saved intake fields), `est_rule`, `products`. Each product: `name`, `variant`, `pid`, `img`, `image_file`, `price`, `rev`, `rating`, `vid`, `views`, `orders`, `cvr`, `topvid`, `trend`, `sellers`, `item`, `item_txt`, `match` (EXACT/CLOSE/SIMILAR), `item_url`, `est_delivered`, `why`, `rank`, `tier`, `color`, `kalo`, `video`, `trends`, `keywords` (list of `q`, `url`, `results`), `competitors` (list of `name`, `ad`, `videos`), `per` (views per sale), `competitor_file`. Copy the field names from the reference file when unsure.
+
+**4. The end-of-run report.** The tier counts, what is still MISSING, and a paused handoff. A batch with fewer than 3 Greens ends as **HOLD**, which is a correct result. The skill never invents a product to fill a slot.
 
 ## If your owner already has a product researcher
 
@@ -63,6 +90,8 @@ Do not replace or edit it. Install this as a **separate** skill named `pla-produ
 - Run to completion once preflight says GO. A draft is done only when the sheet exists and has been read back.
 
 ## Quick start
+
+First run: do the intake (above). Later runs: reuse `state/intake.json`.
 
 ```
 Read FOR-YOUR-AGENT.md, then SKILL.md. Run the preflight only and tell me what is MISSING.

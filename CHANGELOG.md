@@ -83,3 +83,10 @@ First standalone export for partner use.
 - Prices on every row (Green, Orange, Yellow): item cost with an EXACT / CLOSE / SIMILAR label, plus "Est. delivered (standard)" = item cost + $5.00 flat until a real quote replaces it. Estimates rank products and never release a Green by themselves.
 - Sheet banner: no "delivered quotes pending" text. The legend is now a row of colored chips.
 - Cleaned for a public repo: removed personal and owner-specific names and details. The supplier-agent role is now just "supplier agent". The pricing file is now `PRICING-1688-SUPPLIER.md`. Batch name is now `Product Research Batch N`.
+
+## v1.9.0 — 2026-11-20
+- **Intake, once.** New SKILL.md Step 0: before any search, ask the 5 intake questions in one message (daily CBO budget, default $150; CBO setup, default "Flash Plus CBO"; buyer; price band and categories; things to avoid), show a 4-6 sentence brief and start the hunt. Saved to `state/intake.json` (new `templates/intake.json`). Also in FOR-YOUR-AGENT.md and AGENTS.md host steps.
+- **Memory in the repo.** The intake is saved once in the user's own copy and reused. `state/feedback.md` (new `templates/feedback.md`) logs each owner correction and the rule it became; every later draft applies them. Both files are committed to the user's fork or clone. Explained in `state/README.md` and SKILL.md.
+- **Launch math.** TIERS.md and FOR-YOUR-AGENT.md define margin, break-even ROAS, sales/day to break even and the price needed for 2.0 ROAS. Greens are ranked by lowest break-even ROAS; weak math (margin <= 0 or ROAS above `breakeven_roas_max`) is a watch-out with a price or bundle fix. PROPOSED default: `breakeven_roas_max` = 3.
+- **Deliverables.** Each run gives the Google Sheet (if Sheets access exists) and a local PDF + HTML report from `tools/report/build_report.py`. `state/report.json` is the documented hand-off format (reference `examples/chapter1/report.json`).
+- Added `CLAUDE.md` for Claude Code users. README files table updated.

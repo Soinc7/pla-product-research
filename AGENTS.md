@@ -63,14 +63,16 @@ Finish: write the output file, then reply with at most 10 lines: files written, 
 
 ## Host steps
 
+0. Intake (once). If `state/intake.json` exists, reuse it and read `state/feedback.md`. If not, ask the five intake questions in one message (`SKILL.md`, Step 0), show the 4-6 sentence brief, save `state/intake.json`, and start. Give every worker the intake path and the feedback rules that apply to its lane.
 1. Preflight. GO or GO_LIMITED, else stop and report.
 2. Open `state/batch-N.json`, pick the filter setup.
 3. Start L1. When it finishes, check it has 10 products with video IDs.
 4. Start L4 in the background. Start L2, then L3, one browser lane at a time.
 5. Collect the files. Check each against the shape in `state/lanes.example.json`. Spot-check links.
 6. Apply `TIERS.md`: L2 verdict `CLEAR` for Orange; Green needs the winning-video proof. `RECHECK` waits at Yellow.
-7. Start L5, or write the sheet yourself. Read it back.
-8. Write the end-of-run report. Update `state/batch-N.json`.
+7. Compute the launch math (`TIERS.md`) and rank the Greens with it.
+8. Start L5, or write the sheet yourself. Read it back. Write `state/report.json` and build the local report (`tools/report/build_report.py`).
+9. Write the end-of-run report. Update `state/batch-N.json`. Commit `state/intake.json` and `state/feedback.md` to the user's own repo copy.
 
 ## Single-agent fallback
 

@@ -1,0 +1,11 @@
+{
+  "cbo_daily_budget_usd": 150,
+  "cbo_setup": "Flash Plus CBO",
+  "demographic": "who buys it, e.g. US homeowners and DIY buyers, 45+, not tech-savvy",
+  "price_band": "default: the filter setup's band (AVD-36: $10-$30)",
+  "categories": ["default: the filter setup's categories"],
+  "avoid": ["anything the user does not want, e.g. branded, medical claims, fragile"],
+  "breakeven_roas_max": 3,
+  "brief": "4-6 sentences: what kind of 10 products you intend to find for this buyer and budget.",
+  "created": "YYYY-MM-DD"
+}

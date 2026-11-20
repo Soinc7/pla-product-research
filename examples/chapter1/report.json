@@ -1,0 +1,690 @@
+{
+ "title": "Product Research · Chapter 1 · Draft 3",
+ "date": "2026-11-20",
+ "source": "Kalodata AVD-36 · US · 10/21–11/19",
+ "intake": {
+  "cbo_daily_budget_usd": 150,
+  "cbo_setup": "Flash Plus CBO (owner's standard)",
+  "demographic": "US homeowners and DIY buyers, 45+, not tech-savvy; buy practical fixes for home, car and tools",
+  "price_band": "$10–$40 on TikTok Shop",
+  "categories": "Home Supplies, Tools & Hardware, Kitchenware, Automotive",
+  "brief": "Reconstructed from the filters used for this batch: find 10 practical problem-solver products for older US homeowners and DIY buyers — things that fix an everyday annoyance at home, in the car or in the garage, sell for about $10–$40, already move $20K–$100K a month on TikTok Shop with at least ten real product videos, and can be sourced on 1688 for a few dollars. Favor products where one demo video shows the result in the first seconds (before/after, a hidden mess, a fix in 30 seconds), and avoid branded, patented or consumable items."
+ },
+ "est_rule": "Est. delivered = 1688 item cost + $5.00 standard (shipping + fees) until a real supplier-agent quote replaces it.",
+ "products": [
+  {
+   "name": "Dryer Vent Cleaner Kit",
+   "variant": "2-pc hose + lint brush",
+   "pid": "1729602415282262110",
+   "img": "https://img.kalocdn.com/tiktok.product.images/tos-useast8-i-rt0ujvrtvp-tx2/969a441822c547dc96941f5b75549664.png",
+   "price": 16.63,
+   "rev": 85040,
+   "rating": 4.4,
+   "vid": "7652517144688741645",
+   "views": "2.25M",
+   "orders": "1.4k",
+   "cvr": 0.62,
+   "gid": 1733240345,
+   "topvid": "4.0M",
+   "trend": "dryer vent cleaner",
+   "sellers": 47,
+   "item": 2.58,
+   "item_txt": "$2.58",
+   "match": "EXACT",
+   "item_url": "https://www.fabulk.com/cross-border-popular-daily-necessities-vacuum-cleaner-vent-cleaning-kit-long-brush-dryer-hose-lint-remover-1028492617572.html",
+   "why": "Exact factory match · 47 sellers, none use the Kalo videos",
+   "rank": 1,
+   "tier": "GREEN 1",
+   "color": "GREEN",
+   "kalo": "https://www.kalodata.com/product/detail?id=1729602415282262110&region=US&currency=USD&language=en-US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "video": "https://www.kalodata.com/video/detail?id=7652517144688741645&region=US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "trends": "https://trends.google.com/trends/explore?date=today%203-m&geo=US&q=dryer%20vent%20cleaner",
+   "keywords": [
+    {
+     "q": "\"dryer vent\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22dryer%20vent%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "2,300"
+    },
+    {
+     "q": "\"dryer vent cleaner\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22dryer%20vent%20cleaner%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "160"
+    },
+    {
+     "q": "\"lint vent cleaning\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22lint%20vent%20cleaning%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "130"
+    },
+    {
+     "q": "\"dryer lint\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22dryer%20lint%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "340"
+    },
+    {
+     "q": "\"lint brush\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22lint%20brush%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "11"
+    }
+   ],
+   "competitors": [],
+   "per": 1600.0,
+   "image_file": "images/1.jpg",
+   "est_delivered": 7.58,
+   "competitor_file": ""
+  },
+  {
+   "name": "Windshield Snow & Frost Cover",
+   "variant": "4-layer",
+   "pid": "1732049602726302126",
+   "img": "https://img.kalocdn.com/tiktok.product.images/tos-useast5-i-omjb5zjo8w-tx/5a00a42504af4bfc8246c9e80f3459ed.png",
+   "price": 10.78,
+   "rev": 62200,
+   "rating": 4.2,
+   "vid": "7701245154325204238",
+   "views": "980.5K",
+   "orders": "748",
+   "cvr": 0.76,
+   "gid": 874548718,
+   "topvid": "436.5K",
+   "trend": "windshield cover",
+   "sellers": 43,
+   "item": 7.31,
+   "item_txt": "$7.31",
+   "match": "CLOSE",
+   "item_url": "https://1688order.com/pc/goods_details/1055414515097",
+   "why": "Winter seasonal · 43 sellers, none use the Kalo videos",
+   "rank": 2,
+   "tier": "GREEN 2",
+   "color": "GREEN",
+   "kalo": "https://www.kalodata.com/product/detail?id=1732049602726302126&region=US&currency=USD&language=en-US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "video": "https://www.kalodata.com/video/detail?id=7701245154325204238&region=US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "trends": "https://trends.google.com/trends/explore?date=today%203-m&geo=US&q=windshield%20cover",
+   "keywords": [
+    {
+     "q": "\"windshield cover\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22windshield%20cover%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "390"
+    },
+    {
+     "q": "\"windshield snow cover\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22windshield%20snow%20cover%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "160"
+    },
+    {
+     "q": "\"frost cover\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22frost%20cover%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "150"
+    },
+    {
+     "q": "\"snow cover\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22snow%20cover%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "250"
+    },
+    {
+     "q": "\"windshield frost\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22windshield%20frost%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "27"
+    }
+   ],
+   "competitors": [],
+   "per": 1300.0,
+   "image_file": "images/2.jpg",
+   "est_delivered": 12.31,
+   "competitor_file": ""
+  },
+  {
+   "name": "3-Head Cordless LED Work Light",
+   "variant": "fits DeWalt 20V",
+   "pid": "1732252200326107962",
+   "img": "https://img.kalocdn.com/tiktok.product.images/tos-useast5-i-omjb5zjo8w-tx/f7118137ce50474fa6c5e55851fd8fd2.png",
+   "price": 45.99,
+   "rev": 63790,
+   "rating": 4.5,
+   "vid": "7686702357513637133",
+   "views": "1.12M",
+   "orders": "756",
+   "cvr": 0.68,
+   "gid": 1452323354,
+   "topvid": "417K",
+   "trend": "led work light",
+   "sellers": 10,
+   "item": 13.38,
+   "item_txt": "$13.38",
+   "match": "SIMILAR",
+   "item_url": "https://www.fabulk.com/searchlist?keyword=dewalt+battery+work+light",
+   "why": "Say 'fits DeWalt' only · Livowalny is the main rival",
+   "rank": 3,
+   "tier": "GREEN 3",
+   "color": "GREEN",
+   "kalo": "https://www.kalodata.com/product/detail?id=1732252200326107962&region=US&currency=USD&language=en-US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "video": "https://www.kalodata.com/video/detail?id=7686702357513637133&region=US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "trends": "https://trends.google.com/trends/explore?date=today%203-m&geo=US&q=led%20work%20light",
+   "keywords": [
+    {
+     "q": "work light dewalt",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=work%20light%20dewalt&search_type=keyword_unordered&media_type=video",
+     "results": "140"
+    },
+    {
+     "q": "\"cordless work light\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22cordless%20work%20light%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "43"
+    },
+    {
+     "q": "\"3 head work light\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%223%20head%20work%20light%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "5"
+    },
+    {
+     "q": "\"led work light\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22led%20work%20light%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "530"
+    },
+    {
+     "q": "\"three head\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22three%20head%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "240"
+    }
+   ],
+   "competitors": [],
+   "per": 1500.0,
+   "image_file": "images/3.jpg",
+   "est_delivered": 18.38,
+   "competitor_file": ""
+  },
+  {
+   "name": "220W Battery Power Inverter",
+   "variant": "fits DeWalt 20V",
+   "pid": "1731293500432880321",
+   "img": "https://img.kalocdn.com/tiktok.product.images/tos-useast5-i-omjb5zjo8w-tx/aed0c964bd994fb0bf6e1f24474e3c9f.png",
+   "price": 28.13,
+   "rev": 95950,
+   "rating": 4.4,
+   "vid": "7695375207954943263",
+   "views": "3.01M",
+   "orders": "2.8k",
+   "cvr": 0.93,
+   "gid": 534571232,
+   "topvid": "799.6K",
+   "trend": "battery power inverter",
+   "sellers": 30,
+   "item": 17.4,
+   "item_txt": "$17.40",
+   "match": "CLOSE",
+   "item_url": "https://www.fabulk.com/searchlist?image=1061908891737341755",
+   "why": "Best conversion · crowded (Sakerplus network)",
+   "rank": 4,
+   "tier": "GREEN 4",
+   "color": "GREEN",
+   "kalo": "https://www.kalodata.com/product/detail?id=1731293500432880321&region=US&currency=USD&language=en-US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "video": "https://www.kalodata.com/video/detail?id=7695375207954943263&region=US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "trends": "https://trends.google.com/trends/explore?date=today%203-m&geo=US&q=battery%20power%20inverter",
+   "keywords": [
+    {
+     "q": "power inverter dewalt",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=power%20inverter%20dewalt&search_type=keyword_unordered&media_type=video",
+     "results": "130"
+    },
+    {
+     "q": "\"battery inverter\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22battery%20inverter%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "47"
+    },
+    {
+     "q": "\"power inverter\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22power%20inverter%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "190"
+    },
+    {
+     "q": "dewalt inverter",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=dewalt%20inverter&search_type=keyword_unordered&media_type=video",
+     "results": "130"
+    },
+    {
+     "q": "azocek",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=azocek&search_type=keyword_unordered&media_type=video",
+     "results": "230"
+    }
+   ],
+   "competitors": [],
+   "per": 1100.0,
+   "image_file": "images/4.jpg",
+   "est_delivered": 22.4,
+   "competitor_file": ""
+  },
+  {
+   "name": "Cordless Engraving Pen Kit",
+   "variant": "30 bits",
+   "pid": "1732371342730367973",
+   "img": "https://img.kalocdn.com/tiktok.product.images/tos-maliva-i-o3syd03w52-us/ef814a3660b7cb8578e28650a4bae65f.png",
+   "price": 23.5,
+   "rev": 76930,
+   "rating": 4.5,
+   "vid": "7686874104397401375",
+   "views": "1.3M",
+   "orders": "669",
+   "cvr": 0.51,
+   "gid": 1608330017,
+   "topvid": "—",
+   "trend": "engraving pen",
+   "sellers": 17,
+   "item": 6.82,
+   "item_txt": "$6.82",
+   "match": "CLOSE",
+   "item_url": "https://www.fabulk.com/searchlist?keyword=engraving+pen",
+   "why": "Clear on Meta · conversion 0.51 (< 0.6) keeps it Orange",
+   "rank": 5,
+   "tier": "ORANGE 5",
+   "color": "ORANGE",
+   "kalo": "https://www.kalodata.com/product/detail?id=1732371342730367973&region=US&currency=USD&language=en-US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "video": "https://www.kalodata.com/video/detail?id=7686874104397401375&region=US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "trends": "https://trends.google.com/trends/explore?date=today%203-m&geo=US&q=engraving%20pen",
+   "keywords": [
+    {
+     "q": "\"engraving pen\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22engraving%20pen%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "120"
+    },
+    {
+     "q": "\"engraving tool\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22engraving%20tool%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "26"
+    },
+    {
+     "q": "\"engraver\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22engraver%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "450"
+    },
+    {
+     "q": "\"engraving kit\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22engraving%20kit%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "7"
+    },
+    {
+     "q": "\"engrave\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22engrave%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "2,600"
+    }
+   ],
+   "competitors": [],
+   "per": 2000.0,
+   "image_file": "images/5.jpg",
+   "est_delivered": 11.82,
+   "competitor_file": ""
+  },
+  {
+   "name": "No-Drill Bathroom Vanity Organizer",
+   "variant": "faucet-wrap tray",
+   "pid": "1732480256525045950",
+   "img": "https://img.kalocdn.com/tiktok.product.images/tos-useast5-i-omjb5zjo8w-tx/89c4a959686e4103a4effbbd145aca60.png",
+   "price": 24.99,
+   "rev": 99630,
+   "rating": 3.5,
+   "vid": "7693917736400964877",
+   "views": "891.7K",
+   "orders": "1.54k",
+   "cvr": 1.73,
+   "gid": 1267380840,
+   "topvid": "—",
+   "trend": "bathroom organizer",
+   "sellers": 37,
+   "item": 1.02,
+   "item_txt": "$1.02",
+   "match": "CLOSE",
+   "item_url": "https://www.fabulk.com/searchlist?keyword=bathroom+sink+faucet+shelf",
+   "why": "Clear on Meta · $1 item cost · rating 3.5, appeal unproven",
+   "rank": 6,
+   "tier": "ORANGE 6",
+   "color": "ORANGE",
+   "kalo": "https://www.kalodata.com/product/detail?id=1732480256525045950&region=US&currency=USD&language=en-US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "video": "https://www.kalodata.com/video/detail?id=7693917736400964877&region=US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "trends": "https://trends.google.com/trends/explore?date=today%203-m&geo=US&q=bathroom%20organizer",
+   "keywords": [
+    {
+     "q": "\"bathroom organizer\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22bathroom%20organizer%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "8"
+    },
+    {
+     "q": "\"sink organizer\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22sink%20organizer%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "160"
+    },
+    {
+     "q": "\"vanity organizer\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22vanity%20organizer%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "31"
+    },
+    {
+     "q": "\"bathroom shelf\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22bathroom%20shelf%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "920"
+    },
+    {
+     "q": "\"vanity shelf\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22vanity%20shelf%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "1"
+    }
+   ],
+   "competitors": [],
+   "per": 580.0,
+   "image_file": "images/6.jpg",
+   "est_delivered": 6.02,
+   "competitor_file": ""
+  },
+  {
+   "name": "Watch Link Removal & Repair Kit",
+   "variant": "",
+   "pid": "1732382860539958011",
+   "img": "https://img.kalocdn.com/tiktok.product.images/tos-useast5-i-omjb5zjo8w-tx/f254b0ea5d4acbc9b224e5ec3a47b4d9.png",
+   "price": 29.05,
+   "rev": 62670,
+   "rating": 4.7,
+   "vid": "7668504939374841102",
+   "views": "1.06M",
+   "orders": "644",
+   "cvr": 0.61,
+   "gid": 324210336,
+   "topvid": "—",
+   "trend": "watch repair kit",
+   "sellers": 14,
+   "item": 5.41,
+   "item_txt": "$5.41",
+   "match": "CLOSE",
+   "item_url": "https://www.fabulk.com/searchlist?keyword=watch+repair+kit",
+   "why": "Dropped from Orange: 6 rivals run 5 of its Kalo videos",
+   "rank": 7,
+   "tier": "YELLOW 7",
+   "color": "YELLOW",
+   "kalo": "https://www.kalodata.com/product/detail?id=1732382860539958011&region=US&currency=USD&language=en-US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "video": "https://www.kalodata.com/video/detail?id=7668504939374841102&region=US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "trends": "https://trends.google.com/trends/explore?date=today%203-m&geo=US&q=watch%20repair%20kit",
+   "keywords": [
+    {
+     "q": "\"watch repair kit\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22watch%20repair%20kit%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "57"
+    },
+    {
+     "q": "\"watch repair\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22watch%20repair%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "270"
+    },
+    {
+     "q": "\"watch link\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22watch%20link%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "45"
+    },
+    {
+     "q": "\"watch band\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22watch%20band%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "1,800"
+    },
+    {
+     "q": "\"watch tool\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22watch%20tool%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "17"
+    }
+   ],
+   "competitors": [
+    {
+     "name": "Focoor home",
+     "ad": "https://www.facebook.com/ads/library/?id=1081247341453908",
+     "videos": "#1 #6 #9"
+    },
+    {
+     "name": "Beneficialn",
+     "ad": "https://www.facebook.com/ads/library/?id=1886532685846597",
+     "videos": "#1"
+    },
+    {
+     "name": "Compositeuse9",
+     "ad": "https://www.facebook.com/ads/library/?id=1699488701790766",
+     "videos": "#2"
+    },
+    {
+     "name": "Petalsofty",
+     "ad": "https://www.facebook.com/ads/library/?id=1563245662228621",
+     "videos": "#2"
+    },
+    {
+     "name": "Ventivh",
+     "ad": "https://www.facebook.com/ads/library/?id=1453608730306899",
+     "videos": "#2"
+    },
+    {
+     "name": "Kikilala",
+     "ad": "https://www.facebook.com/ads/library/?id=2272301476670365",
+     "videos": "#6 #10"
+    }
+   ],
+   "per": 1600.0,
+   "image_file": "images/7.jpg",
+   "est_delivered": 10.41,
+   "competitor_file": ""
+  },
+  {
+   "name": "Cordless Electric Air Duster",
+   "variant": "",
+   "pid": "1732603885347705272",
+   "img": "https://img.kalocdn.com/tiktok.product.images/tos-useast5-i-omjb5zjo8w-tx/d24846817b174e359d99b8ee60e2bfa2.png",
+   "price": 28.59,
+   "rev": 86520,
+   "rating": 3.2,
+   "vid": "7687195166054173965",
+   "views": "1.12M",
+   "orders": "1.95k",
+   "cvr": 1.74,
+   "gid": 882167037,
+   "topvid": "8.5M",
+   "trend": "air duster",
+   "sellers": 25,
+   "item": 2.18,
+   "item_txt": "$2.18",
+   "match": "SIMILAR",
+   "item_url": "https://www.fabulk.com/searchlist?keyword=cordless+electric+air+duster+blower",
+   "why": "4 rivals run its blinds video · rating 3.2",
+   "rank": 8,
+   "tier": "YELLOW 8",
+   "color": "YELLOW",
+   "kalo": "https://www.kalodata.com/product/detail?id=1732603885347705272&region=US&currency=USD&language=en-US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "video": "https://www.kalodata.com/video/detail?id=7687195166054173965&region=US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "trends": "https://trends.google.com/trends/explore?date=today%203-m&geo=US&q=air%20duster",
+   "keywords": [
+    {
+     "q": "\"air duster\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22air%20duster%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "160"
+    },
+    {
+     "q": "\"electric air duster\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22electric%20air%20duster%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "8"
+    },
+    {
+     "q": "\"cordless air duster\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22cordless%20air%20duster%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "6"
+    },
+    {
+     "q": "\"compressed air\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22compressed%20air%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "300"
+    },
+    {
+     "q": "\"electric duster\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22electric%20duster%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "1"
+    }
+   ],
+   "competitors": [
+    {
+     "name": "Puzzlemoon",
+     "ad": "https://www.facebook.com/ads/library/?id=1558062556084815",
+     "videos": "#1–3"
+    },
+    {
+     "name": "Glukster",
+     "ad": "https://www.facebook.com/ads/library/?id=4051011718372280",
+     "videos": "#1–3"
+    },
+    {
+     "name": "Toveq-net",
+     "ad": "https://www.facebook.com/ads/library/?id=1144396838188261",
+     "videos": "#1–3"
+    },
+    {
+     "name": "Zvorna-net",
+     "ad": "https://www.facebook.com/ads/library/?id=1760975138312821",
+     "videos": "#1–3"
+    }
+   ],
+   "per": 570.0,
+   "image_file": "images/8.jpg",
+   "est_delivered": 7.18,
+   "competitor_file": ""
+  },
+  {
+   "name": "GJANSH Hinge Wrench",
+   "variant": "door alignment",
+   "pid": "1732490406574985643",
+   "img": "https://img.kalocdn.com/tiktok.product.images/tos-useast5-i-omjb5zjo8w-tx/78b6e9d18af7411b933452a8d5404152.png",
+   "price": 38.99,
+   "rev": 94310,
+   "rating": 4.0,
+   "vid": "7688343428530310414",
+   "views": "991.3K",
+   "orders": "730",
+   "cvr": 0.74,
+   "gid": 169346897,
+   "topvid": "3.7M",
+   "trend": "hinge wrench",
+   "sellers": 32,
+   "item": 8.03,
+   "item_txt": "$8.03",
+   "match": "CLOSE",
+   "item_url": "https://www.fabulk.com/searchlist?keyword=hinge+wrench",
+   "why": "3 rivals run Kalo #1–2 · 32 sellers",
+   "rank": 9,
+   "tier": "YELLOW 9",
+   "color": "YELLOW",
+   "kalo": "https://www.kalodata.com/product/detail?id=1732490406574985643&region=US&currency=USD&language=en-US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "video": "https://www.kalodata.com/video/detail?id=7688343428530310414&region=US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "trends": "https://trends.google.com/trends/explore?date=today%203-m&geo=US&q=hinge%20wrench",
+   "keywords": [
+    {
+     "q": "hinge wrench",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=hinge%20wrench&search_type=keyword_unordered&media_type=video",
+     "results": "320"
+    },
+    {
+     "q": "\"hinge adjustment\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22hinge%20adjustment%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "360"
+    },
+    {
+     "q": "\"sagging door\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22sagging%20door%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "33"
+    },
+    {
+     "q": "\"door hinge\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22door%20hinge%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "0"
+    },
+    {
+     "q": "\"hinge tool\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22hinge%20tool%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "0"
+    }
+   ],
+   "competitors": [
+    {
+     "name": "Scott Wheeler",
+     "ad": "https://www.facebook.com/ads/library/?id=1500496685257071",
+     "videos": "#2"
+    },
+    {
+     "name": "Latetleast",
+     "ad": "https://www.facebook.com/ads/library/?id=1678076537092384",
+     "videos": "#1"
+    },
+    {
+     "name": "Tristeyst",
+     "ad": "https://www.facebook.com/ads/library/?id=1657507839081818",
+     "videos": "#1"
+    }
+   ],
+   "per": 1400.0,
+   "image_file": "images/9.jpg",
+   "est_delivered": 13.03,
+   "competitor_file": ""
+  },
+  {
+   "name": "2-in-1 Solar Flood Light",
+   "variant": "4-panel",
+   "pid": "1732548643787804837",
+   "img": "https://img.kalocdn.com/tiktok.product.images/tos-useast5-i-omjb5zjo8w-tx/dd062415600742e783ad5a6bf1707d18.png",
+   "price": 17.25,
+   "rev": 75930,
+   "rating": 4.4,
+   "vid": "7705143272448036110",
+   "views": "1.1M",
+   "orders": "1.75k",
+   "cvr": 1.59,
+   "gid": 934776758,
+   "topvid": "82K",
+   "trend": "solar flood light",
+   "sellers": null,
+   "item": 2.34,
+   "item_txt": "$2.34",
+   "match": "SIMILAR",
+   "item_url": "https://www.fabulk.com/searchlist?keyword=solar+portable+flood+light+power+outage",
+   "why": "Copycat since Nov 18 · TikTok appeal < 100K",
+   "rank": 10,
+   "tier": "YELLOW 10",
+   "color": "YELLOW",
+   "kalo": "https://www.kalodata.com/product/detail?id=1732548643787804837&region=US&currency=USD&language=en-US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "video": "https://www.kalodata.com/video/detail?id=7705143272448036110&region=US&dateRange=%5B%222026-10-21%22%2C%222026-11-19%22%5D",
+   "trends": "https://trends.google.com/trends/explore?date=today%203-m&geo=US&q=solar%20flood%20light",
+   "keywords": [
+    {
+     "q": "\"solar flood light\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22solar%20flood%20light%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "—"
+    },
+    {
+     "q": "\"solar flood\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22solar%20flood%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "—"
+    },
+    {
+     "q": "\"solar light\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22solar%20light%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "—"
+    },
+    {
+     "q": "\"dias sin luz\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22dias%20sin%20luz%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "—"
+    },
+    {
+     "q": "\"solar powered light\"",
+     "url": "https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22solar%20powered%20light%22&search_type=keyword_exact_phrase&media_type=video",
+     "results": "—"
+    }
+   ],
+   "competitors": [
+    {
+     "name": "Gladchaser",
+     "ad": "https://www.facebook.com/ads/library/?id=2233460854227292",
+     "videos": "#2 #6"
+    }
+   ],
+   "per": 630.0,
+   "image_file": "images/10.jpg",
+   "est_delivered": 7.34,
+   "competitor_file": ""
+  }
+ ]
+}

@@ -19,6 +19,7 @@ Then tell your agent: `Read FOR-YOUR-AGENT.md, then SKILL.md, and run the prefli
 
 ## What it does
 
+0. Asks you once for the daily CBO budget, CBO setup, target buyer, price band and things to avoid, then saves it in `state/intake.json`. Later runs reuse it and apply your past corrections from `state/feedback.md`.
 1. Checks that your tools work (the preflight). No tools, no research.
 2. Uses Kalodata ("Kalo") to find 10 candidate products with a named filter setup.
 3. Proves each one has 10 real product videos.
@@ -28,7 +29,8 @@ Then tell your agent: `Read FOR-YOUR-AGENT.md, then SKILL.md, and run the prefli
 7. Scores each product on 8 points.
 8. Checks Meta Ad Library with **5 different keywords** per product (all 5 must clear for Orange or Green): competitor brands, how long their ads have run, and whether the top Kalo videos are already running as ads.
 9. Sorts every product into **Green** (best), **Orange** (second) or **Yellow** (third). If fewer than 3 are Green, the batch result is **HOLD**.
-10. Writes a sheet and a paused handoff note.
+10. Ranks Greens by launch math (break-even ROAS from your budget).
+11. Writes a sheet, a local PDF/HTML report, and a paused handoff note.
 
 ## The 3 tools you need
 
@@ -69,6 +71,7 @@ A Kalodata trial account allows 10 searches and 10 detail visits a day, so a bat
 
 - **Product Research — Chapter C · Draft D**: 10 products ranked 1–10 (GREEN → ORANGE → YELLOW), with a product photo and clickable proof for every claim. Tabs: the draft, Top videos, How it was graded.
 - **Competitor Files — Chapter C · Draft D**: one tab per product with competitor stores, their running Meta ads and hooks, top TrendTrack TikTok videos, and a reference photo.
+- A local report (PDF + HTML, photos embedded) in `reports/`, built with `python3 tools/report/build_report.py state/report.json --out reports/<chapter>-<draft>`.
 - An end-of-run report: **3+ Greens** plus a paused handoff (spend $0), or **HOLD** with what's missing per product.
 
 HOLD is a normal, correct result. The skill never lowers the bar and never invents a third product.
@@ -84,8 +87,12 @@ HOLD is a normal, correct result. The skill never lowers the bar and never inven
 | `FILTER-SETUPS.md` | Every filter setup, with names and steps. |
 | `PRICING-1688-SUPPLIER.md` | Factory price and delivered-quote method. |
 | `META-AD-LIBRARY.md` | Competitor and reference-video check. |
-| `TIERS.md` | Green / Orange / Yellow rules. |
+| `TIERS.md` | Green / Orange / Yellow rules, plus the launch math that ranks Greens. |
+| `CLAUDE.md` | Short brief for Claude Code users. |
+| `state/` | The skill's memory in your own copy: `intake.json`, `feedback.md`, batch and lane files, `report.json`. |
+| `tools/report/` | Builds the local PDF and HTML report from `state/report.json`. |
+| `reports/` | Where built reports are written. |
 | `DRAFT-RUN-D36.md` | Live draft run on the last real batch (Draft 36). |
-| `templates/` | Record schema, filter receipt, sheet layout. |
+| `templates/` | Record schema, filter receipt, sheet layout, `intake.json`, `feedback.md`. |
 | `TEST-RUN.md` | A worked dry run on 10 real past candidates. |
 | `CHANGELOG.md` | Version history. |
