@@ -39,3 +39,7 @@ First standalone export for partner use.
 - Added `TIERS.md`: GREEN (top) > ORANGE (second) > YELLOW (third) > not tiered, with sheet fills #00FF00 / #FFA500 / #FFFF00. Band and cost thresholds are PROPOSED defaults the owner can change.
 - SKILL.md: new Step 7b (Meta check required for any tier); Step 11 now tiers every candidate.
 - Added `DRAFT-RUN-D36.md`: live draft run on Draft 36, with 0 Green / 1 Orange / 5 Yellow / 4 not tiered; the batch result is HOLD.
+
+## 1.2.0 — 2026-11-20
+- TIERS.md rewritten to the owner's ladder: Yellow (Kalo demand) → Orange (top-10 Kalo videos not used on Meta, first-frame + extra-frame check) → Green (winning video: Kalo orders, conversion, views + TrendTrack appeal). White = potential. Minimum 3 Greens per list; cost and crowding shown as flags, not gates.
+- Added LIST-2026-11-20-PROVISIONAL.md: 2 Green / 4 Orange / 2 Yellow / 2 White, flagged NEEDS_MORE_CANDIDATES until a fresh Kalo pull.

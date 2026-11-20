@@ -140,9 +140,8 @@ UNKNOWN: the method for the "projected seasonal day-one floor" is not in the sou
 
 ### Step 11 — Tier every candidate: Green, Orange, Yellow
 
-- Apply `TIERS.md` to all 10: **GREEN** (highest) > **ORANGE** (second) > **YELLOW** (third) > not tiered.
-- 3+ Greens: release the top 3. Fewer than 3: batch result `HOLD`, but still list Orange and Yellow with the one next step for each.
-- Never promote an Orange to fill a missing Green.
+- Apply `TIERS.md` (v1.2 owner ladder): every product starts **YELLOW** (Kalo demand), graduates to **ORANGE** when no Meta competitor uses any of its top-10 Kalo videos (first-frame match, more frames when unsure), and to **GREEN** when a winning video is verified (Kalo orders + conversion + views, TrendTrack appeal). **WHITE** = potential, fails a hard gate.
+- A list needs at least 3 Greens: keep pulling Kalo candidates until it has them. Never promote without proof.
 
 ### Step 12 — Sheet output
 
