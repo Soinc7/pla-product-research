@@ -14,6 +14,9 @@ description: Read-only TikTok Shop product research. Runs a tool preflight, disc
 5. **Evidence has three states only:** `PROVEN`, `PARTIAL`, `MISSING`. Missing stays missing. Never write zero for unknown. Never invent a URL, price, sales figure or supplier.
 6. **Never lower the bar.** Fewer than 3 qualifying products means `HOLD`. Never fabricate a third.
 7. **Nothing private in outputs.** No account IDs, customer data or financial account data.
+8. **Run to completion. Never pause for "go".** Once preflight says GO or GO_LIMITED, run every step through to the delivered draft sheet in one pass. Do not stop to ask "should I continue?", and do not end a turn with a half-done draft. The only reasons to stop early are a hard STOP (Chrome or Kalo MISSING), a login, CAPTCHA or consent wall that only the human can clear, or an explicit "stop" from the human. Even then, first write everything already found into the draft sheet, marking the rest HOLD or MISSING, and deliver it.
+9. **A draft is done only when the sheet exists.** Done means: the next-numbered "Product Research Draft N" sheet is in the same Drive folder as the last draft, with all 10 rows, tier fills, notes and the Candidates tab, and it has been read back. A chat summary or repo file alone is not a delivered draft.
+10. **Never block on one product.** If one product's 1688 match, Meta check or TrendTrack check stalls, mark that field MISSING with the reason, keep going with the rest, and finish the sheet.
 
 ## Outcome words
 

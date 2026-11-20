@@ -10,7 +10,7 @@ Row 1 is the header. Rows 2–11 are the 10 products in rank order.
 |---|---|---|
 | A | (product name) | The 10 names, A2:A11 |
 | B | (link) | The word `LINK` as a rich hyperlink to the product's Kalo URL, B2:B11 |
-| C | Pictures | Product picture |
+| C | Pictures | Product picture. Kalo's image host blocks Google Sheets `=IMAGE()` (shows #REF!), so use `=HYPERLINK("<image url>","PHOTO")` |
 | D | Amazon Link | Link, if found. Leave blank if not. Never invent. |
 | E | COGS | All-in delivered cost, USD |
 | F | Selling Price | Planned sale price, USD |
