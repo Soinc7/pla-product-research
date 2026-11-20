@@ -62,6 +62,13 @@ First standalone export for partner use.
 - sheet-layout.md: Kalo images can't be embedded in Sheets, so column C uses `HYPERLINK(...,"PHOTO")`.
 - Delivered "Product Research Draft 37" (Google Sheet, same folder as Draft 36): 4 Green, 3 Orange, 3 Yellow.
 
+## 1.6.0 — 2026-11-20
+- Tiers ranked 1–10 across the draft (GREEN 1–4, ORANGE 5–7, YELLOW 8–10 for a 4/3/3 draft).
+- Column J renamed "Sales per 1K views (not ROAS)" with a "1 per N views" line, so it isn't read as Meta ROAS.
+- Column L now links the Meta search for Green and Orange rows too ("Checked ✓ none copying ↗"), so the check is visible on every row.
+- Column M now opens a per-product tab in a new companion workbook, "Competitor Files": competitor stores, their running Meta ads with hooks and landing pages, top TrendTrack TikTok videos and the Kalo reference photo.
+- Applied to Product Research — Chapter 1 · Draft 1.
+
 ## 1.5.0 — 2026-11-20
 - New sheet design (`templates/sheet-layout.md` v2, "Chapter" format): banner rows, real product photos via `IMAGE(url,1)`, tier chips, and clickable proof columns for Kalo, the winning video, the Meta search, the competitor ad (by Library ID), TrendTrack, Google Trends and 1688/Fabulk. The "Why" line is short and crisp. The 0–5 score columns are dropped.
 - Delivered "Product Research — Chapter 1 · Draft 1" (4 Green / 3 Orange / 3 Yellow). Photos need the owner's one-time "Allow access" click in Sheets.
