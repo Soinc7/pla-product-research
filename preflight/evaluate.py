@@ -2,14 +2,14 @@
 """Turn a filled preflight result into GO / GO_LIMITED / STOP.
 
 Usage: python3 preflight/evaluate.py path/to/result.json
-Exit code: 0 = GO or GO_LIMITED, 2 = STOP, 1 = bad input.
+Exit code: 0 = GO or GO_LIMITED, 2 = STOP, 3 = PENDING (checks not run yet), 1 = bad input.
 Standard library only. Reads files; changes nothing.
 """
 import json
 import os
 import sys
 
-STATES = ("PROVEN", "PARTIAL", "MISSING")
+STATES = ("PROVEN", "PARTIAL", "MISSING", "PENDING")
 
 
 def main(argv):
@@ -30,6 +30,7 @@ def main(argv):
     by_id = {c["id"]: c for c in checklist["checks"]}
     stop = False
     limited = False
+    pending = False
 
     for check_id in checklist["run_order"]:
         check = by_id[check_id]
@@ -41,6 +42,10 @@ def main(argv):
             shown = state
         print("%-28s %s" % (check["label"][:28], shown))
         if state == "PROVEN":
+            continue
+        if state == "PENDING":
+            pending = True
+            print("    Not run yet. Run this check before research (it is not a failure).")
             continue
         if state == "MISSING":
             if check["required"] and check.get("missing_blocks", True):
@@ -60,12 +65,15 @@ def main(argv):
 
     if stop:
         verdict = "STOP"
+    elif pending:
+        verdict = "PENDING"
     elif limited:
         verdict = "GO_LIMITED"
     else:
         verdict = "GO"
-    print("\nVERDICT: %s - %s" % (verdict, checklist["verdicts"][verdict]))
-    return 2 if stop else 0
+    message = checklist["verdicts"].get(verdict, "Run the PENDING checks, then evaluate again.")
+    print("\nVERDICT: %s - %s" % (verdict, message))
+    return 2 if stop else 3 if pending else 0
 
 
 if __name__ == "__main__":

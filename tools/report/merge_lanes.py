@@ -64,7 +64,7 @@ def main():
         out = {}
         for fn in sorted(glob.glob(os.path.join(st, prefix + "*.json"))):
             for r in (load(fn, {}) or {}).get(key, []) or []:
-                out.setdefault(r.get("pid"), r)
+                out[r.get("pid")] = r  # later files win, so a re-check replaces an older verdict
         return out
     l1 = {"products": [], "observed_at_utc": None}
     seen = set()

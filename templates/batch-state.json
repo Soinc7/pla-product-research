@@ -1,17 +1,28 @@
 {
   "batch_name": "Product Research Batch N",
   "batch_number": 0,
+  "report_name": "chapterC-draftD",
   "filter_setup": "AVD-36",
   "price_cap_code": "ODD_BATCH_80_CAP | EVEN_BATCH_60_CAP",
+  "chrome_device_id": "",
+  "observed_at_utc": "",
+  "region": "US",
+  "currency": "USD",
+  "account_check": "MATCH | MISMATCH | NOT_CHECKED",
   "started_at_utc": "",
   "updated_at_utc": "",
-  "next_step": "step_2_kalo_discovery",
+  "next_step": "step_2_kkalo_discovery",
   "kalo": {
-    "plan": "trial|other",
+    "plan": "trial|basic|other",
     "searches_used_today": 0,
     "detail_visits_used_today": 0,
     "last_page": 0,
     "last_rank": 0
+  },
+  "meta": {
+    "searches_this_session": 0,
+    "last_control_utc": "",
+    "last_control_results": null
   },
   "candidates_kept": [],
   "pending_quotes": [
