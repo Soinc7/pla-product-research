@@ -1,6 +1,8 @@
 # Sheet layout (v2.1 — "Chapter" format, 2026-11-20)
 
-One Google Sheet per draft, named `Product Research — Chapter C · Draft D`, saved in the same Drive folder as the last draft. Reference build: Chapter 1 · Draft 1.
+One Google Sheet per draft, named `Product Research — Chapter C · Draft D`, saved in the same Drive folder as the last draft (first run with no folder named: My Drive root, and say so). Reference build: **Chapter 2 · Draft 1** (owner-approved). Three tabs: the draft, Top videos, How it was graded. The filter receipt is saved as `state/filter-receipt-batch-N.md`, not as a tab.
+
+**How to send it.** `tools/sheets/build_sheet.py` writes `1-create.json` (Drive create; add `"parents": ["<folder id>"]`) and `2-batch-N.json` (Sheets `spreadsheets/<id>:batchUpdate`, in order). Column K needs several links in one cell (`textFormatRuns`), which only a raw `batchUpdate` can write. If your Sheets connector has no raw batchUpdate tool (the Composio Google Sheets toolkit doesn't), send the bodies with a proxy call, for example Composio `COMPOSIO_PROXY_EXECUTE` (`POST https://sheets.googleapis.com/v4/spreadsheets/<id>:batchUpdate`). No proxy at all? Fall back to one `HYPERLINK` per keyword in five helper columns, and say so. If a batch fails with "You can't merge frozen and non-frozen columns", drop `frozenColumnCount` and resend. Read the sheet back after the last part.
 
 ## Tab 1 — "Chapter C · Draft D"
 

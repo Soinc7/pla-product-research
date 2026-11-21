@@ -19,18 +19,18 @@ Use **AVD-36** ("Actual Variable Discovery Filters", Draft 36) unless told other
 
 ## How to enter any setup in Kalo (plain steps)
 
-Kalo's exact button names can change, and they are not all recorded in the source. Match each filter by meaning.
+Kalo's exact button names can change. The names below are the ones seen on 2026-11-20; if yours differ, match each filter by meaning. **Use the UI only.** Kalo's internal API needs a region header that page scripts don't send, so direct calls silently return Singapore data.
 
 1. Open Kalodata in the logged-in Chrome. Set region to **US** and currency to **USD**.
-2. Open the product list (the product search/ranking page).
+2. Open the product list (the product search/ranking page). If a saved preset is on, toggle the preset off; its chips can't be removed one by one.
 3. Set the **date range** the setup calls for.
-4. Set **categories** if the setup names them.
-5. Set **revenue** min and max.
-6. Set **price** min and max.
-7. Set **commission** min (and max if given).
-8. Set content to **video only**. Make sure Live sales are not counted.
+4. Set **categories** if the setup names them: open the **Category** tree, tick each category, then **Apply**.
+5. Set **revenue** min and max: **Revenue($)** → custom.
+6. Set **price** min and max: **Avg. Unit Price** → custom.
+7. Set **commission** min (and max if given): **Commission Rate** → custom.
+8. Set content to **video only**: the filter is **Revenue Source (Content) = Video** (not "Revenue Source (Channel)"). Make sure Live sales are not counted.
 9. Set any extra filters the setup names (growth, rating).
-10. Apply. Then go through **every result page**. Note page and rank for each product you keep.
+10. Click **Submit** (bottom left). **Apply** only stages a filter; Submit runs the search. Then go through **every result page your plan shows** (the Basic plan stops at 500 rows). Note page and rank for each product you keep.
 11. Write every value you actually entered into the filter receipt. If your plan does not offer a filter, write `NOT_APPLIED`. Then check that condition by hand on each product page instead.
 12. For each kept product, open its detail page: last 30 days → left menu **"Video & Ad"** → rows sorted by revenue.
 
@@ -185,17 +185,17 @@ Note: the $5 floor is below the $10 minimum used by SPEC-ROTATE and AVD-36.
 | Filter | Value |
 |---|---|
 | Window | 30 days. As run: Sep 3 – Oct 2. |
-| Categories | Home / Kitchen / Tools / DIY |
+| Categories | Home / Kitchen / Tools / DIY (Kalo names: **Home Supplies**, **Kitchenware**, **Tools & Hardware**; the Chapter 2 intake also added **Automotive**) |
 | Revenue | $20,000–$100,000 |
 | Average price | $10–$30 |
 | Commission | 10%–100% |
-| Content | Video only |
+| Content | Video only (Kalo: Revenue Source (Content) = Video) |
 | Mix | 5 women-targeted and 5 men-targeted products |
 | Buyer focus | 45+ / 55+ / 65+ |
 | Videos | 10 observed video IDs per product |
 | Pricing | Supplier-agent delivered estimate (low / base / high) per product |
 
-**How to enter:** steps 1–12. For a new run, use the most recent 30 full days (the as-run dates are history, not a rule). In step 4 pick the Home, Kitchen, Tools and DIY categories as your Kalo plan names them. Revenue 20,000 to 100,000. Average price 10 to 30. Commission 10 to 100. Video only. The 5/5 split and the age focus are **your selection rules**, not Kalo filters: choose them while picking the 10.
+**How to enter:** steps 1–12. For a new run, use the most recent 30 full days (the as-run dates are history, not a rule). In step 4 pick Home Supplies, Kitchenware and Tools & Hardware (plus any category the intake adds, such as Automotive). If the intake's price band differs, the intake band wins. Revenue 20,000 to 100,000. Average price 10 to 30. Commission 10 to 100. Video only. The 5/5 split and the age focus are **your selection rules**, not Kalo filters: choose them while picking the 10.
 
 **Output:** 10 research nominations, each with 10 video IDs, a supplier-agent delivered estimate and a 1688 source status. In Draft 36 no greens were released, because no exact 1688 match was verified.
 

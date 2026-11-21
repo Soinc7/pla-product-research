@@ -38,9 +38,11 @@ Budget `B` = `intake.cbo_daily_budget_usd` (150 if missing).
 | Price for a 2.0 break-even ROAS | `2 × est_delivered` |
 | Kalo orders per month | `rev ÷ price` |
 
-It uses the TikTok price as reference; the store price and bundles change it. Ad fees, refunds and payment fees are not included. A **Watch-outs** line appears when margin ≤ 0 or break-even ROAS is above 3, when the factory match is `SIMILAR`, or when the rating is under 4.0.
+It uses the TikTok price as reference; the store price and bundles change it. Ad fees, refunds and payment fees are not included. A **Watch-outs** line appears when margin ≤ 0 or break-even ROAS is above `breakeven_roas_max` (default 3; `build_report.py` uses 3, `build_page.py` and `merge_lanes.py` read the intake value), when the factory match is `SIMILAR`, or when the rating is under 4.0.
 
 ## JSON fields
+
+The full field list (including `pid`, `vid`, `item` and `trend`) is in `FOR-YOUR-AGENT.md`; `merge_lanes.py` writes all of them. The fields the builders read:
 
 Top level: `title`, `date`, `source`, `est_rule`, `intake`, `products`.
 
@@ -62,6 +64,22 @@ Each item in `products`:
 | `kalo`, `video`, `competitor_file`, `trends` | Links |
 
 Numbers such as "2.25M", "1.4k" and "2,300" are understood. "—" or a missing value counts as not proven.
+
+## The web page (`build_page.py`)
+
+```
+python3 tools/report/build_page.py state/report.json --out reports/chapter2-draft1-page
+```
+
+Builds the draft as a web page from the same `report.json`, using `templates/draft-page.html` (the Chapter 2 · Draft 1 design the owner approved). It writes:
+
+- `index.html`: the full page; open it locally (photos sit next to it).
+- `page.html`: the same page without the html/head/body wrapper, for publishing as a Claude Artifact (or any host that adds its own wrapper) together with the `img/` files.
+- `img/<rank>.jpg`: each photo, copied from `image_file` or downloaded from `img`.
+
+The page shows a summary band (HOLD when there are fewer than 3 Greens, and a 10-slot strip that jumps to each product), the Green 1 hero with a launch-ready seal and stacked proof checks, Orange cards that lead with what is missing, muted Yellow rows with a red "Copied on Meta" flag naming the rivals (their ads grouped by advertiser), launch math on every product, the intake and the grading rules. It works at phone width and in light and dark mode.
+
+Launch math, proof checks and watch-outs use the same bars and formulas as `build_report.py`. The budget and the break-even ROAS limit come from the report's `intake`, then from `intake.json` next to the report. Unknown values show `MISSING`, never 0.
 
 ## How images are embedded
 

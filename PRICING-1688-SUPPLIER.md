@@ -149,10 +149,10 @@ Confirm what the quote includes so nothing is counted twice or left out.
 |---|---|
 | Item-only 1688 price ≠ delivered cost | Never compare an item-only price to the $8 gate |
 | Alibaba ≠ 1688 proof | Alibaba comparisons are recorded separately and prove nothing for 1688 |
-| No exact 1688 match | HOLD |
-| Only one factory compared | HOLD |
+| No exact 1688 match | HOLD for launch. The research row still shows the closest item as `CLOSE` or `SIMILAR`; the research tier is unchanged. |
+| Only one factory compared | HOLD for launch |
 | No invented average | List each factory price as found |
-| No exact delivered quote below $8 | No green |
+| No exact delivered quote below $8 | No launch handoff (the research tier from `TIERS.md` is unchanged) |
 | Delivered quote from $8 up to $10 | Stretch zone. Not a pass. HOLD for a better quote or an owner decision. |
 | Perceived sale value above $30 | Fails economic fit |
 | Markup with no same-SKU history | `UNKNOWN` |
