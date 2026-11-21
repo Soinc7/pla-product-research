@@ -7,11 +7,13 @@ Read-only TikTok Shop product research. It never publishes, activates products, 
 3. Redo the intake only if the user says the buyer or budget changed. Log each owner correction in `state/feedback.md`. Commit both files to the user's own fork or clone.
 4. Use the lanes in `AGENTS.md` with the Agent tool: run workers in the background, use a cheap model for workers, and let the host verify (spot-check 2 links per lane, then merge).
 5. Browser: one Chrome owner at a time. Never type, read or ask for passwords or codes. The human logs in. On a login, CAPTCHA or consent wall, mark the item MISSING and move on.
-6. Outputs every run: the Google Sheet (if Sheets access exists) and the local report:
+6. Outputs every run (Chapter 2 · Draft 1 is the reference, `STANDARD.md`): the Google Sheet (if Sheets access exists), the Competitor Files workbook, the local report and the web page:
    `python3 tools/report/build_report.py state/report.json --out reports/<chapter>-<draft>` (PDF + HTML).
+   `python3 tools/report/build_page.py state/report.json --out reports/<chapter>-<draft>-page` (publish `page.html` with `img/` as an Artifact).
    Download each product's main Kalo photo into `reports/<run>/images/` so no image is missing.
    On Windows use `python` (or `py -3`) instead of `python3`, which opens the Microsoft Store.
 7. Rank Greens by launch math (`TIERS.md`); show weak math as a watch-out with the price or bundle fix.
-8. Meta Ad Library throttle: after about 40-50 searches, stop, wait 10+ minutes, mark throttled keywords `RECHECK`. Never conclude "no competitor" from a throttled search.
+8. Meta Ad Library throttle: one Meta worker at a time. Search the control (`"dryer vent"`) first; if it is 0, wait 10+ minutes and check again (it can last over an hour). Mark throttled keywords `RECHECK`. Never conclude "no competitor" from a throttled search.
 9. Evidence is PROVEN, PARTIAL or MISSING. Never invent a URL, price or number. Fewer than 3 Greens = HOLD.
 10. Never publish, activate or spend. Run every step to the end, then give a plain end-of-run report.
+11. Chrome: identify it by deviceId (`list_connected_browsers`), never by its "Browser 1/2" label, and give workers the deviceId.
