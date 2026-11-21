@@ -1,6 +1,6 @@
 ---
 name: pla-product-research
-description: Read-only TikTok Shop product research. Runs a tool preflight, finds 10 candidates on Kalodata with a named filter setup, proves 10 exact-product videos each, checks Meta Ad Library with 5 keywords for competitors running the Kalo videos, prices the closest 1688 / Fabulk item, and grades every product Green / Orange / Yellow (3+ Greens or HOLD) with budget launch math. Delivers a Google Sheet, a Competitor Files workbook, a web page and a PDF report. Use when asked to run product research, a research batch or draft, a Kalo screen, a Meta competitor check, a 1688 price check, or a preflight for these tools.
+description: Read-only TikTok Shop product research. Runs a tool preflight, finds 10 candidates on Kalodata with a named filter setup, proves 10 exact-product videos each, checks Ad Library with 5 keywords for competitors running the Kalo videos, prices the closest 1688 / Fabulk item, and grades every product Green / Orange / Yellow (3+ Greens or HOLD) with budget launch math. Delivers a Google Sheet, a Competitor Files workbook, a web page and a PDF report. Use when asked to run product research, a research batch or draft, a Kalo screen, a Ad Library competitor check, a 1688 price check, or a preflight for these tools.
 ---
 
 # PLA Product Research
@@ -18,7 +18,7 @@ description: Read-only TikTok Shop product research. Runs a tool preflight, find
 7. **Nothing private in outputs.** No account IDs, customer data or financial account data.
 8. **Run to completion. Never pause for "go".** Once preflight says GO or GO_LIMITED, run every step through to the delivered draft sheet in one pass. Do not stop to ask "should I continue?", and do not end a turn with a half-done draft. The only reasons to stop early are a hard STOP (Chrome or Kalo MISSING), a login, CAPTCHA or consent wall that only the human can clear, or an explicit "stop" from the human. Even then, first write everything already found into the draft sheet, marking the rest HOLD or MISSING, and deliver it.
 9. **A draft is done only when the deliverables exist: the sheet (if Sheets access exists), the local report and the web page.** Done means: the next-numbered draft sheet (named as in Step 1) is in the same Drive folder as the last one, with all 10 rows, tier fills and the three tabs in `templates/sheet-layout.md`, and it has been read back. If the owner gives a name or folder, use it. On a first run with no folder named, use My Drive root and say so in the end-of-run report. A chat summary or repo file alone is not a delivered draft.
-10. **Never block on one product.** If one product's 1688 match, Meta check or TrendTrack check stalls, mark that field MISSING with the reason, keep going with the rest, and finish the sheet.
+10. **Never block on one product.** If one product's 1688 match, Ad Library check or TrendTrack check stalls, mark that field MISSING with the reason, keep going with the rest, and finish the sheet.
 
 ## Outcome words
 
@@ -67,9 +67,11 @@ The budget feeds the launch math in `TIERS.md`, which ranks the Greens.
 ### Step 0b — Preflight
 
 Follow `PREFLIGHT.md`. Record each check as PROVEN / PARTIAL / MISSING.
-Any MISSING on **Chrome or Kalo** = STOP. Report the exact fix and end the run.
+Run **every** check on every run, including TrendTrack (E1), Ad Library (E2) and Google Trends (E3). Any MISSING on **Chrome**, or on **Kalo** with no substitute = STOP. Report the exact fix and end the run.
 
-**1688 never stops the run.** Use any one route: **Fabulk** (fabulk.com, no login), **1688order.com** (free account) or **1688.com** (logged in). If none works, ask the user to log in or make a free account on one of them, keep doing discovery, Meta and TrendTrack, and hold pricing.
+**A main tool is missing** (Kalo, the 1688 route, TrendTrack, Ad Library or Google Trends): never skip it silently. Ask the owner what they use instead, and if they have nothing, search the web for current alternatives (`PREFLIGHT.md` G, `TOOL-ALTERNATIVES.md`). Record a chosen substitute in `state/batch-N.json` (`tool_substitutes`) and mark the check PARTIAL. A substitute counts only for the proof it really gives; the tier bars never change.
+
+**1688 never stops the run.** Use any one route: **Fabulk** (fabulk.com, no login), **1688order.com** (free account) or **1688.com** (logged in). If none works, ask the user to log in or make a free account on one of them, keep doing discovery, Ad Library and TrendTrack, and hold pricing.
 
 ### Step 1 — Open the batch record
 
@@ -140,9 +142,9 @@ An item-only 1688 price is **not** a delivered quote.
 
 `supplier_landed_cost_usd` is its own field. It is never copied from the Kalo price.
 
-### Step 7b — Meta Ad Library check (required for Orange or Green)
+### Step 7b — Ad Library check (required for Orange or Green)
 
-Run `META-AD-LIBRARY.md` for every candidate: **5 different keywords** (mix exact-phrase and unordered; a product must clear all 5 to be Orange or Green), competitor brands grouped and counted, oldest active ad, cloned copy, and the first frames of the product's top 10 Kalo videos matched against running video ads. Record the competition band (`NONE` / `LIGHT` / `HEALTHY` / `CROWDED` / `SATURATED`); it is shown, not a tier gate. Not run, or any keyword throttled (`RECHECK`) = the product stays Yellow and cannot be Orange or Green yet. Never conclude "no competitor" from a throttled search, and never run two Meta lanes at once.
+Run `AD-LIBRARY.md` for every candidate: **5 different keywords** (mix exact-phrase and unordered; a product must clear all 5 to be Orange or Green), competitor brands grouped and counted, oldest active ad, cloned copy, and the first frames of the product's top 10 Kalo videos matched against running video ads. Record the competition band (`NONE` / `LIGHT` / `HEALTHY` / `CROWDED` / `SATURATED`); it is shown, not a tier gate. Not run, or any keyword throttled (`RECHECK`) = the product stays Yellow and cannot be Orange or Green yet. Never conclude "no competitor" from a throttled search, and never run two Ad Library lanes at once.
 
 ### Step 8 — Launch evidence checklist (launch gate, not the research tier)
 
@@ -150,7 +152,7 @@ A launch handoff needs all of these for the exact product. Any one missing = no 
 
 | Evidence | Rule |
 |---|---|
-| Sources | Kalo, 1688, TrendTrack, Google Trends checked; Meta Ad Library band `HEALTHY` (see `META-AD-LIBRARY.md`) |
+| Sources | Kalo, 1688, TrendTrack, Google Trends checked; Ad Library band `HEALTHY` (see `AD-LIBRARY.md`) |
 | Buyer age | Purchasers proven 45+, better 55+ or 65+, with conversion data (period and sample). Search interest or creator audience is not proof. Target buyer = `intake.demographic`. |
 | Store-age cohorts | Real store creation dates for 30-day and 180-day cohorts. Product first-seen dates and ad start dates do not count. |
 | Current trend | Recent vs prior Kalo video revenue and units, plus monthly seasonal search |
@@ -188,7 +190,7 @@ UNKNOWN: the method for the "projected seasonal day-one floor" is not in the sou
 
 ### Step 11 — Tier every candidate: Green, Orange, Yellow
 
-- Apply `TIERS.md` (v1.3 owner ladder, then the launch math to rank inside each tier): every product starts **YELLOW** (Kalo demand), graduates to **ORANGE** when no Meta competitor uses any of its top-10 Kalo videos (first-frame match, more frames when unsure), and to **GREEN** when a winning video is verified: **one** video passes all three Kalo bars (orders, conversion, views), plus a TrendTrack appeal video of the same product. **WHITE** = potential, fails a hard gate.
+- Apply `TIERS.md` (v1.3 owner ladder, then the launch math to rank inside each tier): every product starts **YELLOW** (Kalo demand), graduates to **ORANGE** when no Ad Library competitor uses any of its top-10 Kalo videos (first-frame match, more frames when unsure), and to **GREEN** when a winning video is verified: **one** video passes all three Kalo bars (orders, conversion, views), plus a TrendTrack appeal video of the same product. **WHITE** = potential, fails a hard gate.
 - A list needs at least 3 Greens: keep pulling Kalo candidates until it has them. Never promote without proof.
 
 ### Step 11b — Launch math
