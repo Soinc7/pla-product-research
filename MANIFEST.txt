@@ -53,5 +53,5 @@ tools/report/build_page.py	12337	d7557d5ac8518e63621784769a3434e572ad76f3
 tools/report/build_report.py	46547	c07dd1e6f2e8b154892870c555c3178f8a9df88d
 tools/report/merge_lanes.py	10835	69b7b5fd7ef802356c8f76c08817ae30e2615e17
 tools/sheets/build_competitor_tabs.py	13678	813bf6410184e0acefed6ba387f1e8268df67224
-tools/sheets/build_sheet.py	17016	94903b2d2d790bb30c082899af0aabef976dabd8
+tools/sheets/build_sheet.py	17018	366aedf7f4fd6d769987cd748ed103fa690285f8
 tools/sheets/competitor_links.py	942	778453dd0dca4420dc26ee5163bca174c875159a
