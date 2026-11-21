@@ -5,7 +5,9 @@ Files in this folder. In the user's own repo copy (fork or clone) this folder is
 | `intake.json` | The one-time intake: daily CBO budget, CBO setup, buyer, price band, categories, things to avoid, the brief. Template: `templates/intake.json`. |
 | `feedback.md` | Running log of the owner's corrections and the rule each one became. Template: `templates/feedback.md`. |
 | `batch-N.json` | One per batch. |
-| `lane-*.json` | One per worker lane (see `AGENTS.md`, shapes in `lanes.example.json`). Re-checks add files such as `lane-L2-meta-r2d.json`. `lane-L5-compfiles.json` holds the TrendTrack data for the Competitor Files. |
+| `lane-*.json` | One per worker lane (see `AGENTS.md`, shapes in `lanes.example.json`). Re-checks add files such as `lane-L2-meta-r2d.json`. The TrendTrack lane (`lane-L4-trendtrack.json`) also holds the Competitor Files data (stores, running ads); older runs kept that in `lane-L5-compfiles.json`. |
+| `photos/<pid>.jpg` | Each product's main photo, saved once by `tools/deliver.py`. |
+| `sheet-chC-dD/`, `compfiles-chC-dD/` | Request bodies built by `tools/deliver.py` for the draft sheet and the Competitor Files tabs, plus the sheets worker's `result.json`. |
 | `host-overrides.json` | Optional, written by the host: `{"<pid>": {"name": "...", "variant": "...", "trend": "<Google Trends keyword>"}}`. Short display names, variants and Trends keywords that `merge_lanes.py` uses instead of the long Kalo titles. It may also override `price`, `item_usd`, `match`, `source_url` and `note`. |
 | `competitor-files-<chapter>.json` | The Competitor Files workbook's tab links: `{"spreadsheet_id": "...", "tabs": [{"rank", "pid", "title", "sheetId", "gid_url"}]}`. `merge_lanes.py` puts each `gid_url` into the product's `competitor_file`, which fills column M and the page's "Competitor file" button. |
 | `filter-receipt-batch-N.md` | The filter receipt (template `templates/filter-receipt.md`). |

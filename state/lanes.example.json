@@ -47,6 +47,7 @@
   "lane-L2-meta.json": {
     "meta_sweep": [
       {
+        "pid": "1730000000000000001",
         "product": "Example tongs",
         "keywords": [
           {
@@ -103,6 +104,7 @@
   "lane-L3-pricing.json": {
     "pricing": [
       {
+        "pid": "1730000000000000001",
         "product": "Example tongs",
         "item_usd": 2.58,
         "match": "EXACT",
@@ -110,6 +112,7 @@
         "est_delivered_usd": 7.58
       },
       {
+        "pid": "1730000000000000002",
         "product": "Example light",
         "item_usd": null,
         "match": "NOT_FOUND",
@@ -120,26 +123,58 @@
     "_rules": "verdict is one of CLEAR | MATCH | LIKELY | RECHECK. match is one of EXACT | CLOSE | SIMILAR | NOT_FOUND. est_delivered_usd = item_usd + 5.00 until a real supplier-agent quote replaces it."
   },
   "lane-L4-trendtrack.json": {
+    "credits": {
+      "start": 4080,
+      "end": 3934
+    },
+    "observed_at_utc": "2026-11-21T00:00:00Z",
     "trendtrack": [
       {
+        "pid": "1730000000000000001",
         "product": "Example tongs",
-        "pid": "0000000000000000000",
+        "queries": {
+          "stores": "tongs + kitchen",
+          "ads": "tongs kitchen, US, video",
+          "tiktok": "tongs kitchen, caption, US"
+        },
         "top_tiktok": [
           {
-            "url": "https://www.tiktok.com/@example/video/0000000000000000001",
+            "url": "https://example.com/thumbnail.jpg",
             "views": 450000,
-            "hook": "Stop burning your hands"
+            "likes": 21000,
+            "creator": "examplecook",
+            "hook": "Stop burning your hands",
+            "video_link": "https://www.tiktok.com/@examplecook/video/0000000000000000001",
+            "is_ad": false,
+            "match": "SAME_PRODUCT"
           }
         ],
         "best_appeal_views": 450000,
         "appeal_100k": "PROVEN",
         "competitor_stores": [
           {
-            "domain": "example-store.com",
-            "active_ads": 12
+            "store": "Example Store (example-store.com)",
+            "product_url": "https://example-store.com/products/tongs",
+            "price": 19.99,
+            "est_rev_30d": 24000,
+            "active_meta_ads": 12,
+            "note": ""
           }
         ],
-        "evidence": "PROVEN"
+        "running_ads": [
+          {
+            "thumbnail_url": "https://example.com/ad-thumb.jpg",
+            "advertiser": "Example Store",
+            "days_running": 41,
+            "reach_or_spend": "12K reach",
+            "hook": "Your hands will thank you",
+            "video_url": "https://example.com/ad.mp4",
+            "library_id": "000000000000000",
+            "landing_page": "https://example-store.com/products/tongs"
+          }
+        ],
+        "evidence": "PROVEN",
+        "notes": "match = SAME_PRODUCT only after looking at the thumbnail next to the Kalo photo; else UNCERTAIN + reason"
       }
     ]
   }

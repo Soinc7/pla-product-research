@@ -4,6 +4,10 @@ One expensive agent doing everything re-reads the same pages and the same rules 
 
 Works in Claude Code (Agent tool, run in background, cheaper model for workers), Codex, or any agent that can start sub-agents. If your agent cannot, run the lanes yourself one after another. Nothing else changes (see "Single-agent fallback").
 
+**Use what the machine already has.** Before the lanes, the host runs `python3 tools/check_agents.py` (writes `state/agents.json`). Per lane it picks the owner's own agent if one covers the lane (the host asks the owner once before using it, and gives it the lane's rules and output path), else the bundled worker, else the built-in general-purpose agent briefed with the worker file. The host then asks the owner once: several sub-agents or one agent (`run_mode` in `state/intake.json`). With one agent, the host runs the lanes itself in the same order.
+
+**Claude Code: ready-made.** `/pla-run` (`.claude/commands/pla-run.md`) is the host playbook, and `.claude/agents/` holds one worker per lane: `pla-kalo-worker` (L1), `pla-meta-worker` (L2), `pla-pricing-worker` (L3), `pla-trendtrack-worker` (L4), `pla-sheets-worker` (L5 writes). Start them with the Agent tool by name, in the background, with the file paths and the Chrome deviceId. Other agents can paste a worker file as its prompt. `tools/deliver.py` replaces the host's formatting work.
+
 ## Roles
 
 **Host (overseer, strongest model).**
@@ -54,6 +58,21 @@ Hard rules:
 - Do not use the browser unless this lane says so. Do not open extra tabs.
 Finish: write the output file, then reply with at most 10 lines: files written, counts, anything MISSING or RECHECK. Then exit.
 ```
+
+## Token and time budget
+
+Measured on the Chapter 2 run (2026-11-20/21) and given as a guide, not a promise:
+
+| Lane | Rough cost | Time | Main lever |
+|---|---|---|---|
+| L1 Kalo, 10 products | most of a Kalo day's detail visits | 30-45 min | page extraction, not screenshots |
+| L2 Meta | about 60-80K tokens per product (frame check included) | about 10 min per product without a throttle | one worker, paced searches, a poster grid instead of one screenshot per ad |
+| L3 pricing, 10 products | small | 15-30 min | one extraction per results page |
+| L4 TrendTrack, 6 products | about 250K tokens on Sonnet, 146 credits | about 5 min | Haiku, 10 results per call, 3 images per product at most |
+| L5 sheet writes, 1 draft + 6 tabs | about 300K tokens (copying request bodies into the connector) | about 10 min | one worker, `tools/deliver.py` builds the bodies |
+| Host merge + all outputs | near zero (scripts) | 1-2 min | `tools/deliver.py` |
+
+The slow part is Meta's throttle. Never let it hold up a delivery: deliver with `RECHECK`, then re-check later into a new lane file.
 
 ## Token-saving rules
 
