@@ -3,9 +3,9 @@
 Read-only TikTok Shop product research. It never publishes, activates products, launches ads or spends money.
 
 1. Read `FOR-YOUR-AGENT.md`, then `SKILL.md`. Run the preflight (`PREFLIGHT.md`) before any research page.
-2. Intake once. If `state/intake.json` exists, reuse it and apply every rule in `state/feedback.md`. If not, ask the 5 intake questions in one message (SKILL.md, Step 0), show the brief, save it, start the hunt.
+2. Intake once. If `state/intake.json` exists, reuse it and apply every rule in `state/feedback.md`. If not, ask the 5 intake questions in one message (SKILL.md, Step 0), show the brief, save it, start the hunt. In the same message (or alone, if only these are missing), ask the run setup after `python3 tools/check_agents.py`: several sub-agents or one agent, whether to use the owner's own agents it found, and the Drive folder.
 3. Redo the intake only if the user says the buyer or budget changed. Log each owner correction in `state/feedback.md`. Commit both files to the user's own fork or clone.
-4. Use the lanes in `AGENTS.md` with the Agent tool: run workers in the background, use a cheap model for workers, and let the host verify (spot-check 2 links per lane, then merge).
+4. Use the lanes in `AGENTS.md` with the Agent tool: `/pla-run` is the host playbook, and the workers are ready in `.claude/agents/` (`pla-kalo-worker`, `pla-meta-worker`, `pla-pricing-worker`, `pla-trendtrack-worker`, `pla-sheets-worker`). Run them in the background with file paths and the Chrome deviceId, and verify (spot-check 2 links per lane, then merge). `python3 tools/deliver.py --chapter C --draft D` builds every output.
 5. Browser: one Chrome owner at a time. Never type, read or ask for passwords or codes. The human logs in. On a login, CAPTCHA or consent wall, mark the item MISSING and move on.
 6. Outputs every run (Chapter 2 · Draft 1 is the reference, `STANDARD.md`): the Google Sheet (if Sheets access exists), the Competitor Files workbook, the local report and the web page:
    `python3 tools/report/build_report.py state/report.json --out reports/<chapter>-<draft>` (PDF + HTML).
