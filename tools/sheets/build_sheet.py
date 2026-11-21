@@ -21,7 +21,7 @@ NAME_FILL = {"GREEN": "#00FF00", "ORANGE": "#FFA500", "YELLOW": "#FFFF00", "WHIT
 TIER_FILL = {"GREEN": GREEN, "ORANGE": ORANGE, "YELLOW": YELLOW, "WHITE": GREY}
 LINK = "#1155CC"
 HEAD = ["#", "Picture", "Product", "Tier", "Kalo", "Price", "30-day revenue", "Rating", "Winning video",
-        "Sales per 1K views\n(not ROAS)", "Meta Ad Library\n5 keywords", "Competitor check\n(uses Kalo videos?)",
+        "Sales per 1K views\n(not ROAS)", "Ad Library\n5 keywords", "Competitor check\n(uses Kalo videos?)",
         "Competitor file", "Google Trends", "1688 / Fabulk\nitem cost", "Est. delivered\n(standard)", "Why"]
 WIDTHS = [36, 118, 210, 96, 92, 70, 84, 64, 170, 110, 260, 230, 120, 84, 130, 100, 240]
 
@@ -144,12 +144,12 @@ def main():
         comps = p.get("competitors") or []
         sellers = p.get("sellers")
         if not p.get("keywords"):
-            ver = runs_cell([("⟳ Meta check not run", None, {"foregroundColor": rgb("#B06000"), "bold": True})])
+            ver = runs_cell([("⟳ Ad Library check not run", None, {"foregroundColor": rgb("#B06000"), "bold": True})])
         elif any((k.get("results") in (None, "—")) for k in p["keywords"]):
             ver = runs_cell([("⟳ Re-check: throttled keywords", None, {"foregroundColor": rgb("#B06000"), "bold": True})])
         elif not comps:
             ver = runs_cell([("✓ No competitor using\nthe Kalo videos", None, {"foregroundColor": rgb("#196633"), "bold": True}),
-                             (("\n%s pages sell it" % sellers) if sellers is not None else "", None, {"foregroundColor": rgb("#595959")})])
+                             ((("\n%s pages sell it" % sellers) if sellers is not None else ""), None, {"foregroundColor": rgb("#595959")})])
         else:
             parts = [("✗ %d competitor%s run%s its\nKalo videos" % (len(comps), "" if len(comps) == 1 else "s", "s" if len(comps) == 1 else ""),
                       None, {"foregroundColor": rgb("#CC1919"), "bold": True})]
@@ -217,7 +217,7 @@ def main():
 
     graded = [("Step", "What was checked", "Bar to pass"),
               ("1. Demand (Yellow)", "Kalo filter setup, 10 same-product videos", "AVD-36 filters, 10 valid videos"),
-              ("2. No copycat (Orange)", "Meta Ad Library, 5 keywords, first frames of the top 10 Kalo videos", "All 5 keywords clear, no Kalo video matched"),
+              ("2. No copycat (Orange)", "Ad Library, 5 keywords, first frames of the top 10 Kalo videos", "All 5 keywords clear, no Kalo video matched"),
               ("3. Winning video (Green)", "Kalo orders/views of one video + TrendTrack appeal", "500+ orders, 0.6+ per 1K views, 300k+ views, a 100k+ appeal video"),
               ("Cost (flag)", "1688/Fabulk item cost, EXACT/CLOSE/SIMILAR", "Est. delivered = item + $5.00 until a real quote"),
               ("Launch math (rank)", "Margin, break-even ROAS at the CBO budget", "Break-even ROAS ≤ 3 or a watch-out with the fix"),

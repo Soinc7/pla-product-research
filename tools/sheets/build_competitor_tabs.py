@@ -10,7 +10,7 @@ Reads (all from the report's folder, normally state/):
   lane-L1-kalo*.json          Kalo link, price, revenue, main photo per product
   lane-L4-trendtrack*.json    TrendTrack: top_tiktok, plus competitor_stores / running_ads when the worker saved them
   lane-L5-compfiles*.json     TrendTrack competitor data (older runs kept it in its own file)
-  lane-L2-meta*.json          Meta competitors running the Kalo videos (later files win)
+  lane-L2-adlibrary*.json          Ad Library competitors running the Kalo videos (later files win)
   host-overrides.json         short names and variants
 Writes to --out:
   0-create.json   only with --new-workbook: Drive create body (add "parents": ["<folder id>"] before sending)
@@ -94,17 +94,17 @@ def main():
     tt = by_pid(st, "lane-L4-trendtrack*.json", "trendtrack")
     for pid, v in by_pid(st, "lane-L5-compfiles*.json", "products").items():
         tt.setdefault(pid, {}).update(v)
-    meta = {}
-    for fn in lane_files(st, "lane-L2-meta*.json"):
-        for m in (load(fn, {}) or {}).get("meta_sweep", []) or []:
-            meta[m.get("pid")] = m  # later files win
+    adlib = {}
+    for fn in lane_files(st, "lane-L2-adlibrary*.json"):
+        for m in (load(fn, {}) or {}).get("adlibrary_sweep", []) or []:
+            adlib[m.get("pid")] = m  # later files win
     ov = load(os.path.join(st, "host-overrides.json"), {}) or {}
 
     pids = [x.strip() for x in a.pids.split(",") if x.strip()] or [p["pid"] for p in sorted(rprods.values(), key=lambda p: p["rank"])]
     os.makedirs(a.out, exist_ok=True)
     adds, fmts, data, tabs = [], [], [], []
     for i, pid in enumerate(pids):
-        k, c, o, m, rp = l1.get(pid, {}), tt.get(pid, {}), ov.get(pid, {}), meta.get(pid, {}), rprods.get(pid)
+        k, c, o, m, rp = l1.get(pid, {}), tt.get(pid, {}), ov.get(pid, {}), adlib.get(pid, {}), rprods.get(pid)
         n = (a.first_number + i) if a.first_number else (rp["rank"] if rp else 90 + i)
         sid = 2000 + n
         name = o.get("name") or (rp or {}).get("name") or (k.get("name") or pid)[:40]
@@ -120,15 +120,15 @@ def main():
         rows.append([])
         qy = c.get("queries", {}) if isinstance(c.get("queries"), dict) else {}
         rows.append(["1. Competitor stores (TrendTrack%s)" % ((", AND query: " + qy["stores"]) if qy.get("stores") else "")]); titles.append(len(rows))
-        rows.append(["Store", "Product page", "Price", "Est. 30-day revenue", "Active Meta ads", "Note"]); heads.append(len(rows))
+        rows.append(["Store", "Product page", "Price", "Est. 30-day revenue", "Active ads", "Note"]); heads.append(len(rows))
         st_rows = c.get("competitor_stores") or []
         for s in st_rows:
             rows.append([s.get("store") or "", link(s.get("product_url"), "Product page ↗"), money(s.get("price")),
-                         money(s.get("est_rev_30d")), num(s.get("active_meta_ads")), s.get("note") or ""])
+                         money(s.get("est_rev_30d")), num(s.get("active_ads")), s.get("note") or ""])
         if not st_rows:
             rows.append(["none found" + ((": " + c["notes"][:280]) if c.get("notes") else " in TrendTrack search_products")])
         rows.append([])
-        rows.append(["2. Their running Meta ads (TrendTrack)"]); titles.append(len(rows))
+        rows.append(["2. Their running ads (TrendTrack)"]); titles.append(len(rows))
         rows.append(["Preview", "Advertiser", "Days running", "Reach / est. spend", "Hook text (script idea)", "Watch video", "Ad Library", "Landing page"]); heads.append(len(rows))
         ads = c.get("running_ads") or []
         for ad in ads:
@@ -140,7 +140,7 @@ def main():
         if not ads:
             rows.append(["none found in TrendTrack search_ads (US, video)"])
         rows.append([])
-        rows.append(["Meta competitors using the Kalo videos (from the Meta sweep)"]); titles.append(len(rows))
+        rows.append(["Ad Library competitors using the Kalo videos (from the Ad Library check)"]); titles.append(len(rows))
         rows.append(["Advertiser", "Ad Library link", "Kalo video", "Status"]); heads.append(len(rows))
         comps = m.get("competitors_using_kalo") or []
         for cc in comps:
@@ -148,8 +148,8 @@ def main():
             rows.append([cc.get("advertiser") or "", link("https://www.facebook.com/ads/library/?id=%s" % lib if lib else "", "Ad Library ↗ %s" % (lib or "")),
                          " ".join("#%s" % x for x in cc.get("kalo_videos") or []), cc.get("status") or "MATCHED"])
         if not comps:
-            rows.append([{"CLEAR": "none: all 5 keywords clear, none of the 10 Kalo videos found in Meta ads",
-                          "RECHECK": "not checked yet: Meta was throttled, re-check pending (never read as 'no competitor')"}.get(m.get("verdict"), "Meta check not run yet")])
+            rows.append([{"CLEAR": "none: all 5 keywords clear, none of the 10 Kalo videos found in ads in the Ad Library",
+                          "RECHECK": "not checked yet: Ad Library was throttled, re-check pending (never read as 'no competitor')"}.get(m.get("verdict"), "Ad Library check not run yet")])
         rows.append([])
         rows.append(["3. TrendTrack top TikTok videos (caption search, US, by views)"]); titles.append(len(rows))
         rows.append(["Preview", "Creator", "Views", "Likes", "Hook / caption", "Match", "Open"]); heads.append(len(rows))
@@ -190,7 +190,7 @@ def main():
                                         "cell": {"userEnteredFormat": {"textFormat": {"bold": True, "fontSize": 11}}}, "fields": "userEnteredFormat.textFormat"}})
         gid = ("https://docs.google.com/spreadsheets/d/%s/edit#gid=%d" % (a.spreadsheet_id, sid)) if a.spreadsheet_id else ""
         tabs.append({"rank": n, "pid": pid, "title": title, "sheetId": sid, "gid_url": gid})
-        print("%-44s stores %d · ads %d · Meta rivals %d · TikTok %d" % (title, len(st_rows), len(ads), len(comps), len(vids)))
+        print("%-44s stores %d · ads %d · Ad Library rivals %d · TikTok %d" % (title, len(st_rows), len(ads), len(comps), len(vids)))
 
     if a.new_workbook:
         adds.append({"deleteSheet": {"sheetId": 0}})  # the default "Sheet1" of a new workbook

@@ -3,7 +3,7 @@
 
 Usage: python3 tools/report/merge_lanes.py --title "Product Research · Chapter 2 · Draft 1" [--state state] [--out state/report.json]
 
-Reads state/intake.json, lane-L1-kalo.json, lane-L2-meta.json, lane-L3-pricing.json,
+Reads state/intake.json, lane-L1-kalo.json, lane-L2-adlibrary.json, lane-L3-pricing.json,
 lane-L4-trendtrack.json and the optional host-overrides.json ({pid: {field: value}}).
 Applies TIERS.md (v1.3) and the launch math, then writes report.json for build_report.py.
 Missing evidence never counts as a pass. Standard library only.
@@ -30,7 +30,7 @@ def load(path, default=None):
 
 
 def lane_files(folder, pattern):
-    """Lane files oldest first: the base file (lane-L2-meta.json) before its re-checks
+    """Lane files oldest first: the base file (lane-L2-adlibrary.json) before its re-checks
     (-r2, -r2a, -r2d, ... -r10), in natural order, so later files win. Plain sorted() would put
     the base file last, because '-' sorts before '.'."""
     def key(path):
@@ -88,7 +88,7 @@ def main():
             if p.get("pid") and p["pid"] not in seen:
                 seen.add(p["pid"])
                 l1["products"].append(p)
-    l2 = lane("lane-L2-meta", "meta_sweep")
+    l2 = lane("lane-L2-adlibrary", "adlibrary_sweep")
     l3 = lane("lane-L3-pricing", "pricing")
     l4 = lane("lane-L4-trendtrack", "trendtrack")
     over = load(os.path.join(st, "host-overrides.json"), {}) or {}
@@ -151,14 +151,14 @@ def main():
         if color == "GREEN":
             why = "Clear on all 5 keywords · best video %s views, %s orders" % (short(views), short(orders))
         elif color == "ORANGE":
-            why = "Clear on Meta · missing: " + "; ".join(missing)
+            why = "Clear in the Ad Library · missing: " + "; ".join(missing)
         elif color == "YELLOW":
             if verdict in ("MATCH", "LIKELY"):
                 why = "%d rival%s run%s its Kalo videos" % (len(comps), "" if len(comps) == 1 else "s", "s" if len(comps) == 1 else "")
             elif verdict == "RECHECK":
-                why = "Meta keywords throttled · re-check before Orange"
+                why = "Ad Library keywords throttled · re-check before Orange"
             else:
-                why = "Meta check not run yet"
+                why = "Ad Library check not run yet"
         else:
             why = "Fewer than 10 proven Kalo videos"
         trend_q = ov.get("trend") or " ".join((p.get("name") or "").split()[:3]).lower()
