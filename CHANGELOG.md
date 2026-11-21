@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.11.0 — 2026-11-21
+
+Ready to share: multi-agent out of the box in Claude Code, one command for every deliverable, and the Competitor Files builder.
+
+- **Claude Code sub-agents** in `.claude/agents/`, one per lane, each with its model, inputs, output file and token rules: `pla-kalo-worker` (L1, Sonnet), `pla-meta-worker` (L2, Sonnet, one at a time, throttle protocol), `pla-pricing-worker` (L3, Sonnet), `pla-trendtrack-worker` (L4, Haiku, API only: appeal video plus Competitor Files data), `pla-sheets-worker` (L5 writes, Sonnet).
+- **`/pla-run`** (`.claude/commands/pla-run.md`): the host playbook. Preflight, lanes in parallel, 2-link checks per lane, delivery, and the token and time budget.
+- **Uses what the machine already has.** `tools/check_agents.py` scans the project, `~/.claude/agents`, `~/.claude/skills` and installed plugins, and picks a worker per lane: the owner's own agent (asked first), else the bundled `pla-*` worker, else the built-in general-purpose agent briefed with the worker file. It reports an existing product-research skill so it is kept, not replaced. The intake now asks once: several sub-agents or one agent (`run_mode`), whether to use the owner's agents (`use_owner_agents`), and the Drive folder (`drive_folder_id`).
+- **Merge order fix:** re-check lane files now always win. Before, `lane-L2-meta.json` sorted after `lane-L2-meta-r2.json` ('-' before '.'), so a re-check of a round-1 product could be overwritten by the old verdict (Chapter 2's drafts were not affected; both reproduce exactly). Ties in break-even ROAS now break on the unrounded value, then revenue.
+- `state/lanes.example.json`: `pid` on the L2 and L3 examples, and an L4 example with the keys the scripts read (stores, running ads, TikTok videos with `match`).
+- `/pla-run`: the run-setup question, the Drive folder, the Kalo window for `--source`, an example call, and the Competitor Files loop (new workbook, rerun `tools/deliver.py`, then the same worker sends the draft sheet).
+- **`tools/deliver.py`**: one command runs the merge, saves each photo once, and builds the PDF report, the Claude web page, the Google Sheet requests, the Competitor Files tabs and the column M links, then prints the send order.
+- **`tools/sheets/build_competitor_tabs.py`**: the Competitor Files tabs (stores, running Meta ads with hooks, Meta competitors running the Kalo videos, top TikTok videos, reference photo) as Sheets API bodies, for a new workbook or added to an existing one. It reads the TrendTrack data from `lane-L4-trendtrack*.json` (or the older `lane-L5-compfiles*.json`).
+- **PDF printing**: `PLA_CHROME` points the report builder at any Chrome, Edge or Chromium; `~/Applications` and `~/Desktop` are searched on a Mac; the throwaway browser profile sits next to the output, so the PDF also prints inside sandboxed agents; a found-but-failed browser is reported as such.
+- **Web page**: the Yellow heading and legend say when a product is waiting on a Meta re-check instead of calling it copied.
+- **Docs**: README "Run it in Claude Code" (workers table, `/pla-run`, installing as a user skill), AGENTS.md token and time budget measured on Chapter 2, SKILL.md Step 12 uses `tools/deliver.py` and the tab builder, one Competitor Files workbook per chapter.
+- Privacy sweep of every public file: only public sites are linked (Meta Ad Library, Kalodata, Fabulk, 1688, Google Trends, TikTok); no emails, document links, account or device IDs.
+
 ## v1.10.2 — 2026-11-21
 
 Repo completion: the Chapter 2 · Draft 1 design is the standard, and the fresh-session test findings are folded in.
