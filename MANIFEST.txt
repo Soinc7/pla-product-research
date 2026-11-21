@@ -38,7 +38,7 @@ templates/batch-state.json	872	fc897df58c13646076845d392ca6a6ee9184c2f8
 templates/candidate-record.json	13435	fb2174c0574eeb6ce1dfcace7eb08fb84645f155
 templates/draft-page.html	37742	fa36e731da28285f2524fdff71052f386b6abfd9
 templates/feedback.md	509	3fb64050e3f4f577a6bc8f59d43e02ff5ca5c108
-templates/filter-receipt.md	1641	d1d83d5079962a31f6b737bd75d54d8cc0ab27ef80
+templates/filter-receipt.md	1641	d83d5079962a31f6b737bd75d54d8cc0ab27ef80
 templates/intake.json	671	1a42bde911b8855991b373bf33fe938ad8c595af
 templates/sheet-layout.md	7238	79d57e44e78601f953d30a08ed411fea9042a153
 tools/report/README.md	5518	5cee4c0f9e346ec7bfa214acaa9773f318f00c6e
