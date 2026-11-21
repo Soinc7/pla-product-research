@@ -8,6 +8,9 @@
   "breakeven_roas_max": 3,
   "sale_value_max": 30,
   "supplier_agent": "none (rows use item cost + $5.00 until a real quote exists)",
+  "run_mode": "multi (sub-agents, one per lane) | single (one agent runs every lane)",
+  "use_owner_agents": "yes | no: use the owner's own agents that tools/check_agents.py found for a lane",
+  "drive_folder_id": "Google Drive folder id for the Sheets; empty = My Drive root",
   "brief": "4-6 sentences: what kind of 10 products you intend to find for this buyer and budget.",
   "created": "YYYY-MM-DD"
 }

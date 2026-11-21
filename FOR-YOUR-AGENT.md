@@ -10,6 +10,8 @@ This repo holds the product researcher only. It does not include a store builder
 
 ## Save tokens: use sub-agents
 
+First run `python3 tools/check_agents.py`: it finds the agents and skills this machine already has and picks a worker per lane (the owner's own, else the bundled `pla-*` worker, else your built-in general-purpose agent with the worker file as its brief). Ask your owner once whether to run with several sub-agents or one agent, and save the answer (`run_mode` in `state/intake.json`).
+
 If you can start sub-agents, read [`AGENTS.md`](AGENTS.md). You act as the host (preflight, tier decisions, sheet, read-back) and give cheap workers one lane each: Kalo discovery, Meta Ad Library sweep, 1688 pricing, TrendTrack. Pass file paths, not pasted data. If you cannot start sub-agents, run the lanes yourself in the same order.
 
 ## Intake, once
@@ -48,7 +50,7 @@ Key columns:
 - **1688 / Fabulk item cost (every row, Green, Orange and Yellow).** The item cost of the closest product found, labeled EXACT, CLOSE or SIMILAR, or "—" if none was found.
 - **Est. delivered (standard).** Item cost + $5.00 flat, labeled "est." until a real supplier-agent quote replaces it. It ranks products. It never releases a Green by itself.
 
-**2. "Competitor Files — Chapter C · Draft D".** This workbook has one tab per product, and each tab lists:
+**2. "Competitor Files — Chapter C".** This workbook has one tab per product, and each tab lists:
 - the competitor stores selling it, with price, estimated 30-day revenue and active ads
 - their running Meta ads, with preview, days running, reach and **hook text** to use as script ideas, plus the landing page
 - the top TrendTrack TikTok videos for the product, with views and hooks
@@ -102,6 +104,10 @@ Do not replace or edit it. Install this as a **separate** skill named `pla-produ
 ## Quick start
 
 First run: do the intake (above). Later runs: reuse `state/intake.json`.
+
+**Claude Code:** open the repo folder and type `/pla-run chapter 1 draft 1`. The host playbook and the five lane workers (`.claude/agents/`) are ready; `tools/deliver.py` builds every output.
+
+**Any other agent:**
 
 ```
 Read FOR-YOUR-AGENT.md, then SKILL.md. Run the preflight only and tell me what is MISSING.

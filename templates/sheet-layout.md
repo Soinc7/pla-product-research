@@ -37,8 +37,8 @@ Body: Arial 10, wrapped, vertically centered. Banded rows `#FFFFFF` / `#F7F9FA`,
 
 **Photos:** Sheets shows "Some formulas are trying to send and receive data from external parties". The file owner must click **Allow access** once, or the IMAGE cells show #REF!. The agent never clicks it; tell the owner. When building from an .xlsx upload, write the IMAGE formulas after conversion with the Sheets API (USER_ENTERED), because they don't survive conversion.
 
-## Companion workbook — "Competitor Files — Chapter C · Draft D"
-Same folder. One tab per product, named `T<rank> · <short name>` (rank = the number in column D). Each tab:
+## Companion workbook — "Competitor Files — Chapter C"
+Same folder, one workbook per chapter (later drafts add tabs for new products). One tab per product, named `T<rank> · <short name>` (rank = the number in column D; tabs added by a later draft continue the numbering). `tools/sheets/build_competitor_tabs.py` builds the tab bodies from the lane files (`tools/deliver.py` runs it). Each tab:
 1. Banner: tier label + product name; A2 = `Open Kalo ↗`.
 2. **Competitor stores** — store, product-page link, price, est. 30-day revenue, active Meta ads, note (TrendTrack `search_products`, AND query "a + b").
 3. **Their running Meta ads** — preview `IMAGE(thumbnail,1)`, advertiser, days running, reach/spend, hook text (script idea), Watch video, Ad Library link by Library ID, landing page (TrendTrack `search_ads` / `get_product_ads`).
