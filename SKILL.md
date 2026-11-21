@@ -47,9 +47,16 @@ If there is no `state/intake.json`, ask the user **in one message**, before open
 
 Optional, in the same message: which supplier agent quotes delivered cost (default: none, so rows use the +$5.00 estimate).
 
+Also in the same message, the run setup:
+
+6. **Sub-agents or one agent?** First run `python3 tools/check_agents.py`. It lists the agents and skills this machine already has and picks a worker per lane: the owner's own agent if one covers the lane, else the bundled `pla-*` worker, else the built-in general-purpose agent briefed with the worker file. Show that plan and ask: "Run with several sub-agents (lanes in parallel, faster, each on a cheaper model) or one agent (simpler, slower)?" If the owner has their own agent for a lane, ask whether to use it. If your agent cannot start sub-agents, say so and use one agent. Default: several sub-agents when available.
+7. **Drive folder** for the Sheets (a link or id; default My Drive root, and say so).
+
+Save the answers as `run_mode`, `use_owner_agents` and `drive_folder_id` in `state/intake.json`, so later runs don't ask again. If the owner already has a product-research skill (`check_agents.py` reports it), keep it and offer the side-by-side or second-opinion modes in `FOR-YOUR-AGENT.md`.
+
 Then write a **rough-draft paragraph of 4-6 sentences**: what kind of 10 products you intend to find for that buyer and budget. Show it to the user and **start the hunt**. Do not wait for approval unless the user asked to approve first.
 
-Save `state/intake.json` from `templates/intake.json` (fields: `cbo_daily_budget_usd`, `cbo_setup`, `demographic`, `price_band`, `categories`, `avoid`, `brief`, `created`, plus `breakeven_roas_max` (default 3), `sale_value_max` (default 30) and `supplier_agent` (default "none")).
+Save `state/intake.json` from `templates/intake.json` (fields: `cbo_daily_budget_usd`, `cbo_setup`, `demographic`, `price_band`, `categories`, `avoid`, `brief`, `created`, plus `breakeven_roas_max` (default 3), `sale_value_max` (default 30), `supplier_agent` (default "none"), `run_mode`, `use_owner_agents` and `drive_folder_id`).
 
 **Price band vs sale value.** The intake price band sets the Kalo price filter. The sale-value rule still applies: a product whose perceived sale value is above `sale_value_max` is WHITE. If the owner's band goes higher (for example $10-$40), raise `sale_value_max` to match, with their OK.
 
@@ -191,6 +198,8 @@ For each product compute the launch math in `TIERS.md` using the saved intake bu
 ### Step 12 — Outputs
 Every run delivers: (1) the Google Sheet below, if Sheets access exists, (2) the Competitor Files workbook, (3) the local report (Step 12b) and (4) the web page (Step 12c). Chapter 2 · Draft 1 is the reference for all four (`STANDARD.md`).
 
+**One command builds all of it:** `python3 tools/deliver.py --chapter C --draft D --source "<filter setup> · US · <window>"` runs the merge, saves the photos, builds the report, the page, the sheet requests, the Competitor Files tabs and the column M links, and prints the send order. The rest of this step explains what it does; in Claude Code the `pla-sheets-worker` sends the files.
+
 Names: replace C and D with the chapter and draft numbers from `report_name` in `batch-N.json` (`chapter2-draft1` → "Chapter 2 · Draft 1").
 
 **Merge first.** Every output reads `state/report.json`, which the merge writes from the lane files and `TIERS.md`:
@@ -201,11 +210,11 @@ python3 tools/report/merge_lanes.py --title "Product Research · Chapter C · Dr
 
 The format is in `FOR-YOUR-AGENT.md` (reference `examples/chapter1/report.json`). The merge also reads `state/host-overrides.json` (the host's short names, variants and Trends keywords per product) and `state/competitor-files*.json` (the Competitor Files tab links); both are described in `state/README.md`.
 
-**Competitor Files workbook** ("Competitor Files — Chapter C · Draft D", same Drive folder). There is no builder script yet; the host or an L5 worker writes it through the Sheets connector:
+**Competitor Files workbook** ("Competitor Files — Chapter C", same Drive folder, one tab per product):
 
-1. Gather the data with TrendTrack per product (`search_products` with an AND query such as "faucet + cover", `search_ads` / `get_product_ads`, `search_tiktok_library`) and save it as `state/lane-L5-compfiles.json`. Keep only rows for the same product; mark look-alikes `UNCERTAIN`.
-2. Create the workbook with one tab per product, named `T<rank> · <short name>`, laid out as in `templates/sheet-layout.md` ("Companion workbook"). Write the values with `values:batchUpdate` (`USER_ENTERED`, so `HYPERLINK` and `IMAGE` formulas work). A product with nothing found gets a "none found: <query> returned <what>" line, never a blank tab.
-3. Save the tab links as `state/competitor-files-<chapter>.json` (`{"spreadsheet_id": "...", "tabs": [{"rank", "pid", "title", "sheetId", "gid_url"}]}`), run the merge again so `competitor_file` is filled, then link the draft's column M: `python3 tools/sheets/competitor_links.py state/report.json --tab "Chapter C · Draft D"` (send the body to `values:batchUpdate`).
+1. The L4 TrendTrack lane gathers the data per product (`search_products` with an AND query such as "faucet + cover", `search_ads` / `get_product_ads`, `search_tiktok_library`) into `state/lane-L4-trendtrack.json` (older runs used a separate `lane-L5-compfiles.json`; both are read). Only rows for the same product; look-alikes are `UNCERTAIN`.
+2. `python3 tools/sheets/build_competitor_tabs.py state/report.json --out state/compfiles-chC-dD [--spreadsheet-id <id> | --new-workbook "Competitor Files — Chapter C"]` (run by `tools/deliver.py`) writes the tab bodies, laid out as in `templates/sheet-layout.md` ("Companion workbook"), named `T<rank> · <short name>`. A product with nothing found gets a "none found: <query> returned <what>" line, never a blank tab.
+3. After sending them, save the tab links as `state/competitor-files-chC.json` (`{"spreadsheet_id": "...", "tabs": [{"rank", "pid", "title", "sheetId", "gid_url"}]}`) and run `tools/deliver.py` again: the merge fills `competitor_file`, and `competitor_links.py` writes column M (`3-competitor-links.json`, sent to `values:batchUpdate`).
 
 Build the sheet from `templates/sheet-layout.md` (v2.1), three tabs:
 
