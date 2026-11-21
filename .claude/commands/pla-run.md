@@ -16,7 +16,7 @@ You think, decide and check; workers do the browsing and API work. Keep your own
    - **run mode**: "Run with several sub-agents (lanes in parallel, faster, each on a cheaper model) or one agent (simpler, slower)?" Show the lane plan from step 2, and if it names an owner agent, ask whether to use it. If you cannot start sub-agents, say so and use one agent;
    - the **Drive folder** for the Sheets (default My Drive root, and say so).
    Save `run_mode`, `use_owner_agents` and `drive_folder_id` in `state/intake.json`.
-4. **Preflight** (`PREFLIGHT.md`): `list_connected_browsers`, pick the logged-in Chrome by **deviceId**, check Kalo, the 1688 route, Sheets, TrendTrack `check_credits`, and the Meta control `"dryer vent"`. Write the states, the deviceId and the Kalo date window into `state/batch-N.json`. STOP only on Chrome or Kalo MISSING.
+4. **Preflight** (`PREFLIGHT.md`): `list_connected_browsers`, pick the logged-in Chrome by **deviceId**, check **every** main tool on every run: Kalo, the 1688 route, Sheets, TrendTrack `check_credits`, the Ad Library control `"dryer vent"` and Google Trends, then `python3 preflight/evaluate.py`. Any main tool missing: ask the owner what they use instead and, if nothing, search the web for current alternatives (`PREFLIGHT.md` G, `TOOL-ALTERNATIVES.md`); record the substitute as PARTIAL in `tool_substitutes`. Ask this in the same message as step 3 when you can. Write the states, the deviceId and the Kalo date window into `state/batch-N.json`. STOP only on Chrome MISSING, or Kalo MISSING with no substitute.
 5. New chapter? First move the last batch's lane files into `state/archive/batch-N/` (`state/README.md`, rule 7).
 
 ## 1. Lanes
@@ -25,16 +25,16 @@ You think, decide and check; workers do the browsing and API work. Keep your own
 | When | Lane | Writes |
 |---|---|---|
 | first | L1 Kalo (`pla-kalo-worker`) | `state/lane-L1-kalo.json` |
-| as soon as L1 is written, together | L4 TrendTrack (`pla-trendtrack-worker`, API) · L3 pricing (`pla-pricing-worker`, browser) · L2 Meta (`pla-meta-worker`, browser, only one) | `lane-L4-trendtrack.json` · `lane-L3-pricing.json` · `lane-L2-meta.json` |
+| as soon as L1 is written, together | L4 TrendTrack (`pla-trendtrack-worker`, API) · L3 pricing (`pla-pricing-worker`, browser) · L2 Ad Library (`pla-adlibrary-worker`, browser, only one) | `lane-L4-trendtrack.json` · `lane-L3-pricing.json` · `lane-L2-adlibrary.json` |
 
 **One agent** (`run_mode` = single): run the same lanes yourself in the same order (L1, then L3 and L4, then L2), following each worker file as your checklist, and write the same files.
 
-- Two browser workers may share the Chrome in their own tabs; **never two Meta workers**.
-- Meta throttled (control 0): don't wait in a loop. Let the rest finish, deliver with those keywords marked `RECHECK`, check the control every 20-30 minutes in the background, and run a Meta re-check later into a new file (`lane-L2-meta-r2.json`). Later files win in the merge.
+- Two browser workers may share the Chrome in their own tabs; **never two Ad Library workers**.
+- Ad Library throttled (control 0): don't wait in a loop. Let the rest finish, deliver with those keywords marked `RECHECK`, check the control every 20-30 minutes in the background, and run a Ad Library re-check later into a new file (`lane-L2-adlibrary-r2.json`). Later files win in the merge.
 - Fewer than 3 Greens looks likely: say so early. Never lower a bar.
 
 ## 2. Check (you, per lane)
-Open 2 links per lane yourself (for example one Kalo product page and one Meta ad by Library ID). If a lane is wrong, send the fix back to the same worker (SendMessage); don't redo it.
+Open 2 links per lane yourself (for example one Kalo product page and one Ad Library ad by Library ID). If a lane is wrong, send the fix back to the same worker (SendMessage); don't redo it.
 
 ## 3. Deliver
 ```
@@ -56,4 +56,4 @@ Check the draft against `STANDARD.md`. Write the end-of-run report (`SKILL.md`):
 - Workers return 10 lines; details live in `state/*.json`. Read those files only for the checks above.
 - Browser workers read pages with one `javascript_tool` extraction or `get_page_text`; screenshots only to find a control, at scale 0.5.
 - Later drafts of a chapter reuse the saved lane files: no new Kalo work, only re-checks.
-- Time: Chapter 2 · Draft 1 went from preflight to a read-back sheet in about 1.5 hours with parallel lanes. The slow part is Meta's throttle, which can add a couple of hours to a re-check; never let it hold up the delivery.
+- Time: Chapter 2 · Draft 1 went from preflight to a read-back sheet in about 1.5 hours with parallel lanes. The slow part is the Ad Library throttle, which can add a couple of hours to a re-check; never let it hold up the delivery.
