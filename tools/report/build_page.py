@@ -87,7 +87,7 @@ def launch(p, budget, roas_max):
     }
 
 
-def meta_check(p):
+def adlib_check(p):
     kws = p.get("keywords") or []
     counted = [k for k in kws if num(k.get("results")) is not None]
     comps = p.get("competitors") or []
@@ -100,7 +100,7 @@ def meta_check(p):
     return state, len(counted), len(kws)
 
 
-def proof(p, meta_state, counted, total):
+def proof(p, adlib_state, counted, total):
     views, orders, cvr, top = num(p.get("views")), num(p.get("orders")), num(p.get("cvr")), num(p.get("topvid"))
     match = (p.get("match") or "").upper()
     comps = p.get("competitors") or []
@@ -119,13 +119,13 @@ def proof(p, meta_state, counted, total):
          "value": ("%s views" % p.get("topvid")) if top is not None else "None found yet",
          "bar": "one video or ad with %s+ views" % k(br.BAR_APPEAL)},
     ]
-    if meta_state == "ok":
+    if adlib_state == "ok":
         mv = "%d of %d keywords clear, no one copying" % (counted, total)
-    elif meta_state == "no":
+    elif adlib_state == "no":
         mv = "%d competitor%s run%s its Kalo videos" % (len(comps), "" if len(comps) == 1 else "s", "s" if len(comps) == 1 else "")
     else:
         mv = "%d of %d keywords counted, re-check the rest" % (counted, total)
-    rows.append({"key": "meta", "state": meta_state, "name": "Meta Ad Library", "value": mv, "note": sell_txt})
+    rows.append({"key": "adlib", "state": adlib_state, "name": "Ad Library", "value": mv, "note": sell_txt})
     rows.append({"key": "match", "state": "ok" if match in ("EXACT", "CLOSE") else "warn", "name": "Factory match",
                  "value": "%s item at %s" % (match.title() if match else "No", text(p.get("item_txt"))),
                  "note": "Similar item, so confirm the cost" if match == "SIMILAR" else (
@@ -194,8 +194,8 @@ def main():
             print("photo #%d not saved: %s" % (p["rank"], err))
         color = p["color"] if p["color"] in ("GREEN", "ORANGE", "YELLOW") else "YELLOW"
         m = launch(p, budget, roas_max)
-        meta_state, counted, total = meta_check(p)
-        checks = proof(p, meta_state, counted, total)
+        adlib_state, counted, total = adlib_check(p)
+        checks = proof(p, adlib_state, counted, total)
         data.append({
             "rank": p["rank"], "tier": text(p.get("tier")), "color": color,
             "name": text(p.get("name")), "variant": text(p.get("variant")) if p.get("variant") else "",
@@ -212,7 +212,7 @@ def main():
             "keywords": [{"q": k.get("q") or "", "url": k.get("url") or "",
                           "n": k.get("results") if num(k.get("results")) is not None else None}
                          for k in (p.get("keywords") or [])],
-            "meta_state": meta_state, "n_comp": len(p.get("competitors") or []),
+            "adlib_state": adlib_state, "n_comp": len(p.get("competitors") or []),
             "rivals": rivals(p), "math": m, "checks": checks,
             "missing": [c for c in checks if c["key"] in ("video", "cvr", "appeal") and c["state"] != "ok"],
             "watch": watchouts(p, m, roas_max),
@@ -223,7 +223,7 @@ def main():
     if isinstance(avoid, str):
         avoid = [avoid]
     cats = intake.get("categories") or ""
-    meta = {
+    info = {
         "budget": budget, "roas_max": roas_max, "target": TARGET_GREENS, "counts": counts,
         "hold": counts["GREEN"] < TARGET_GREENS,
         "cbo": text(intake.get("cbo_setup")), "buyer": text(intake.get("demographic")),
@@ -237,7 +237,7 @@ def main():
 
     tpl = open(TEMPLATE, encoding="utf-8").read()
     page = (tpl.replace("__DATA__", json.dumps(data, ensure_ascii=False))
-               .replace("__META__", json.dumps(meta, ensure_ascii=False))
+               .replace("__INFO__", json.dumps(info, ensure_ascii=False))
                .replace("__TITLE__", br.esc(text(rep["title"])))
                .replace("__DATE__", br.esc(text(rep.get("date", ""))))
                .replace("__SOURCE__", br.esc(text(rep.get("source", "")))))
@@ -251,7 +251,7 @@ def main():
         f.write(head.strip() + "\n" + body.strip() + "\n")
     print("Wrote %s/index.html, %s/page.html and %d photos (Green %d, Orange %d, Yellow %d%s)"
           % (a.out, a.out, len(os.listdir(os.path.join(a.out, "img"))), counts["GREEN"], counts["ORANGE"],
-             counts["YELLOW"], ", HOLD" if meta["hold"] else ""))
+             counts["YELLOW"], ", HOLD" if info["hold"] else ""))
 
 
 if __name__ == "__main__":

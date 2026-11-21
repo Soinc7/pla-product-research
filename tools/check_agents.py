@@ -33,8 +33,8 @@ HOME = os.path.expanduser("~")
 LANES = {
     "L1": ("Kalo discovery and video IDs", "pla-kalo-worker",
            [r"kalo", r"kalodata", r"tiktok shop", r"product (discovery|hunt|finder)", r"winning product"]),
-    "L2": ("Meta Ad Library competitor check", "pla-meta-worker",
-           [r"meta ad ?library", r"facebook ad ?library", r"ads? library", r"competitor ads?", r"ad spy"]),
+    "L2": ("Ad Library competitor check", "pla-adlibrary-worker",
+           [r"facebook ad ?library", r"ads? library", r"competitor ads?", r"ad spy"]),
     "L3": ("1688 / Fabulk pricing", "pla-pricing-worker",
            [r"1688", r"fabulk", r"factory price", r"(supplier|sourcing) (price|cost)", r"\bcogs\b"]),
     "L4": ("TrendTrack appeal + Competitor Files data", "pla-trendtrack-worker",

@@ -5,10 +5,10 @@ Turns a research `report.json` into one self-contained HTML page and a Letter-si
 ## Run it
 
 ```
-python3 tools/report/build_report.py examples/chapter1/report.json --out reports/chapter1-draft3
+python3 tools/report/build_report.py examples/chapter1/report.json --out reports/example
 ```
 
-This writes `reports/chapter1-draft3.html` and `reports/chapter1-draft3.pdf`.
+This writes `reports/example.html` and `reports/example.pdf` from the shipped example data.
 
 - `--out` is the output path without an extension. Default: `reports/<name of the JSON's folder>`.
 - `--no-pdf` writes the HTML only.
@@ -59,7 +59,7 @@ Each item in `products`:
 | `price`, `rev`, `rating` | TikTok price, 30-day revenue, rating |
 | `views`, `orders`, `cvr`, `per` | Winning video views and orders, sales per 1K views, views per sale |
 | `topvid` | Views of the best appeal video ("—" if none) |
-| `keywords` | Five items of `{q, url, results}` from the Meta Ad Library |
+| `keywords` | Five items of `{q, url, results}` from the Ad Library |
 | `sellers`, `competitors` | Seller count, and `{name, ad, videos}` for each competitor using its Kalo videos |
 | `item_txt`, `match`, `item_url`, `est_delivered` | Item cost, `EXACT` / `CLOSE` / `SIMILAR`, source link, estimated delivered cost |
 | `kalo`, `video`, `competitor_file`, `trends` | Links |
@@ -78,7 +78,7 @@ Builds the draft as a web page from the same `report.json`, using `templates/dra
 - `page.html`: the same page without the html/head/body wrapper, for publishing as a Claude Artifact (or any host that adds its own wrapper) together with the `img/` files.
 - `img/<rank>.jpg`: each photo, copied from `image_file` or downloaded from `img`.
 
-The page shows a summary band (HOLD when there are fewer than 3 Greens, and a 10-slot strip that jumps to each product), the Green 1 hero with a launch-ready seal and stacked proof checks, Orange cards that lead with what is missing, muted Yellow rows with a red "Copied on Meta" flag naming the rivals (their ads grouped by advertiser), launch math on every product, the intake and the grading rules. It works at phone width and in light and dark mode.
+The page shows a summary band (HOLD when there are fewer than 3 Greens, and a 10-slot strip that jumps to each product), the Green 1 hero with a launch-ready seal and stacked proof checks, Orange cards that lead with what is missing, muted Yellow rows with a red "Copied in Ad Library" flag naming the rivals (their ads grouped by advertiser), launch math on every product, the intake and the grading rules. It works at phone width and in light and dark mode.
 
 Launch math, proof checks and watch-outs use the same bars and formulas as `build_report.py`. The budget and the break-even ROAS limit come from the report's `intake`, then from `intake.json` next to the report. Unknown values show `MISSING`, never 0.
 

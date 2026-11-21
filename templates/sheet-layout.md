@@ -24,8 +24,8 @@ One Google Sheet per draft, named `Product Research — Chapter C · Draft D`, s
 | G | 30-day revenue | $0.0K |
 | H | Rating | 0.0★. Red if under 4.0 |
 | I | Winning video | `HYPERLINK(Kalo video URL,"<views> views · <orders> orders ↗")` |
-| J | Sales per 1K views (not ROAS) | Kalo orders ÷ video views × 1,000 for the winning video. Show `0.62` and on a second line `1 per 1.6K` (one sale per that many views). It is a TikTok conversion signal, never a Meta ROAS prediction. Red if under 0.6 |
-| K | Meta Ad Library: 5 keywords | All 5 keywords that were searched, one per line, each a clickable link to the exact search used, with its result count, e.g. `"tweezer tongs" (exact) · 12 ↗`. Mix of exact-phrase and unordered. One cell with 5 rich-text link runs (Sheets API `textFormatRuns`, USER_ENTERED does not support several links in one formula). A throttled search shows `RECHECK` instead of a count |
+| J | Sales per 1K views (not ROAS) | Kalo orders ÷ video views × 1,000 for the winning video. Show `0.62` and on a second line `1 per 1.6K` (one sale per that many views). It is a TikTok conversion signal, never a Ad Library ROAS prediction. Red if under 0.6 |
+| K | Ad Library: 5 keywords | All 5 keywords that were searched, one per line, each a clickable link to the exact search used, with its result count, e.g. `"tweezer tongs" (exact) · 12 ↗`. Mix of exact-phrase and unordered. One cell with 5 rich-text link runs (Sheets API `textFormatRuns`, USER_ENTERED does not support several links in one formula). A throttled search shows `RECHECK` instead of a count |
 | L | Competitor verdict | The verdict for the 5 searches. Clear (Green or Orange): `✓ No competitor using the Kalo videos · N pages sell it`, green text. Not clear (Yellow): `✗ N competitors run its Kalo videos`, bold red, then one line per competitor: `HYPERLINK(https://www.facebook.com/ads/library/?id=<Library ID>,"<Brand> ↗ uses Kalo #n, #m")`. `RECHECK` (any keyword throttled): `⟳ Re-check: <n> keywords throttled`, amber. Never plain text, never "none" from a throttled search |
 | M | Competitor file | `HYPERLINK(<Competitor Files sheet>#gid=<product tab>,"Open file ↗ · top video <views>")`. Opens that product's tab in the Competitor Files workbook (see below), not a single TikTok video |
 | N | Google Trends | `HYPERLINK(trends explore URL, 3-month US, keyword,"Trends ↗")` |
@@ -40,8 +40,8 @@ Body: Arial 10, wrapped, vertically centered. Banded rows `#FFFFFF` / `#F7F9FA`,
 ## Companion workbook — "Competitor Files — Chapter C"
 Same folder, one workbook per chapter (later drafts add tabs for new products). One tab per product, named `T<rank> · <short name>` (rank = the number in column D; tabs added by a later draft continue the numbering). `tools/sheets/build_competitor_tabs.py` builds the tab bodies from the lane files (`tools/deliver.py` runs it). Each tab:
 1. Banner: tier label + product name; A2 = `Open Kalo ↗`.
-2. **Competitor stores** — store, product-page link, price, est. 30-day revenue, active Meta ads, note (TrendTrack `search_products`, AND query "a + b").
-3. **Their running Meta ads** — preview `IMAGE(thumbnail,1)`, advertiser, days running, reach/spend, hook text (script idea), Watch video, Ad Library link by Library ID, landing page (TrendTrack `search_ads` / `get_product_ads`).
+2. **Competitor stores** — store, product-page link, price, est. 30-day revenue, active ads in the Ad Library, note (TrendTrack `search_products`, AND query "a + b").
+3. **Their running ads** — preview `IMAGE(thumbnail,1)`, advertiser, days running, reach/spend, hook text (script idea), Watch video, Ad Library link by Library ID, landing page (TrendTrack `search_ads` / `get_product_ads`).
 4. **TrendTrack top TikTok videos** — up to 10, preview, creator, views, likes, hook/caption, engagement, open link (`search_tiktok_library`, `keyword_mode:"all"`, `search_area:"caption"`). Say so when none reach 100K.
 5. **Reference photo** — the Kalo main product image, for custom PLA images alongside the previews above.
 IMAGE formulas go in after the .xlsx converts (Sheets API, USER_ENTERED), and need the owner's Allow access click like tab 1.
