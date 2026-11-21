@@ -656,15 +656,21 @@ def build_html(data, base_dir, notes):
 
 # --------------------------------------------------------------------- pdf
 def find_browser():
+    custom = os.environ.get("PLA_CHROME")  # any Chrome/Edge/Chromium binary outside the usual places
+    if custom and os.path.isfile(custom):
+        return custom
     names = ["google-chrome", "google-chrome-stable", "chromium", "chromium-browser", "msedge", "microsoft-edge"]
     for n in names:
         p = shutil.which(n)
         if p:
             return p
+    home = os.path.expanduser("~")
     paths = [
         "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
         "/Applications/Chromium.app/Contents/MacOS/Chromium",
         "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
+        os.path.join(home, "Applications", "Google Chrome.app", "Contents", "MacOS", "Google Chrome"),
+        os.path.join(home, "Desktop", "Google Chrome.app", "Contents", "MacOS", "Google Chrome"),
     ]
     for env in ("PROGRAMFILES", "PROGRAMFILES(X86)", "LOCALAPPDATA"):
         root = os.environ.get(env)
@@ -684,15 +690,21 @@ def print_pdf(html_path, pdf_path):
     if browser:
         if pdf_path.exists():
             pdf_path.unlink()
-        with tempfile.TemporaryDirectory() as prof:
+        # The throwaway browser profile sits next to the output, not in the system temp folder:
+        # sandboxed agents (Claude Code, Codex) often may not write there, and the print then fails silently.
+        prof = tempfile.mkdtemp(prefix=".chrome-profile-", dir=str(pdf_path.resolve().parent))
+        try:
             cmd = [browser, "--headless=new", "--no-sandbox", "--disable-gpu", "--no-pdf-header-footer",
                    f"--user-data-dir={prof}", f"--print-to-pdf={pdf_path.resolve()}", url]
             try:
                 subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=180)
             except Exception as e:
                 print(f"  browser print failed: {e}")
+        finally:
+            shutil.rmtree(prof, ignore_errors=True)
         if pdf_path.exists() and pdf_path.stat().st_size > 1000:
             return os.path.basename(browser)
+        print(f"  {browser} was found but printed no PDF.")
     try:
         from playwright.sync_api import sync_playwright  # type: ignore
         with sync_playwright() as pw:
@@ -742,8 +754,9 @@ def main(argv=None):
         pages = pdf_pages(pdf_path)
         print(f"PDF:  {pdf_path}  ({pdf_path.stat().st_size / 1024:.0f} KB" + (f", {pages} pages" if pages else "") + f", via {engine})")
     else:
-        print("PDF:  NOT written — no Chrome, Chromium, Edge or Playwright found. "
-              "Open the HTML in any browser and use Print → Save as PDF (Letter, background graphics on).")
+        print("PDF:  NOT written. No working Chrome, Chromium, Edge or Playwright. If Chrome is installed somewhere "
+              "unusual, set PLA_CHROME to its binary and run again; or open the HTML in any browser and use "
+              "Print → Save as PDF (Letter, background graphics on).")
     return 0
 
 
