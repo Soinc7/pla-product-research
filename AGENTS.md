@@ -22,13 +22,15 @@ Works in Claude Code (Agent tool, run in background, cheaper model for workers),
 | L2 | Meta Ad Library 5-keyword sweep per product, plus first-frame check | `lane-L1-kalo.json` | `lane-L2-meta.json` | cheap | Yes, in its own tab group (browser) |
 | L3 | 1688 / Fabulk item price and match label per product | `lane-L1-kalo.json` | `lane-L3-pricing.json` | cheap | Yes, in its own tab group (browser) |
 | L4 | TrendTrack: TikTok top videos, competitor stores and ads | `lane-L1-kalo.json` | `lane-L4-trendtrack.json` | cheap | Yes. API, no browser |
-| L5 | Sheet and Competitor Files builder | all lane files | the Sheets (or local files) | cheap, host reviews | After L1-L4. No browser |
+| L5 | Competitor Files data (TrendTrack) and the sheet / workbook writes, following `SKILL.md` Step 12 | `lane-L1-kalo.json`, then `state/report.json` | `lane-L5-compfiles.json`, the Sheets (or local files), `competitor-files-<chapter>.json` | cheap, host reviews | TrendTrack part right after L1; the writes after the merge. No browser |
 
 Parallel rules:
 - **Browser lanes share Chrome through their own tab groups.** L1, L2 and L3 use the browser. Run them side by side when your agent tool gives each worker its own tab group (Claude in Chrome does). A worker uses only tabs it opened and never touches another's. If your tool cannot separate tabs, run them one after another.
-- L4 uses an API (TrendTrack), so it runs alongside any browser lane.
-- L2 and L3 need L1's output. L4 needs only L1's product names. Start L4 as soon as L1 finishes.
-- Splitting one lane by product (for example L2 on products 1-5 and 6-10) is fine, but each piece writes its own file: `lane-L2-meta-a.json`, `lane-L2-meta-b.json`.
+- **Name the Chrome by deviceId, never by label.** Labels such as "Browser 1" and "Browser 2" swap when a browser reconnects, and a session can silently move to the other device. The host writes the deviceId into `state/batch-N.json` and into every browser worker's prompt. Before each lane, run `list_connected_browsers`; if `inUse` moved, `select_browser <deviceId>` again. In Claude Code, sub-agents share the parent's Chrome device and tab group, so a device switch by one affects all of them: give each worker its own tab and the deviceId.
+- **Never run two Meta lanes at once.** The Meta Ad Library throttle is per browser, Facebook session and network, and every agent on that Chrome shares it. Two Meta workers in one Chrome got 0 on their very first control search. Splitting L2 by product is fine only if the pieces run one after another.
+- L4 uses an API (TrendTrack), so it runs alongside any browser lane. It can't start until L1 has product names; before that only TrendTrack's preflight can run.
+- L2 and L3 need L1's output. Start L4 as soon as L1 finishes.
+- Splitting one lane by product (for example L3 on products 1-5 and 6-10) is fine, but each piece writes its own file: `lane-L3-pricing-a.json`, `lane-L3-pricing-b.json`. A later re-check writes a new file (`lane-L2-meta-r2d.json`); `merge_lanes.py` reads every file and later files win.
 
 Output shapes are in `state/lanes.example.json`.
 
@@ -43,6 +45,7 @@ Task: <lane id and one line, e.g. "L2: Meta Ad Library 5-keyword sweep">
 Rules: read SKILL.md hard rules and <the one lane doc, e.g. META-AD-LIBRARY.md>. Nothing else.
 Input: <path, e.g. state/lane-L1-kalo.json>
 Output: write <path, e.g. state/lane-L2-meta.json> matching the "<lane key>" shape in state/lanes.example.json.
+Chrome (browser lanes only): deviceId <id>. Use only tabs you open, and close them when done.
 Hard rules:
 - Read-only. No publishing, no ads, no spending, no logins, no passwords.
 - Login, CAPTCHA or consent wall: stop that item, mark it MISSING, continue.
@@ -61,20 +64,20 @@ Finish: write the output file, then reply with at most 10 lines: files written, 
 5. **Batch browser actions.** One tool call with several steps beats many small calls.
 6. **Load only the lane's doc.** A Meta worker reads `META-AD-LIBRARY.md`, not the whole repo.
 7. **The host checks, it does not redo.** Two spot-checked links per lane. If a lane is wrong, send the specific fix back to the same worker.
-8. **Meta Ad Library throttle.** After about 40-50 searches the results can go to 0, even for queries that worked before. The L2 worker stops, waits 10 minutes or more, then resumes. Keywords searched during the throttle are marked `RECHECK`. Never conclude "no competitor" from a throttled search.
+8. **Meta Ad Library throttle.** After about 40-50 searches the results can go to 0, even for queries that worked before, and it can come much sooner when other agents shared the same Chrome. The L2 worker searches the control keyword first. If the control is 0, it does nothing else: it stops, waits 10 minutes or more, and checks the control again. A throttle can last well over an hour (one on 2026-11-20 lasted from 22:27 to past 00:09 UTC); keep checking the control every 20-30 minutes and run no product searches meanwhile. Keywords searched during the throttle are marked `RECHECK`. Never conclude "no competitor" from a throttled search.
 
 ## Host steps
 
 0. Intake (once). If `state/intake.json` exists, reuse it and read `state/feedback.md`. If not, ask the five intake questions in one message (`SKILL.md`, Step 0), show the 4-6 sentence brief, save `state/intake.json`, and start. Give every worker the intake path and the feedback rules that apply to its lane.
 1. Preflight. GO or GO_LIMITED, else stop and report.
-2. Open `state/batch-N.json`, pick the filter setup.
+2. Open `state/batch-N.json`, pick the filter setup. Starting a new chapter? First move the last batch's lane files into `state/archive/batch-N/` (`state/README.md`, rule 7), because the merge reads every lane file in `state/`.
 3. Start L1. When it finishes, check it has 10 products with video IDs.
 4. Start L4 in the background. Start L2, then L3. Browser lanes may run side by side when each worker has its own tab group in the same logged-in Chrome (Claude in Chrome gives each agent its own group). Never touch another agent's tabs.
 5. Collect the files. Check each against the shape in `state/lanes.example.json`. Spot-check links.
 6. Apply `TIERS.md`: L2 verdict `CLEAR` for Orange; Green needs the winning-video proof. `RECHECK` waits at Yellow.
 7. Compute the launch math (`TIERS.md`) and rank the Greens with it.
-8. Start L5, or write the sheet yourself. Merge the lane files: `python3 tools/report/merge_lanes.py --title "Product Research · Chapter C · Draft D"` (writes `state/report.json`, applies `TIERS.md`). Build the local report: `tools/report/build_report.py`. Build the sheet requests: `python3 tools/sheets/build_sheet.py state/report.json --tab "Chapter C · Draft D" --out state/sheet`. Send its parts with a Sheets connector. Then read the sheet back and check the draft against `STANDARD.md`.
-9. Write the end-of-run report. Update `state/batch-N.json`. Commit `state/intake.json` and `state/feedback.md` to the user's own repo copy.
+8. Start L5, or write the sheet yourself. Merge the lane files: `python3 tools/report/merge_lanes.py --title "Product Research · Chapter C · Draft D"` (writes `state/report.json`, applies `TIERS.md`). Build the local report: `tools/report/build_report.py`. Build the web page: `tools/report/build_page.py`. Build the sheet requests: `python3 tools/sheets/build_sheet.py state/report.json --tab "Chapter C · Draft D" --out state/sheet`. Send its parts with a Sheets connector. Then read the sheet back and check the draft against `STANDARD.md`.
+9. Write the end-of-run report. Update `state/batch-N.json`. Commit `state/intake.json` and `state/feedback.md` to the user's own repo copy (`git init` first if the copy is not a git repo). Never push to the original repo.
 
 ## Single-agent fallback
 

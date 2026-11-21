@@ -13,7 +13,8 @@ v1.3, 2026-11-20 (v1.2 ladder, with the 5-keyword competitor check). This is the
 
 - It passes the chosen filter setup (default AVD-36: 30-day revenue $20k–$100k, average price $10–$30, commission 10%+, video only).
 - It has at least 10 same-product videos with their IDs recorded (the top 10 by revenue).
-- Perceived sale value is $30 or less, and there is no fatal risk such as a branded or patented design, safety or medical claims, or an unclear pack size. A product that fails here is **White**.
+- Perceived sale value is at or below `sale_value_max` (default $30, in `state/intake.json`), and there is no fatal risk such as a branded or patented design, safety or medical claims, or an unclear pack size. A product that fails here is **White**.
+- The intake price band sets the Kalo price filter; it does not change the sale-value rule. If the owner's band goes higher (for example $10-$40), raise `sale_value_max` with their OK.
 
 ## Step 2. Yellow → Orange: no competitor uses the Kalo videos (5-keyword check)
 
@@ -33,10 +34,13 @@ All of these must be true. The data comes from Kalo (orders per video) and Trend
 
 | Check | Source | Pass (PROPOSED default) |
 |---|---|---|
-| Orders | Kalo, best video, 30 days | **500+ orders** from one video |
-| Conversion | Kalo, orders ÷ views | **0.6+ orders per 1,000 views** on that video |
-| Viewership | Kalo / TrendTrack | Best video **300k+ views** |
-| Appeal | TrendTrack TikTok library and Meta ads for the product | At least one product video or ad with **100k+ views**, showing the hook works beyond one creator |
+| Orders | Kalo, one video, 30 days | **500+ orders** from that video |
+| Conversion | Kalo, orders ÷ views | **0.6+ orders per 1,000 views** on that same video |
+| Viewership | Kalo / TrendTrack | That same video has **300k+ views** |
+| Appeal | TrendTrack TikTok library and Meta ads for the product | At least one video or ad of the **same product** with **100k+ views**, showing the hook works beyond one creator |
+
+- **One video must pass all three Kalo bars** (orders, conversion, views). Two videos that each pass part of it do not count. The winning video is the highest-revenue video that passes all three (`merge_lanes.py` does this).
+- **Same product** for appeal means the same design doing the same job. A different brand of the same design counts. A different product type that solves the same problem (for example a non-contact voltage pen for a 12V circuit probe) does not: mark it `UNCERTAIN` and keep looking. Appeal `PARTIAL` means a hit was found but not yet confirmed by eye; it does not pass until it is `PROVEN`.
 
 If any check is missing, the product stays Orange. Missing never counts as a pass.
 

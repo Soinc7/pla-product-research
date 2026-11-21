@@ -19,6 +19,7 @@ The machine-readable version is `preflight/checklist.json`.
 | `PROVEN` | Checked just now and it works |
 | `PARTIAL` | Works with a limit. Write the limit down. |
 | `MISSING` | Not available or not logged in |
+| `PENDING` | Not run yet (for example, Chrome is busy with another agent). Run it before research. Never write MISSING for a check you could not run yet. |
 
 ## Stop rule
 
@@ -41,7 +42,7 @@ Run order: **B first** (the others need Chrome), then A, C, D, E, F.
 
 Steps:
 
-1. List the browsers or tabs your tool can see. If more than one Chrome is connected (for example "Browser 1" and "Browser 2"), open Kalodata in each and use the one that is logged in. A login page in one browser does not mean Kalo is logged out.
+1. List the browsers or tabs your tool can see. If more than one Chrome is connected, open Kalodata in each and use the one that is logged in. A login page in one browser does not mean Kalo is logged out. **Identify the browser by its deviceId**, not its label: labels such as "Browser 1" and "Browser 2" swap when a browser reconnects. Write the deviceId into `state/batch-N.json`, and check `list_connected_browsers` again before each lane.
 2. Open a new tab. Load any simple page. Read its title back.
 3. Confirm this is the user's real Chrome profile (the one with their logins), not a blank or throwaway browser.
 4. Confirm no other agent is driving this Chrome right now.
@@ -60,7 +61,7 @@ Steps:
 
 | Route | Login | What you get |
 |---|---|---|
-| **Fabulk** — fabulk.com | **Not needed** | USD price and MOQ on every result card. Keyword search: `https://www.fabulk.com/searchlist?keyword=<words>`. Photo search: camera icon in the search bar (upload the Kalo main photo). |
+| **Fabulk** — fabulk.com | **Not needed** | USD price and MOQ on every result card. Keyword search: `https://www.fabulk.com/searchlist?keyword=<words>`. Photo search: camera icon in the search bar (upload the Kalo main photo). Browser only: plain HTTP from a script gets 403. |
 | **1688order** — 1688order.com | Free account | English 1688 agent site with factory prices |
 | **1688.com** | Needed for SKU tiers, image search and counter price | Public search shows CNY list prices without login |
 
@@ -89,8 +90,15 @@ Steps:
 3. Read the plan type from the account area if it is shown. Ask the human if it is not.
 4. Write the limits into the batch record.
 
-Known limit — **trial plan: 10 keyword searches per day and 10 product/video detail visits per day.** These are separate counters.
-Limits for other plans: UNKNOWN. Ask the human or read them from the account page.
+Known limits:
+
+| Plan | Limit |
+|---|---|
+| Trial | 10 keyword searches per day and 10 product/video detail visits per day (separate counters) |
+| Basic | At most 500 result rows per list; page 11 (rows 501+) asks to upgrade. Detail-visit limit unknown, so count every visit. |
+| Other plans | UNKNOWN. Ask the human or read them from the account page. |
+
+Kalo can log itself out mid-run (seen after 3 detail visits). If it does, the human logs in again and the run resumes; this is not a STOP. Drive Kalo through its UI only: its internal API returns the wrong region when called from a page script.
 
 | State | When |
 |---|---|
@@ -106,8 +114,8 @@ Limits for other plans: UNKNOWN. Ask the human or read them from the account pag
 
 Steps:
 
-1. Confirm a Sheets/Drive tool is connected, or that Sheets opens logged in inside Chrome.
-2. Confirm where the output sheet should live (ask the human for the folder).
+1. Confirm a Sheets/Drive tool is connected, or that Sheets opens logged in inside Chrome. The sheet builder writes raw Sheets `batchUpdate` bodies; if your connector has no raw batchUpdate tool, it needs a proxy call (for example Composio `COMPOSIO_PROXY_EXECUTE`). Note which route works.
+2. Confirm where the output sheet should live (ask the human for the folder). If none is named on a first run, use My Drive root and say so.
 3. Do not create test files unless the human agrees.
 
 | State | When |
@@ -122,8 +130,12 @@ Steps:
 
 TrendTrack, Google Trends, Meta Ad Library.
 
+- **TrendTrack** (trendtrack.io) is a paid MCP connector: TikTok videos, Shopify stores and Meta ads by keyword. Check it with `check_credits` and write the credits left into the batch record (about 2 credits per returned item).
+- **Meta Ad Library** is public. Check it with the control search (`"dryer vent"`, exact phrase, US, active, video: about 2,300 ads). A 0 means throttled; see `META-AD-LIBRARY.md`.
+- **Google Trends** is public; open one explore page.
+
 Check each one opens and can be read. Record a state for each.
-These do not block the start of research. But a product **cannot be green** until all three have been checked for that exact product. Until then it is HOLD.
+These do not block the start of research. But a product **cannot be Green** until they have been checked for that exact product: with no Meta check it stays Yellow, and with no TrendTrack appeal video it is Orange at most. There is no launch handoff either.
 
 **Fix:** Human connects or logs in to the missing tool. Google Trends and Meta Ad Library need only a working browser.
 
@@ -140,9 +152,9 @@ python3 preflight/evaluate.py path/to/your-result.json
 
 (On Windows: `python preflight/evaluate.py ...`.)
 
-It prints `GO`, `GO_LIMITED` or `STOP` and the fix for each problem. Exit code 2 means STOP.
+It prints `GO`, `GO_LIMITED`, `PENDING` or `STOP` and the fix for each problem. Exit code 2 means STOP, 3 means some checks are still PENDING (run them, then evaluate again).
 
-3. Copy the five states into the filter receipt for the batch.
+3. Copy the six states (A-F) into the filter receipt for the batch.
 
 Notes must never contain passwords, keys or account IDs.
 

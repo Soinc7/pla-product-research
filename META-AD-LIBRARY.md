@@ -1,6 +1,6 @@
 # Meta Ad Library check: competitors and reference videos
 
-Every candidate must pass this check before it gets any tier (Green, Orange or Yellow). If it was not run, the product cannot be tiered and is marked `HOLD`.
+Every candidate needs this check before it can be Orange or Green. Until it is run, or while any keyword is `RECHECK`, the product stays Yellow (its Kalo-demand tier) and the sheet says why.
 
 The Meta Ad Library (facebook.com/ads/library) is public. A normal Chrome window can open it without logging in. One agent drives Chrome at a time.
 
@@ -15,9 +15,10 @@ The Meta Ad Library (facebook.com/ads/library) is public. A normal Chrome window
 
 Every product is searched with **5 different keywords** that describe it. A product must clear **all 5** to be Orange or Green. A competitor found on any one of them keeps it Yellow.
 
-1. Open each search with these settings: country **United States**, ad category **All ads**, status **Active**, media type **All**.
-   Exact-phrase URL: `https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22KEYWORD%22&search_type=keyword_exact_phrase&media_type=all`
+1. Open each search with these settings: country **United States**, ad category **All ads**, status **Active**, media type **Videos**. Both the result counts and the frame check (Part B) use video ads, so one search does both jobs.
+   Exact-phrase URL: `https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=US&q=%22KEYWORD%22&search_type=keyword_exact_phrase&media_type=video`
    Unordered URL (same, but `search_type=keyword_unordered` and no quotes around the keyword).
+   If the page remembers a sort such as "Impressions: high to low", the results are the same; the sort is not a cause of 0.
 2. Pick 5 keywords that describe the product from different sides. Mix exact-phrase and unordered searches:
    - K1 exact phrase: the plain product name (for example `"tweezer tongs"`)
    - K2 exact phrase: the brand name from the Kalo listing, if there is one, otherwise a second name people use
@@ -32,7 +33,12 @@ Every product is searched with **5 different keywords** that describe it. A prod
 
 **Control keyword.** Before the sweep, and again about every 15 searches, search a control keyword that always has ads (for example `"dryer vent"`, about 2,300 US video ads). If the control returns 0, you are throttled: everything since the last good control is `RECHECK`.
 
-**Throttling.** Meta Ad Library may start returning 0 results, even for queries that worked before, after about 40-50 searches in a session. If a known query suddenly returns 0, stop. Pause about 10 minutes or more, then resume. Mark the keywords searched during the throttle as `RECHECK`. Never conclude "no competitor" from a throttled search. A product with any `RECHECK` keyword cannot be Orange or Green yet.
+**Throttling.** Meta Ad Library may start returning 0 results ("No ads match your search criteria"), even for queries that worked before, after about 40-50 searches in a session. The throttle is shared by everything on that Chrome, Facebook session and network, so it can come much sooner when other agents searched first.
+- **Never run two Meta lanes at once.** One worker, one product at a time.
+- If the first control is 0, do nothing else. Wait 10 minutes or more, then check the control again.
+- If a known query suddenly returns 0 mid-sweep, stop and treat it the same way.
+- A throttle can last well over an hour (one on 2026-11-20 lasted from 22:27 to past 00:09 UTC). Keep checking the control every 20-30 minutes, run no product searches meanwhile, and say in the end-of-run report what is still waiting.
+- Mark the keywords searched during the throttle as `RECHECK`. Never conclude "no competitor" from a throttled search. A product with any `RECHECK` keyword cannot be Orange or Green yet.
 
 **Verdict per product**
 
@@ -51,20 +57,22 @@ Every product is searched with **5 different keywords** that describe it. A prod
 
 ### B. Reference-video match
 
-1. Take the product's **top 3 Kalo videos** by revenue (their IDs are on the Kalo evidence tab).
-2. Get a first frame for each one. Either open `https://www.tiktok.com/player/v1/<VIDEO_ID>`, or view the thumbnail on the Kalo "Video & Ad" tab. TikTok rate-limits these players, but the error tile still shows a small thumbnail.
-3. Switch the Meta search to **Media type: Videos**, scroll through it, and compare frames: same person, same setting, same product shot, same overlay text.
-4. Record each Kalo video as `MATCHED` (same footage running as an ad, give the advertiser), `LIKELY` (same scene or creator, not 100% sure), or `NOT_FOUND`.
+1. Take the product's **top 10 Kalo videos** by revenue (their IDs are in `lane-L1-kalo.json`; how they are collected is in `SKILL.md` Step 4 and the "Video numbers" note in `AGENTS.md`).
+2. Get a first frame for each one. The cover image is public: `https://img.kalocdn.com/tiktok.video/<VIDEO_ID>/cover.png`. If a cover returns 404, open `https://www.tiktok.com/player/v1/<VIDEO_ID>` (TikTok rate-limits these players, but the error tile still shows a small thumbnail) or view the thumbnail on the Kalo "Video & Ad" tab.
+3. Scroll through each video search from Part A and compare frames: same person, same setting, same product shot, same overlay text. Ads that TrendTrack or the Competitor Files already found for this product are worth checking first.
+4. Record each Kalo video as `MATCHED` (same footage running as an ad, give the advertiser and Library ID), `LIKELY` (same scene or creator, not 100% sure), or `NOT_FOUND`.
 
 ### C. Competition band
 
-| Band | Rule | Effect on tier |
+The band is **shown on every row, not a tier gate** (`TIERS.md` sets the tier). It helps choose between products of the same tier, and the launch gate uses it (`SKILL.md` Step 8).
+
+| Band | Rule | What it tells you |
 |---|---|---|
-| `NONE` | 0 relevant direct-to-consumer brands | Not proven on Meta. Highest possible tier is **Orange**. |
-| `LIGHT` | 1–10 brands, none running 30+ days | Room to enter, but nobody has proved it yet. Highest possible tier is **Orange**. |
-| `HEALTHY` | 1–10 brands, and at least one running **30+ days** | Proven, not crowded. **Green is allowed.** |
-| `CROWDED` | 11–20 brands | Highest possible tier is **Orange**. |
-| `SATURATED` | 21+ brands, **or** the same ad copy cloned across 4+ pages, **or** one Kalo top-3 video `MATCHED` at 3+ advertisers | Highest possible tier is **Yellow**. |
+| `NONE` | 0 relevant direct-to-consumer brands | Not proven on Meta yet. |
+| `LIGHT` | 1–10 brands, none running 30+ days | Room to enter, but nobody has proved it yet. |
+| `HEALTHY` | 1–10 brands, and at least one running **30+ days** | Proven, not crowded. The best band for a launch. |
+| `CROWDED` | 11–20 brands | Harder to stand out. |
+| `SATURATED` | 21+ brands, **or** the same ad copy cloned across 4+ pages, **or** one Kalo top-3 video `MATCHED` at 3+ advertisers | Very crowded. Pick another product of the same tier first. |
 
 Any `MATCHED` or `LIKELY` video: drop that video from your creative plan and note it. You will need fresh footage.
 

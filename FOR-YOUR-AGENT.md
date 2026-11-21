@@ -14,7 +14,7 @@ If you can start sub-agents, read [`AGENTS.md`](AGENTS.md). You act as the host 
 
 ## Intake, once
 
-Before any search, ask the user in one message: (1) daily CBO budget (default $150/day), (2) CBO setup name (default "Flash Plus CBO"), (3) target buyer, (4) price band and categories (default the filter setup's), (5) anything to avoid. Then show a 4-6 sentence brief of the 10 products you intend to find and start; do not wait for approval unless asked. Save it to `state/intake.json` (template `templates/intake.json`).
+Before any search, ask the user in one message: (1) daily CBO budget (default $150/day), (2) CBO setup name (default "Flash Plus CBO"), (3) target buyer, (4) price band and categories (default the filter setup's), (5) anything to avoid, and optionally which supplier agent quotes delivered cost (default none). Then show a 4-6 sentence brief of the 10 products you intend to find and start; do not wait for approval unless asked. Save it to `state/intake.json` (template `templates/intake.json`).
 
 This happens **once**. It lives in the user's own repo copy, together with `state/feedback.md` (a running log of owner corrections and the rule each became). Commit both. Every later draft reuses the intake and applies all feedback rules. Redo the intake only if the user says the buyer or budget changed. See `state/README.md`.
 
@@ -31,7 +31,7 @@ Greens are ranked inside Green by break-even ROAS, lowest first, after they pass
 
 ## What your owner gets each run
 
-Every draft must pass `STANDARD.md`.
+Every draft must pass `STANDARD.md`. Chapter 2 · Draft 1 (2026-11-20) is the owner-approved reference for the sheet, the Competitor Files, the web page and the report.
 
 **1. The draft sheet, "Product Research — Chapter C · Draft D".** It has 10 rows, ranked 1–10:
 
@@ -60,11 +60,19 @@ Key columns:
 python3 tools/report/build_report.py state/report.json --out reports/<chapter>-<draft>
 ```
 
-It writes one self-contained HTML (photos embedded) and a PDF. In Claude Code there are no web artifacts, so this is the visual deliverable. Download each product's main Kalo photo into `reports/<run>/images/` first (or let the builder fetch it) so no image is missing.
+It writes one self-contained HTML (photos embedded) and a PDF. Download each product's main Kalo photo into `reports/<run>/images/` first (or let the builder fetch it) so no image is missing.
 
-`state/report.json` is the hand-off format the builder reads. Reference: `examples/chapter1/report.json` (do not edit it). Top level: `title`, `date`, `source`, `intake` (the saved intake fields), `est_rule`, `products`. Each product: `name`, `variant`, `pid`, `img`, `image_file`, `price`, `rev`, `rating`, `vid`, `views`, `orders`, `cvr`, `topvid`, `trend`, `sellers`, `item`, `item_txt`, `match` (EXACT/CLOSE/SIMILAR), `item_url`, `est_delivered`, `why`, `rank`, `tier`, `color`, `kalo`, `video`, `trends`, `keywords` (list of `q`, `url`, `results`), `competitors` (list of `name`, `ad`, `videos`), `per` (views per sale), `competitor_file`. Copy the field names from the reference file when unsure.
+**4. The web page.** The same draft as a phone-friendly page that works in light and dark mode:
 
-**4. The end-of-run report.** The tier counts, what is still MISSING, and a paused handoff. A batch with fewer than 3 Greens ends as **HOLD**, which is a correct result. The skill never invents a product to fill a slot.
+```
+python3 tools/report/build_page.py state/report.json --out reports/<chapter>-<draft>-page
+```
+
+It shows a summary band (HOLD when there are fewer than 3 Greens), the Green 1 pick as a hero with stacked proof checks and a launch-ready seal, Orange cards that lead with what's missing, muted Yellow rows with a red "Copied on Meta" flag naming the rivals, and launch math on every product. It writes `index.html` (opens locally) and `page.html` (no html/head/body wrapper) with `img/1.jpg` ... `img/10.jpg`. If you can publish a web page (for example a Claude Artifact), publish `page.html` with the `img/` files and send your owner the link.
+
+`state/report.json` is the hand-off format both builders read. Reference: `examples/chapter1/report.json` (do not edit it). Top level: `title`, `date`, `source`, `intake` (the saved intake fields), `est_rule`, `products`. Each product: `name`, `variant`, `pid`, `img`, `image_file`, `price`, `rev`, `rating`, `vid`, `views`, `orders`, `cvr`, `topvid`, `trend`, `sellers`, `item`, `item_txt`, `match` (EXACT/CLOSE/SIMILAR), `item_url`, `est_delivered`, `why`, `rank`, `tier`, `color`, `kalo`, `video`, `trends`, `keywords` (list of `q`, `url`, `results`), `competitors` (list of `name`, `ad`, `videos`), `per` (views per sale), `competitor_file`. Copy the field names from the reference file when unsure.
+
+**5. The end-of-run report.** The tier counts, what is still MISSING, and a paused handoff. A batch with fewer than 3 Greens ends as **HOLD**, which is a correct result. The skill never invents a product to fill a slot.
 
 ## If your owner already has a product researcher
 
@@ -72,7 +80,7 @@ Do not replace or edit it. Install this as a **separate** skill named `pla-produ
 
 | Mode | Prompt your owner gives you | What happens |
 |---|---|---|
-| **Standalone** | "Run pla-product-research, one batch, default filters." | Full run with discovery. You get 10 ranked products, both sheets and the report. |
+| **Standalone** | "Run pla-product-research, one batch, default filters." | Full run with discovery. You get 10 ranked products, both sheets, the web page and the report. |
 | **Second opinion** | "Grade my list with pla-product-research tiers." | Use this skill's tier ladder (`TIERS.md`, `META-AD-LIBRARY.md`) on the products your own researcher found. Each product needs a Kalodata product page; without one it stays WHITE, marked MISSING. *This is a usage pattern built from the existing steps, not a separate tested procedure.* |
 | **Side by side** | "Run both and compare." | Run each skill on its own and put both lists in one table. Show where they agree, and keep each skill's own verdict. Neither skill may change the other's grade. |
 
