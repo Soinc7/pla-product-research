@@ -13,6 +13,7 @@ import glob
 import json
 import math
 import os
+import re
 from urllib.parse import quote
 
 GREEN_ORDERS = 500      # TIERS.md Step 3 (PROPOSED defaults)
@@ -26,6 +27,18 @@ def load(path, default=None):
         return default
     with open(path, encoding="utf-8") as f:
         return json.load(f)
+
+
+def lane_files(folder, pattern):
+    """Lane files oldest first: the base file (lane-L2-meta.json) before its re-checks
+    (-r2, -r2a, -r2d, ... -r10), in natural order, so later files win. Plain sorted() would put
+    the base file last, because '-' sorts before '.'."""
+    def key(path):
+        stem = os.path.basename(path)[:-5]  # drop ".json"
+        base = pattern.split("*")[0]
+        rest = stem[len(base):] if stem.startswith(base) else stem
+        return (1 if rest else 0, [int(t) if t.isdigit() else t for t in re.split(r"(\d+)", rest)])
+    return sorted(glob.glob(os.path.join(folder, pattern)), key=key)
 
 
 def short(n):
@@ -62,13 +75,13 @@ def main():
     # Every round's lane files are read: lane-L1-kalo.json, lane-L1-kalo-r2.json, ... (same for L2-L4).
     def lane(prefix, key):
         out = {}
-        for fn in sorted(glob.glob(os.path.join(st, prefix + "*.json"))):
+        for fn in lane_files(st, prefix + "*.json"):
             for r in (load(fn, {}) or {}).get(key, []) or []:
                 out[r.get("pid")] = r  # later files win, so a re-check replaces an older verdict
         return out
     l1 = {"products": [], "observed_at_utc": None}
     seen = set()
-    for fn in sorted(glob.glob(os.path.join(st, a.l1))):
+    for fn in lane_files(st, a.l1):
         d = load(fn, {}) or {}
         l1["observed_at_utc"] = l1["observed_at_utc"] or d.get("observed_at_utc")
         for p in d.get("products", []) or []:
@@ -81,7 +94,7 @@ def main():
     over = load(os.path.join(st, "host-overrides.json"), {}) or {}
     # Competitor Files workbook tabs (state/competitor-files*.json: {tabs: [{pid, gid_url}]}).
     cfile = {}
-    for fn in sorted(glob.glob(os.path.join(st, "competitor-files*.json"))):
+    for fn in lane_files(st, "competitor-files*.json"):
         for t in (load(fn, {}) or {}).get("tabs", []) or []:
             if t.get("pid") and t.get("gid_url"):
                 cfile[t["pid"]] = t["gid_url"]
@@ -163,11 +176,13 @@ def main():
             "trends": "https://trends.google.com/trends/explore?date=today%203-m&geo=US&q=" + quote(trend_q),
             "keywords": kws, "competitors": comps, "per": per, "competitor_file": cfile.get(pid, ""),
             "_be": be if be is not None else math.inf, "_margin": margin,
+            "_be_raw": (price / (price - est)) if (price is not None and est is not None and price - est > 0) else math.inf,
             "_watch": (margin is not None and margin <= 0) or (be is not None and be > roas_max),
         })
 
     order = {"GREEN": 0, "ORANGE": 1, "YELLOW": 2, "WHITE": 3}
-    rows.sort(key=lambda r: (order[r["color"]], r["_be"]))
+    # Tier first, then the lowest break-even ROAS (unrounded, so ties are real ties), then higher revenue, then pid.
+    rows.sort(key=lambda r: (order[r["color"]], r["_be_raw"], -(r["rev"] or 0), str(r["pid"])))
     if a.top:
         rows = rows[:a.top]
     counts = {}
@@ -175,7 +190,7 @@ def main():
         counts[r["color"]] = counts.get(r["color"], 0) + 1
         r["rank"] = i
         r["tier"] = "%s %d" % (r["color"], i)
-        for k in ("_be", "_margin", "_watch"):
+        for k in ("_be", "_be_raw", "_margin", "_watch"):
             r.pop(k)
     cats = intake.get("categories")
     report = {
