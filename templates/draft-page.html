@@ -11,7 +11,7 @@
 <style>
 /* Layout: an analyst briefing. A decision band with the HOLD call and a 10-slot tier strip, the
    Green pick as a split hero with its seal and stacked proof, an Orange ledger of two-up cards that
-   lead with what is missing, a muted Yellow rack of rows flagged "Copied on Meta", then the intake
+   lead with what is missing, a muted Yellow rack of rows flagged "Copied in Ad Library", then the intake
    and the grading rules. Shapes: cards 16px, inner boxes 10px, chips and buttons full pill. */
 :root{
   --bg:#F1F4F2; --surface:#FBFCFB; --sunk:#F4F7F5; --ink:#101713; --ink-2:#3F4B44; --ink-3:#5A665F;
@@ -68,8 +68,8 @@ p{margin:0}
 .mark{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--ink);color:var(--surface);font:700 15px/1 var(--f-display);letter-spacing:-.02em}
 .mast-text{min-width:0}
 .mast h1{font:700 clamp(19px,2.3vw,25px)/1.15 var(--f-display);letter-spacing:-.02em}
-.mast-meta{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:5px;color:var(--ink-3);font-size:13px}
-.mast-meta span+span{padding-left:12px;border-left:1px solid var(--line)}
+.mast-info{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:5px;color:var(--ink-3);font-size:13px}
+.mast-info span+span{padding-left:12px;border-left:1px solid var(--line)}
 
 main.wrap{padding-block:26px 56px;display:grid;grid-template-columns:minmax(0,1fr);gap:44px}
 main.wrap>*{min-width:0}
@@ -313,7 +313,7 @@ main.wrap>*{min-width:0}
     <div class="mark" aria-hidden="true">PR</div>
     <div class="mast-text">
       <h1>__TITLE__</h1>
-      <p class="mast-meta"><span>__DATE__</span><span>__SOURCE__</span><span id="mast-budget"></span></p>
+      <p class="mast-info"><span>__DATE__</span><span>__SOURCE__</span><span id="mast-budget"></span></p>
     </div>
   </div>
 </header>
@@ -330,7 +330,7 @@ main.wrap>*{min-width:0}
 
 <script>
 const DATA = __DATA__;
-const META = __META__;
+const INFO = __INFO__;
 (function () {
   "use strict";
   const $ = (id) => document.getElementById(id);
@@ -346,8 +346,8 @@ const META = __META__;
   const NAME = {GREEN: "Green", ORANGE: "Orange", YELLOW: "Yellow"};
   const SW = {GREEN: "var(--sw-g)", ORANGE: "var(--sw-o)", YELLOW: "var(--sw-y)"};
   const MARK = {ok: "✓", no: "✗", warn: "!"};
-  const budget = usd0(META.budget);
-  const C = META.counts;
+  const budget = usd0(INFO.budget);
+  const C = INFO.counts;
   const of = (c) => DATA.filter((p) => p.color === c);
   const plural = (n, one, many) => n + " " + (n === 1 ? one : many);
 
@@ -375,12 +375,12 @@ const META = __META__;
     const loss = m.weak === "loss", thin = m.weak === "thin", none = m.margin == null;
     const tiles = [
       ["Margin per sale", usd(m.margin), loss ? "bad" : "", loss ? "Every sale loses money" : "Price minus delivered"],
-      ["Break-even ROAS", none ? "MISSING" : loss ? "Loss" : m.roas.toFixed(2), loss || thin ? "bad" : none ? "" : "good", "Limit " + META.roas_max.toFixed(2)],
+      ["Break-even ROAS", none ? "MISSING" : loss ? "Loss" : m.roas.toFixed(2), loss || thin ? "bad" : none ? "" : "good", "Limit " + INFO.roas_max.toFixed(2)],
       ["Sales/day", none ? "MISSING" : loss ? "Loss" : "~" + m.sales_day, loss ? "bad" : "", "To break even at " + budget],
       ["Price for 2.0 ROAS", usd(m.price_2x), "", "2 × est. delivered"],
     ];
     const state = none ? "" : m.weak ? '<span class="mstate bad">Watch-out</span>' : '<span class="mstate good">Within the limit</span>';
-    return '<div class="math' + (isBig ? " big" : "") + '"><div class="math-h"><span>Launch math at <b>' + budget + "/day</b>, " + esc(META.cbo) + "</span>" + state + '</div><div class="math-g">' +
+    return '<div class="math' + (isBig ? " big" : "") + '"><div class="math-h"><span>Launch math at <b>' + budget + "/day</b>, " + esc(INFO.cbo) + "</span>" + state + '</div><div class="math-g">' +
       tiles.map((t) => '<div class="mt ' + t[2] + '"><span class="k">' + t[0] + '</span><div class="v">' + t[1] + "</div><small>" + t[3] + "</small></div>").join("") + "</div></div>";
   }
 
@@ -394,15 +394,15 @@ const META = __META__;
 
   function verdict(p) {
     const sell = p.sellers != null ? "<small>" + esc(p.sellers) + " pages sell this product</small>" : "";
-    if (p.meta_state === "ok") return '<p class="verdict ok">✓ No competitor using the Kalo videos' + sell + "</p>";
-    if (p.meta_state === "no") return '<p class="verdict no">✗ ' + p.n_comp + (p.n_comp === 1 ? " competitor runs" : " competitors run") + " its Kalo videos" + sell + "</p>";
-    return '<p class="verdict warn">! Meta check incomplete. Re-check the throttled keywords.' + sell + "</p>";
+    if (p.adlib_state === "ok") return '<p class="verdict ok">✓ No competitor using the Kalo videos' + sell + "</p>";
+    if (p.adlib_state === "no") return '<p class="verdict no">✗ ' + p.n_comp + (p.n_comp === 1 ? " competitor runs" : " competitors run") + " its Kalo videos" + sell + "</p>";
+    return '<p class="verdict warn">! Ad Library check incomplete. Re-check the throttled keywords.' + sell + "</p>";
   }
 
   function keywords(p, withVerdict) {
     const chips = p.keywords.map((k) => "<li>" + link(k.url, "kwc" + (k.n == null ? " re" : ""), "<span>" + esc(k.q) + "</span><em>" + (k.n == null ? "re-check" : esc(k.n)) + "</em>",
-      "Search the Meta Ad Library for " + k.q) + "</li>").join("");
-    return '<div class="kw"><div class="kw-h"><h4 class="blk-h">Meta Ad Library</h4><span class="hint">' + plural(p.keywords.length, "keyword search", "keyword searches") +
+      "Search the Ad Library for " + k.q) + "</li>").join("");
+    return '<div class="kw"><div class="kw-h"><h4 class="blk-h">Ad Library</h4><span class="hint">' + plural(p.keywords.length, "keyword search", "keyword searches") +
       ", video ads found per search</span></div><ul class=\"kws\">" + chips + "</ul>" + (withVerdict ? verdict(p) : "") + "</div>";
   }
 
@@ -452,8 +452,8 @@ const META = __META__;
     if (p.rivals.length) {
       const sell = p.sellers != null ? ". " + esc(p.sellers) + " pages sell this product." : ".";
       const ads = p.rivals.map((r) => "<li><b>" + esc(r.name) + '</b><span class="ads">' + r.ads.map((a, i) =>
-        link(a.url, "ad", "Kalo " + esc(a.videos) + (a.likely ? ", likely" : "") + " ↗", "Open " + r.name + " ad " + (i + 1) + " in the Meta Ad Library")).join("") + "</span></li>").join("");
-      copied = '<div class="copied"><span class="copied-flag">Copied on Meta</span><p class="copied-by">by ' + esc(joinNames(p.rivals.map((r) => r.name))) + "</p>" +
+        link(a.url, "ad", "Kalo " + esc(a.videos) + (a.likely ? ", likely" : "") + " ↗", "Open " + r.name + " ad " + (i + 1) + " in the Ad Library")).join("") + "</span></li>").join("");
+      copied = '<div class="copied"><span class="copied-flag">Copied in Ad Library</span><p class="copied-by">by ' + esc(joinNames(p.rivals.map((r) => r.name))) + "</p>" +
         '<p class="cv">✗ ' + p.n_comp + (p.n_comp === 1 ? " competitor runs" : " competitors run") + " its Kalo videos" + sell + '</p><ul class="rivals">' + ads + "</ul></div>";
     } else {
       copied = '<div class="stack">' + verdict(p) + "</div>";
@@ -464,45 +464,45 @@ const META = __META__;
   }
 
   // masthead budget
-  $("mast-budget").textContent = budget + "/day " + META.cbo;
+  $("mast-budget").textContent = budget + "/day " + INFO.cbo;
 
   // decision band
-  const g = C.GREEN, need = Math.max(0, META.target - g);
+  const g = C.GREEN, need = Math.max(0, INFO.target - g);
   const priced = DATA.filter((p) => p.math.roas != null && p.math.margin > 0).sort((a, b) => a.math.roas - b.math.roas);
   const withEst = DATA.filter((p) => p.est != null);
   const avg = withEst.length ? withEst.reduce((s, p) => s + p.est, 0) / withEst.length : null;
   $("decision").innerHTML =
-    '<div class="dec-top"><div class="dec-call"><span class="flag ' + (META.hold ? "hold" : "go") + '">' + (META.hold ? "Hold" : "Ready") + "</span>" +
-      '<h2 class="dec-h">' + g + " of " + META.target + " Greens</h2>" +
-      '<p class="dec-p">' + (META.hold
-        ? "Under the " + META.target + "-Green target, so this draft is on hold. It needs " + plural(need, "more Green", "more Greens") + ". The next draft tops up from the saved candidates."
-        : "This draft meets the " + META.target + "-Green target.") + "</p></div>" +
+    '<div class="dec-top"><div class="dec-call"><span class="flag ' + (INFO.hold ? "hold" : "go") + '">' + (INFO.hold ? "Hold" : "Ready") + "</span>" +
+      '<h2 class="dec-h">' + g + " of " + INFO.target + " Greens</h2>" +
+      '<p class="dec-p">' + (INFO.hold
+        ? "Under the " + INFO.target + "-Green target, so this draft is on hold. It needs " + plural(need, "more Green", "more Greens") + ". The next draft tops up from the saved candidates."
+        : "This draft meets the " + INFO.target + "-Green target.") + "</p></div>" +
     '<div class="dec-rack"><div class="slots" role="list">' + DATA.map((p) => '<a role="listitem" class="slot ' + p.color + '" href="#p' + p.rank + '" title="' + esc(p.rank + ". " + p.name) +
       '" aria-label="' + esc("Rank " + p.rank + ", " + p.name + ", " + NAME[p.color]) + '">' + p.rank + "</a>").join("") + "</div>" +
       '<div class="slots-cap"><span>Ranks 1 to ' + DATA.length + ", colored by tier. Tap one to jump to it.</span><span>" + TIERS.map((t) => NAME[t] + " " + C[t]).join(", ") + "</span></div>" +
       '<div class="stats">' +
-        '<div class="stat"><span class="k">Daily budget</span><div class="v">' + budget + "</div><small>" + esc(META.cbo) + "</small></div>" +
+        '<div class="stat"><span class="k">Daily budget</span><div class="v">' + budget + "</div><small>" + esc(INFO.cbo) + "</small></div>" +
         '<div class="stat"><span class="k">Lowest break-even ROAS</span><div class="v">' + (priced.length ? priced[0].math.roas.toFixed(2) : "MISSING") + "</div><small>" + (priced.length ? esc(priced[0].name) : "No product clears a margin") + "</small></div>" +
         '<div class="stat"><span class="k">Avg est. delivered</span><div class="v">' + usd(avg) + "</div><small>Item + $5.00, across " + withEst.length + "</small></div>" +
       "</div></div></div>" +
     '<div class="legend">' +
-      '<div class="lg"><i class="sw" style="background:var(--sw-g)"></i><div><b>Green</b><p>Winning video proven, and no competitor runs its Kalo videos on Meta.</p></div></div>' +
-      '<div class="lg"><i class="sw" style="background:var(--sw-o)"></i><div><b>Orange</b><p>No competitor copying on Meta. The winning video is not proven yet.</p></div></div>' +
-      '<div class="lg"><i class="sw" style="background:var(--sw-y)"></i><div><b>Yellow</b><p>A competitor already runs one of its Kalo top-10 videos on Meta' +
-        (DATA.some((p) => p.color === "YELLOW" && !p.rivals.length) ? ", or its Meta check still needs a re-check" : "") + ".</p></div></div>" +
+      '<div class="lg"><i class="sw" style="background:var(--sw-g)"></i><div><b>Green</b><p>Winning video proven, and no competitor runs its Kalo videos in the Ad Library.</p></div></div>' +
+      '<div class="lg"><i class="sw" style="background:var(--sw-o)"></i><div><b>Orange</b><p>No competitor copying in the Ad Library. The winning video is not proven yet.</p></div></div>' +
+      '<div class="lg"><i class="sw" style="background:var(--sw-y)"></i><div><b>Yellow</b><p>A competitor already runs one of its Kalo top-10 videos in the Ad Library' +
+        (DATA.some((p) => p.color === "YELLOW" && !p.rivals.length) ? ", or its Ad Library check still needs a re-check" : "") + ".</p></div></div>" +
     "</div>";
 
   // Green
   const greens = of("GREEN");
   $("green").innerHTML = '<div class="sec-head"><h2 id="green-h">The pick <span class="count">Green ' + greens.length + "</span></h2>" +
-    "<p>Proven winning video, and clear on Meta across every keyword search.</p></div>" +
+    "<p>Proven winning video, and clear in the Ad Library across every keyword search.</p></div>" +
     (greens.length ? hero(greens[0]) + (greens.length > 1 ? '<div class="ledger">' + greens.slice(1).map(card).join("") + "</div>" : "")
       : '<p class="empty">No product reached Green in this draft. The Orange cards below show what each one still needs.</p>');
 
   // Orange
   const oranges = of("ORANGE");
   $("orange").innerHTML = '<div class="sec-head"><h2 id="orange-h">Orange <span class="count">' + oranges.length + "</span></h2>" +
-    "<p>Clear on Meta. Each card leads with the proof it still needs to become Green.</p></div>" +
+    "<p>Clear in the Ad Library. Each card leads with the proof it still needs to become Green.</p></div>" +
     (oranges.length ? '<div class="ledger">' + oranges.map(card).join("") + "</div>" : '<p class="empty">No Orange products in this draft.</p>');
 
   // Yellow
@@ -510,38 +510,38 @@ const META = __META__;
   const waiting = yellows.filter((p) => !p.rivals.length).length;
   const copied = yellows.length - waiting;
   const yText = waiting && copied
-    ? "Copied on Meta (" + copied + "), or still waiting on a Meta re-check (" + waiting + "). A re-check can move a product up to Orange."
-    : waiting ? "Still waiting on a Meta re-check. A re-check can move these up to Orange."
-    : "Copied on Meta. A competitor already runs at least one of its Kalo top-10 videos, so these wait.";
+    ? "Copied in Ad Library (" + copied + "), or still waiting on a Ad Library re-check (" + waiting + "). A re-check can move a product up to Orange."
+    : waiting ? "Still waiting on a Ad Library re-check. A re-check can move these up to Orange."
+    : "Copied in Ad Library. A competitor already runs at least one of its Kalo top-10 videos, so these wait.";
   $("yellow").innerHTML = '<div class="sec-head"><h2 id="yellow-h">Yellow <span class="count">' + yellows.length + "</span></h2>" +
     "<p>" + yText + "</p></div>" +
     (yellows.length ? '<div class="rack">' + yellows.map(yrow).join("") + "</div>" : '<p class="empty">No Yellow products in this draft.</p>');
 
   // Intake
   const intake = [
-    ["Daily budget", budget + " per day"], ["CBO setup", META.cbo], ["Buyer", META.buyer],
-    ["Price band", META.price_band], ["Categories", META.categories], ["Avoid", META.avoid.length ? META.avoid.join(", ") : "MISSING"],
+    ["Daily budget", budget + " per day"], ["CBO setup", INFO.cbo], ["Buyer", INFO.buyer],
+    ["Price band", INFO.price_band], ["Categories", INFO.categories], ["Avoid", INFO.avoid.length ? INFO.avoid.join(", ") : "MISSING"],
   ];
   $("intake").innerHTML = '<div class="sec-head"><h2 id="intake-h">Brief and intake</h2><p>Saved once and reused for every draft in this chapter.</p></div>' +
     '<div class="intake-grid"><dl class="ifacts">' + intake.map((r) => "<div><dt>" + r[0] + "</dt><dd>" + esc(r[1]) + "</dd></div>").join("") + "</dl>" +
-    '<blockquote class="brief"><b>The brief</b>' + esc(META.brief) + "</blockquote></div>";
+    '<blockquote class="brief"><b>The brief</b>' + esc(INFO.brief) + "</blockquote></div>";
 
   // Rules
-  const B = META.bars;
+  const B = INFO.bars;
   $("rules").innerHTML =
     "<div><h2>How it was graded</h2><ul>" +
       "<li><b>Green</b> is Orange plus a verified winning video: " + B.orders + "+ orders and " + big(B.views) + "+ views on one video, " + B.cvr + "+ sales per 1K views, and one " + big(B.appeal) + "+ appeal video.</li>" +
-      "<li><b>Orange</b> is Yellow plus 5 different Meta Ad Library keyword searches that all come back clear of its Kalo videos.</li>" +
+      "<li><b>Orange</b> is Yellow plus 5 different Ad Library keyword searches that all come back clear of its Kalo videos.</li>" +
       "<li><b>Yellow</b> passed the Kalo demand filters for revenue, price, commission and videos.</li>" +
       "<li>Missing proof never counts as a pass. A throttled search reads re-check, never 0.</li>" +
     "</ul></div>" +
     "<div><h2>Launch math</h2><ul>" +
       "<li><b>Margin</b> = price minus est. delivered.</li>" +
-      "<li><b>Break-even ROAS</b> = price ÷ margin. Above " + META.roas_max.toFixed(2) + " is a watch-out.</li>" +
+      "<li><b>Break-even ROAS</b> = price ÷ margin. Above " + INFO.roas_max.toFixed(2) + " is a watch-out.</li>" +
       "<li><b>Sales/day to break even</b> = " + budget + " ÷ margin.</li>" +
       "<li><b>Price for a 2.0 break-even ROAS</b> = 2 × est. delivered.</li>" +
-      "<li>Sales per 1K views is a TikTok conversion signal, not a Meta ROAS forecast.</li>" +
+      "<li>Sales per 1K views is a TikTok conversion signal, not a ROAS forecast.</li>" +
     "</ul></div>" +
-    '<p class="fine">' + esc(META.est_rule) + " Prices are TikTok Shop prices.</p>";
+    '<p class="fine">' + esc(INFO.est_rule) + " Prices are TikTok Shop prices.</p>";
 })();
 </script>
