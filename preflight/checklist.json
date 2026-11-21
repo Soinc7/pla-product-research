@@ -4,7 +4,8 @@
   "states": [
     "PROVEN",
     "PARTIAL",
-    "MISSING"
+    "MISSING",
+    "PENDING"
   ],
   "run_order": [
     "chrome",
@@ -160,6 +161,7 @@
   "verdicts": {
     "STOP": "chrome or kalo is MISSING or has no state, or chrome is PARTIAL. Do not start research. Report the fix. (A missing 1688 route never stops the run; it gives GO_LIMITED and holds pricing.)",
     "GO_LIMITED": "No required check is MISSING, but at least one check is PARTIAL or a non-required check is MISSING. Research may start inside the noted limits.",
-    "GO": "All checks PROVEN."
+    "GO": "All checks PROVEN.",
+    "PENDING": "No check is MISSING or blocking, but at least one has not been run yet. Run the PENDING checks before research, then evaluate again."
   }
 }
