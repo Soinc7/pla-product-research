@@ -27,12 +27,16 @@ The machine-readable version is `preflight/checklist.json`.
 |---|---|---|
 | B. Chrome | **STOP** | **STOP** (wrong profile or cannot navigate = cannot research) |
 | A. 1688 route | **Do not stop.** Ask the user to log in or make a free account on one route, or use Fabulk (no login). Discovery continues; pricing stays HOLD. | Continue; note the route and whether prices are public list prices |
-| C. Kalo | **STOP** | Continue inside the plan limits. Plan the batch across days. |
+| C. Kalo | **STOP**, unless the owner names a substitute (section G); then PARTIAL | Continue inside the plan limits. Plan the batch across days. |
 | D. Sheets / Drive | Continue. Write output as local files and say so in the report. | Continue with the limit noted |
-| E. Optional tools | Continue. No product can go green without them. | Continue with the limit noted |
+| E1. TrendTrack | Continue, after section G. No product can pass Green's appeal check; Competitor Files have no stores or ads. | Continue with the limit noted (few credits, or a substitute) |
+| E2. Ad Library | Continue, after section G. No product can be Orange or Green; keywords stay RECHECK. | Throttled: deliver with RECHECK, re-check later |
+| E3. Google Trends | Continue, after section G. Rows link the search instead of a trend line. | Continue with the limit noted |
 | F. Supplier agent | Continue. Rows use Est. delivered (item + $5.00). Tiers follow `TIERS.md`; no launch handoff until a real quote exists. | Continue; log pending quotes in the batch state file |
 
-Run order: **B first** (the others need Chrome), then A, C, D, E, F.
+Run order: **B first** (the others need Chrome), then A, C, D, E1-E3, F. **Run every check on every run**, even for a later draft that only re-checks a few products: tools log out, throttle and run out of credits between runs.
+
+**A main tool missing?** (Kalo, a 1688 route, TrendTrack, Ad Library, Google Trends): never skip it silently. Go to section G before any research page.
 
 ---
 
@@ -77,7 +81,7 @@ Steps:
 | PARTIAL | Only 1688.com public list prices (no SKU tiers), or a verification page blocks some pages |
 | MISSING | No route works: Fabulk down and no login on 1688order or 1688.com |
 
-**If MISSING:** do not stop. Tell the user: "Make a free account or log in on 1688order.com or 1688.com in your own browser, or I can use Fabulk, which needs no login." Keep running discovery, Meta and TrendTrack. Pricing stays HOLD until a route works. The agent never types into a login form.
+**If MISSING:** do not stop. Tell the user: "Make a free account or log in on 1688order.com or 1688.com in your own browser, or I can use Fabulk, which needs no login." Keep running discovery, Ad Library and TrendTrack. Pricing stays HOLD until a route works. The agent never types into a login form.
 
 ## C. Kalodata (Kalo)
 
@@ -126,18 +130,28 @@ Steps:
 
 **Fix:** Human connects Google Drive/Sheets to the agent, or logs in to Google in Chrome themself, and names the output folder.
 
-## E. Optional now, required for a green
+## E. TrendTrack, Ad Library, Google Trends (three separate checks)
 
-TrendTrack, Google Trends, Meta Ad Library.
+Optional to start research, required for a Green. Record one state for each:
 
-- **TrendTrack** (trendtrack.io) is a paid MCP connector: TikTok videos, Shopify stores and Meta ads by keyword. Check it with `check_credits` and write the credits left into the batch record (about 2 credits per returned item).
-- **Meta Ad Library** is public. Check it with the control search (`"dryer vent"`, exact phrase, US, active, video: about 2,300 ads). A 0 means throttled; see `META-AD-LIBRARY.md`.
-- **Google Trends** is public; open one explore page.
+- **E1. TrendTrack** (trendtrack.io) is a paid MCP connector: TikTok videos, Shopify stores and ads by keyword. Check it with `check_credits` and write the credits left into the batch record (about 2 credits per returned item).
+- **E2. Ad Library** is public. Check it with the control search (`"dryer vent"`, exact phrase, US, active, video: about 2,300 ads). A 0 means throttled (PARTIAL), not missing; see `AD-LIBRARY.md`.
+- **E3. Google Trends** is public; open one explore page.
+These do not block the start of research. But a product **cannot be Green** until they have been checked for that exact product: with no Ad Library check it stays Yellow, and with no TrendTrack appeal video it is Orange at most. There is no launch handoff either.
 
-Check each one opens and can be read. Record a state for each.
-These do not block the start of research. But a product **cannot be Green** until they have been checked for that exact product: with no Meta check it stays Yellow, and with no TrendTrack appeal video it is Orange at most. There is no launch handoff either.
+**Fix:** Human connects or logs in to the missing tool. Google Trends and Ad Library need only a working browser. Still missing: section G.
 
-**Fix:** Human connects or logs in to the missing tool. Google Trends and Meta Ad Library need only a working browser.
+---
+
+## G. A main tool is missing: ask, then search
+
+Applies to Kalo, the 1688 route, TrendTrack, Ad Library and Google Trends. Full guide and a starting list of alternatives: `TOOL-ALTERNATIVES.md`.
+
+1. Tell the owner, in one message with the other preflight results, what is missing and what it blocks.
+2. Ask what they use instead (and whether it is logged in in this Chrome). Their answer wins.
+3. If they have nothing, search the web for current alternatives, and show two or three with price, login and whether they give the same proof. Vendor comparison pages are marketing; say so. Never sign up or pay for the owner.
+4. Record the choice in `state/batch-N.json` as `tool_substitutes`, and mark the check `PARTIAL` with the substitute in its note.
+5. A substitute counts only for the proof it really gives; the tier bars in `TIERS.md` never change. Chrome missing, or Kalo missing with no substitute, is still a STOP.
 
 ---
 
@@ -154,7 +168,7 @@ python3 preflight/evaluate.py path/to/your-result.json
 
 It prints `GO`, `GO_LIMITED`, `PENDING` or `STOP` and the fix for each problem. Exit code 2 means STOP, 3 means some checks are still PENDING (run them, then evaluate again).
 
-3. Copy the six states (A-F) into the filter receipt for the batch.
+3. Copy the eight states (A, B, C, D, E1, E2, E3, F) into the filter receipt for the batch. The evaluator ends with a "Missing main tools" line when any main tool is missing: do section G before research.
 
 Notes must never contain passwords, keys or account IDs.
 

@@ -1,15 +1,15 @@
 # Provisional list, 2026-11-20 (owner's v1.2 ladder) — SUPERSEDED by LIST-2026-11-20.md
 
 - **Input:** the 10 products of the last real batch (Draft 36).
-- **Live today:** Meta Ad Library checks (keywords and video ads) and TrendTrack TikTok-library checks.
+- **Live today:** Ad Library checks (keywords and video ads) and TrendTrack TikTok-library checks.
 - **From the sheet:** Kalo orders, views and revenue per video.
 - **Status:** PROVISIONAL. Kalo was logged out, so the fresh product pull and the top-10 first-frame check (videos 4–10) are still to do.
 
 ## Result: 2 Green · 4 Orange · 2 Yellow · 2 White → `NEEDS_MORE_CANDIDATES` (3rd Green)
 
-| Tier | # | Product | Best Kalo video: orders / views / per 1k | TrendTrack appeal | Meta: top-10 videos used? | Flags |
+| Tier | # | Product | Best Kalo video: orders / views / per 1k | TrendTrack appeal | Ad Library: top-10 videos used? | Flags |
 |---|---|---|---|---|---|---|
-| 🟢 GREEN | 9 | Mechanical corner-angle finder | **822 / 560.6k / 1.47** | "Angle finder tip" 3.2M views; competitor ads 352k and 281k | NOT_FOUND among the first 10 competitor video ads (videos 1–3 compared; 4–10 pending) | 24 Meta brands, one ad running since April. Cost estimate $10 |
+| 🟢 GREEN | 9 | Mechanical corner-angle finder | **822 / 560.6k / 1.47** | "Angle finder tip" 3.2M views; competitor ads 352k and 281k | NOT_FOUND among the first 10 competitor video ads (videos 1–3 compared; 4–10 pending) | 24 Ad Library brands, one ad running since April. Cost estimate $10 |
 | 🟢 GREEN | 10 | Flip-latch door-reinforcement lock | **690 / 1.01M / 0.68** | Door-reinforcement ads 424k and 234k views | No competitor runs video ads for this exact product. The 2 hits are a different child-safety bolt with under 100 impressions | Cost estimate $8.50. Low $15.99 price |
 | 🟠 ORANGE | 8 | Long carboy/jug brush pair | 609 / 803k / 0.76 | **No product content found** → not Green | 1 low-impression ad (Dodorado); frame check vs top 10 pending | Cost estimate $14 is over the $12 ceiling |
 | 🟠 ORANGE | 4 | 100-envelope savings binder | 801 / 3.36M / **0.24** (conversion too low) | Strong: 3.8M, 2.3M, 1.7M views | 2 inactive video ads (Viqzes); the rest are images | Cost estimate $9.50. Low price |

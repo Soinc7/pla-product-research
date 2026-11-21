@@ -30,7 +30,7 @@ No GitHub CLI? Install it first (`winget install --id GitHub.cli -e` on Windows,
 
 1. Copy everything into one folder that becomes your repo root (a `git clone` would make a `pla-product-research/` subfolder; the connector copy does not).
 2. List each folder through the connector and download every file from its `download_url`. That link carries a token that expires within a minute or two, so list a folder and download its files right away, folder by folder.
-3. Some files are binary (the JPG photos in `examples/` and the PDF in `reports/`). A text read can't copy those; the `download_url` can.
+3. Some files are binary (the JPG photos in `examples/chapter1/images/`). A text read can't copy those; the `download_url` can.
 4. Check your copy against `MANIFEST.txt` (path, size and git blob hash of every file).
 5. The copy is not a git repo. Run `git init` and commit if you want history. Never push to the original repo.
 
@@ -46,7 +46,7 @@ Then tell your agent: `Read FOR-YOUR-AGENT.md, then SKILL.md, and run the prefli
 3. Proves each one has 10 real product videos.
 4. Finds the exact same product on 1688 to get the factory price (the "counter price").
 5. Shows a price on every row: 1688 / Fabulk item cost (EXACT / CLOSE / SIMILAR) plus an estimated delivered cost (item + $5.00 flat) until the supplier agent gives a real quote.
-6. Checks Meta Ad Library with **5 different keywords** per product (all 5 must clear for Orange or Green): competitor brands, how long their ads have run, and whether the top Kalo videos are already running as ads.
+6. Checks Ad Library with **5 different keywords** per product (all 5 must clear for Orange or Green): competitor brands, how long their ads have run, and whether the top Kalo videos are already running as ads.
 7. Sorts every product into **Green** (best), **Orange** (second) or **Yellow** (third). If fewer than 3 are Green, the batch result is **HOLD**.
 8. Works out the launch math for every product at your daily budget (margin, break-even ROAS, sales/day, the price for a 2.0 ROAS) and ranks Greens by it.
 9. Writes the sheet, the Competitor Files workbook, a web page and a local PDF/HTML report.
@@ -57,16 +57,18 @@ Then tell your agent: `Read FOR-YOUR-AGENT.md, then SKILL.md, and run the prefli
 | # | Tool | Why |
 |---|---|---|
 | 1 | A **1688 price route**, any one of: **Fabulk** (fabulk.com, no login needed; browser only, scripts get 403), **1688order.com** (free account) or **1688.com** (logged in) | Shows factory price and MOQ. With no route, the run keeps going and pricing waits |
-| 2 | **Google Chrome** that your agent can drive (for example Claude in Chrome, or Playwright attached to your real logged-in Chrome) | The agent reads Kalo, Meta Ad Library and 1688 through it |
+| 2 | **Google Chrome** that your agent can drive (for example Claude in Chrome, or Playwright attached to your real logged-in Chrome) | The agent reads Kalo, Ad Library and 1688 through it |
 | 3 | **Kalodata**, logged in | Product discovery and video evidence |
 
 Also needed for output: Google Sheets / Drive access.
-Needed later to release a green (not to start): TrendTrack, Google Trends, Meta Ad Library.
+Needed later to release a green (not to start): TrendTrack, Google Trends, Ad Library.
+
+The preflight checks **all five main tools on every run** (Kalo, a 1688 route, TrendTrack, Ad Library, Google Trends). If one is missing, the agent asks you what you use instead and, if you have nothing, searches the web for current alternatives and shows you two or three. See `TOOL-ALTERNATIVES.md` (FastMoss / EchoTik for Kalo, PiPiADS / Minea / BigSpy for TrendTrack, English 1688 agents, Glimpse / Pinterest Trends for Google Trends). A substitute counts only for the proof it really gives.
 
 | Extra tool | What it is | How to connect | Cost |
 |---|---|---|---|
-| **TrendTrack** | trendtrack.io: TikTok videos, Shopify stores and Meta ads by keyword. Proves the "appeal" video for a Green and fills the Competitor Files. | Its MCP connector in your agent (tools such as `search_tiktok_library`, `search_products`, `search_ads`, `get_product_ads`, `check_credits`). | Paid credits, about 2 per returned item. A 6-product Competitor Files pass used about 150. Run `check_credits` before and after. |
-| **Meta Ad Library** | facebook.com/ads/library, public | Any browser | Free, but throttles (see `META-AD-LIBRARY.md`) |
+| **TrendTrack** | trendtrack.io: TikTok videos, Shopify stores and ads by keyword. Proves the "appeal" video for a Green and fills the Competitor Files. | Its MCP connector in your agent (tools such as `search_tiktok_library`, `search_products`, `search_ads`, `get_product_ads`, `check_credits`). | Paid credits, about 2 per returned item. A 6-product Competitor Files pass used about 150. Run `check_credits` before and after. |
+| **Ad Library** | facebook.com/ads/library, public | Any browser | Free, but throttles (see `AD-LIBRARY.md`) |
 | **Google Trends** | trends.google.com, public | Any browser | Free |
 
 ## 5-minute onboarding
@@ -88,7 +90,7 @@ Open this folder in Claude Code. Everything is set up:
 | Worker | Lane | Model | Browser |
 |---|---|---|---|
 | `pla-kalo-worker` | L1 Kalo discovery + top-10 video IDs | Sonnet | yes |
-| `pla-meta-worker` | L2 Meta 5-keyword sweep + frame check (one at a time) | Sonnet | yes |
+| `pla-adlibrary-worker` | L2 Ad Library 5-keyword sweep + frame check (one at a time) | Sonnet | yes |
 | `pla-pricing-worker` | L3 1688 / Fabulk item cost | Sonnet | yes |
 | `pla-trendtrack-worker` | L4 appeal video + Competitor Files data | Haiku | no (API) |
 | `pla-sheets-worker` | Sends the Google Sheet and Competitor Files, reads them back | Sonnet | no |
@@ -119,8 +121,8 @@ A Kalodata trial account allows 10 searches and 10 detail visits a day, so a bat
 Chapter 2 · Draft 1 is the owner-approved reference for all of these (`STANDARD.md`).
 
 - **Product Research — Chapter C · Draft D**: 10 products ranked 1–10 (GREEN → ORANGE → YELLOW), with a product photo and clickable proof for every claim. Tabs: the draft, Top videos, How it was graded.
-- **Competitor Files — Chapter C**: one tab per product with competitor stores, their running Meta ads and hooks, top TrendTrack TikTok videos, and a reference photo.
-- **A web page** of the draft: summary band (HOLD under 3 Greens), the Green 1 pick with its proof checks and a launch-ready seal, Orange cards that lead with what's missing, muted Yellow rows flagged "Copied on Meta", and launch math on every product. Built with `python3 tools/report/build_page.py state/report.json --out reports/<chapter>-<draft>-page`.
+- **Competitor Files — Chapter C**: one tab per product with competitor stores, their running ads and hooks, top TrendTrack TikTok videos, and a reference photo.
+- **A web page** of the draft: summary band (HOLD under 3 Greens), the Green 1 pick with its proof checks and a launch-ready seal, Orange cards that lead with what's missing, muted Yellow rows flagged "Copied in Ad Library", and launch math on every product. Built with `python3 tools/report/build_page.py state/report.json --out reports/<chapter>-<draft>-page`.
 - A local report (PDF + HTML, photos embedded) in `reports/`, built with `python3 tools/report/build_report.py state/report.json --out reports/<chapter>-<draft>`.
 - An end-of-run report: **3+ Greens** plus a paused handoff (spend $0), or **HOLD** with what's missing per product.
 
@@ -136,7 +138,8 @@ HOLD is a normal, correct result. The skill never lowers the bar and never inven
 | `PREFLIGHT.md`, `preflight/` | The tool and safety check. |
 | `FILTER-SETUPS.md` | Every filter setup, with names and steps. |
 | `PRICING-1688-SUPPLIER.md` | Factory price and delivered-quote method. |
-| `META-AD-LIBRARY.md` | Competitor and reference-video check. |
+| `AD-LIBRARY.md` | Competitor and reference-video check. |
+| `TOOL-ALTERNATIVES.md` | What to do when a main tool is missing: ask the owner, search the web, a starting list of alternatives. |
 | `TIERS.md` | Green / Orange / Yellow rules, plus the launch math that ranks Greens. |
 | `CLAUDE.md` | Short brief for Claude Code users. |
 | `state/` | The skill's memory in your own copy: `intake.json`, `feedback.md`, batch and lane files, `report.json`. |
@@ -146,11 +149,11 @@ HOLD is a normal, correct result. The skill never lowers the bar and never inven
 | `tools/report/build_page.py` | Builds the draft web page (`templates/draft-page.html`) from `state/report.json`. |
 | `tools/sheets/build_sheet.py` | Turns `state/report.json` into Drive and Sheets API request files. |
 | `tools/sheets/competitor_links.py` | Links column M of a draft tab to its Competitor Files tabs. |
-| `tools/sheets/build_competitor_tabs.py` | Builds the Competitor Files tabs (stores, running ads, Meta rivals, TikTok videos, reference photo) as Sheets API bodies. |
+| `tools/sheets/build_competitor_tabs.py` | Builds the Competitor Files tabs (stores, running ads, Ad Library rivals, TikTok videos, reference photo) as Sheets API bodies. |
 | `tools/check_agents.py` | Finds the sub-agents and skills the machine already has and picks a worker per lane (`state/agents.json`). |
 | `tools/deliver.py` | One command for every deliverable: merge, photos, PDF report, web page, sheet requests, Competitor Files tabs, column M links, and the send order. |
 | `.claude/commands/pla-run.md` | `/pla-run` in Claude Code: the host playbook. |
-| `.claude/agents/` | The five lane workers for Claude Code (Kalo, Meta, pricing, TrendTrack, sheets). |
+| `.claude/agents/` | The five lane workers for Claude Code (Kalo, Ad Library, pricing, TrendTrack, sheets). |
 | `MANIFEST.txt` | Path, size and git blob hash of every file, to check a connector copy. |
 | `reports/` | Where built reports are written. |
 | `DRAFT-RUN-D36.md` | Live draft run on the last real batch (Draft 36). |
