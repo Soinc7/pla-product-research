@@ -488,7 +488,8 @@ const META = __META__;
     '<div class="legend">' +
       '<div class="lg"><i class="sw" style="background:var(--sw-g)"></i><div><b>Green</b><p>Winning video proven, and no competitor runs its Kalo videos on Meta.</p></div></div>' +
       '<div class="lg"><i class="sw" style="background:var(--sw-o)"></i><div><b>Orange</b><p>No competitor copying on Meta. The winning video is not proven yet.</p></div></div>' +
-      '<div class="lg"><i class="sw" style="background:var(--sw-y)"></i><div><b>Yellow</b><p>A competitor already runs one of its Kalo top-10 videos on Meta.</p></div></div>' +
+      '<div class="lg"><i class="sw" style="background:var(--sw-y)"></i><div><b>Yellow</b><p>A competitor already runs one of its Kalo top-10 videos on Meta' +
+        (DATA.some((p) => p.color === "YELLOW" && !p.rivals.length) ? ", or its Meta check still needs a re-check" : "") + ".</p></div></div>" +
     "</div>";
 
   // Green
@@ -506,8 +507,14 @@ const META = __META__;
 
   // Yellow
   const yellows = of("YELLOW");
+  const waiting = yellows.filter((p) => !p.rivals.length).length;
+  const copied = yellows.length - waiting;
+  const yText = waiting && copied
+    ? "Copied on Meta (" + copied + "), or still waiting on a Meta re-check (" + waiting + "). A re-check can move a product up to Orange."
+    : waiting ? "Still waiting on a Meta re-check. A re-check can move these up to Orange."
+    : "Copied on Meta. A competitor already runs at least one of its Kalo top-10 videos, so these wait.";
   $("yellow").innerHTML = '<div class="sec-head"><h2 id="yellow-h">Yellow <span class="count">' + yellows.length + "</span></h2>" +
-    "<p>Copied on Meta. A competitor already runs at least one of its Kalo top-10 videos, so these wait.</p></div>" +
+    "<p>" + yText + "</p></div>" +
     (yellows.length ? '<div class="rack">' + yellows.map(yrow).join("") + "</div>" : '<p class="empty">No Yellow products in this draft.</p>');
 
   // Intake
