@@ -78,9 +78,30 @@ Needed later to release a green (not to start): TrendTrack, Google Trends, Meta 
 5. Tell your agent: `Read SKILL.md and run the preflight only.`
 6. Fix anything it reports as MISSING. Each check comes with the exact fix. See `PREFLIGHT.md`.
 
-## Save tokens with several agents
+## Run it in Claude Code (multi-agent, ready to go)
 
-The skill can run as a host plus cheap workers, one lane each. See [`AGENTS.md`](AGENTS.md). It works in Claude Code, Codex or any agent that can start sub-agents, and falls back to one agent if yours cannot.
+Open this folder in Claude Code. Everything is set up:
+
+- `/pla-run` starts a full draft as the **host** (`.claude/commands/pla-run.md`): preflight, lanes, checks, delivery.
+- Five ready-made workers in `.claude/agents/`, each with its own model, inputs, output file and token rules:
+
+| Worker | Lane | Model | Browser |
+|---|---|---|---|
+| `pla-kalo-worker` | L1 Kalo discovery + top-10 video IDs | Sonnet | yes |
+| `pla-meta-worker` | L2 Meta 5-keyword sweep + frame check (one at a time) | Sonnet | yes |
+| `pla-pricing-worker` | L3 1688 / Fabulk item cost | Sonnet | yes |
+| `pla-trendtrack-worker` | L4 appeal video + Competitor Files data | Haiku | no (API) |
+| `pla-sheets-worker` | Sends the Google Sheet and Competitor Files, reads them back | Sonnet | no |
+
+- `python3 tools/deliver.py --chapter C --draft D --source "..."` builds every deliverable in one go: the PDF report, the Claude web page, the Google Sheet requests, the Competitor Files tabs and the column M links, then prints the send order.
+
+**It uses what your machine already has.** First, `python3 tools/check_agents.py` scans your project, `~/.claude/agents`, `~/.claude/skills` and installed plugins. For each lane it picks your own agent if one covers it (it asks you first), else the bundled `pla-*` worker, else Claude Code's built-in general-purpose agent briefed with the worker file. If you already have a product-research skill, it keeps it and offers the side-by-side mode. Then it asks you once: several sub-agents (faster, lanes in parallel) or one agent (simpler)? The answer is saved in `state/intake.json`.
+
+To use the skill from any folder instead, copy this repo to `~/.claude/skills/pla-product-research/` (`SKILL.md` stays at its root) and copy `.claude/agents/*.md` to `~/.claude/agents/`.
+
+Before the first run: Claude Code loads agents when a session starts, so restart it (or open `/agents`) after cloning. Approve the browser (Claude in Chrome), Sheets / Drive and TrendTrack connector permissions once in the foreground; a background worker can't ask, and its calls are refused.
+
+Other agents (Codex or any agent that can start sub-agents) follow [`AGENTS.md`](AGENTS.md); the worker files double as prompts. An agent that can't start sub-agents runs the lanes itself, in the same order.
 
 ## Run a batch
 
@@ -98,7 +119,7 @@ A Kalodata trial account allows 10 searches and 10 detail visits a day, so a bat
 Chapter 2 · Draft 1 is the owner-approved reference for all of these (`STANDARD.md`).
 
 - **Product Research — Chapter C · Draft D**: 10 products ranked 1–10 (GREEN → ORANGE → YELLOW), with a product photo and clickable proof for every claim. Tabs: the draft, Top videos, How it was graded.
-- **Competitor Files — Chapter C · Draft D**: one tab per product with competitor stores, their running Meta ads and hooks, top TrendTrack TikTok videos, and a reference photo.
+- **Competitor Files — Chapter C**: one tab per product with competitor stores, their running Meta ads and hooks, top TrendTrack TikTok videos, and a reference photo.
 - **A web page** of the draft: summary band (HOLD under 3 Greens), the Green 1 pick with its proof checks and a launch-ready seal, Orange cards that lead with what's missing, muted Yellow rows flagged "Copied on Meta", and launch math on every product. Built with `python3 tools/report/build_page.py state/report.json --out reports/<chapter>-<draft>-page`.
 - A local report (PDF + HTML, photos embedded) in `reports/`, built with `python3 tools/report/build_report.py state/report.json --out reports/<chapter>-<draft>`.
 - An end-of-run report: **3+ Greens** plus a paused handoff (spend $0), or **HOLD** with what's missing per product.
@@ -125,6 +146,11 @@ HOLD is a normal, correct result. The skill never lowers the bar and never inven
 | `tools/report/build_page.py` | Builds the draft web page (`templates/draft-page.html`) from `state/report.json`. |
 | `tools/sheets/build_sheet.py` | Turns `state/report.json` into Drive and Sheets API request files. |
 | `tools/sheets/competitor_links.py` | Links column M of a draft tab to its Competitor Files tabs. |
+| `tools/sheets/build_competitor_tabs.py` | Builds the Competitor Files tabs (stores, running ads, Meta rivals, TikTok videos, reference photo) as Sheets API bodies. |
+| `tools/check_agents.py` | Finds the sub-agents and skills the machine already has and picks a worker per lane (`state/agents.json`). |
+| `tools/deliver.py` | One command for every deliverable: merge, photos, PDF report, web page, sheet requests, Competitor Files tabs, column M links, and the send order. |
+| `.claude/commands/pla-run.md` | `/pla-run` in Claude Code: the host playbook. |
+| `.claude/agents/` | The five lane workers for Claude Code (Kalo, Meta, pricing, TrendTrack, sheets). |
 | `MANIFEST.txt` | Path, size and git blob hash of every file, to check a connector copy. |
 | `reports/` | Where built reports are written. |
 | `DRAFT-RUN-D36.md` | Live draft run on the last real batch (Draft 36). |

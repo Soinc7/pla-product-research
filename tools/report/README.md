@@ -13,7 +13,8 @@ This writes `reports/chapter1-draft3.html` and `reports/chapter1-draft3.pdf`.
 - `--out` is the output path without an extension. Default: `reports/<name of the JSON's folder>`.
 - `--no-pdf` writes the HTML only.
 - Needs Python 3 only. Pillow is optional (it shrinks photos larger than 640 px).
-- The PDF is printed with headless Chrome. The script looks for `google-chrome`, `chromium`, `chromium-browser`, `msedge` (plus the standard Mac and Windows install paths), then Playwright. If none is found it writes the HTML, says so, and you can print it from any browser (Letter, background graphics on).
+- The PDF is printed with headless Chrome. The script uses `PLA_CHROME` if you set it (the full path to a Chrome, Edge or Chromium binary), then looks for `google-chrome`, `chromium`, `chromium-browser`, `msedge`, the standard Mac and Windows install paths and `~/Applications` / `~/Desktop` on a Mac, then Playwright. Its throwaway browser profile sits next to the output (not in the system temp folder), so it also prints inside sandboxed agents. If nothing works it writes the HTML, says so, and you can print it from any browser (Letter, background graphics on).
+- `tools/deliver.py` runs this together with the page and sheet builders.
 
 ## What the page shows
 
