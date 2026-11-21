@@ -18,9 +18,17 @@
       "state": "PROVEN",
       "note": "Output folder agreed with the human."
     },
-    "optional_sources": {
-      "state": "PARTIAL",
-      "note": "Google Trends and Meta Ad Library open. TrendTrack not connected."
+    "trendtrack": {
+      "state": "MISSING",
+      "note": "Not connected; owner asked for a substitute (TOOL-ALTERNATIVES.md)."
+    },
+    "ad_library": {
+      "state": "PROVEN",
+      "note": "Control \"dryer vent\" returned ~2,300 video ads."
+    },
+    "google_trends": {
+      "state": "PROVEN",
+      "note": "Explore page loads."
     },
     "supplier_agent": {
       "state": "PARTIAL",

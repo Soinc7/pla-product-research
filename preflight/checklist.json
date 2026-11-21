@@ -12,7 +12,9 @@
     "1688",
     "kalo",
     "sheets",
-    "optional_sources",
+    "trendtrack",
+    "ad_library",
+    "google_trends",
     "supplier_agent"
   ],
   "global_rules": [
@@ -21,14 +23,15 @@
     "Do not sign in or accept consent screens for the user. Report the wall and stop.",
     "One agent drives Chrome at a time.",
     "Never record an account ID. Use account_check: MATCH | MISMATCH | NOT_CHECKED.",
-    "Preflight is look-only. Do not spend Kalo searches on it."
+    "Preflight is look-only. Do not spend Kalo searches on it.",
+    "Every run checks every main tool (Kalo, a 1688 route, TrendTrack, Ad Library, Google Trends). A missing one is never skipped silently: ask the owner for an alternative and search the web (PREFLIGHT.md G)."
   ],
   "checks": [
     {
       "id": "1688",
       "label": "A. 1688 price route (any one)",
       "required": true,
-      "on_missing": "Do NOT stop. Ask the user to create a free account or log in on ONE route (1688order or 1688.com), or just use Fabulk, which needs no login. Discovery and Meta/TrendTrack checks continue; pricing stays HOLD until a route works.",
+      "on_missing": "Do NOT stop. Ask the user to create a free account or log in on ONE route (1688order or 1688.com), or just use Fabulk, which needs no login. Discovery and Ad Library/TrendTrack checks continue; pricing stays HOLD until a route works.",
       "on_partial": "Continue. Record which route and whether prices are list (public) or logged-in counter prices.",
       "steps": [
         "Try Fabulk first (no login): run one keyword search and confirm USD price and MOQ show on result cards.",
@@ -39,7 +42,7 @@
       "proven_when": "Any one route shows price and MOQ for an offer.",
       "partial_when": "Only 1688.com public list prices (no SKU tiers), or a verification page blocks some pages.",
       "missing_when": "No route reachable: Fabulk down and no login on 1688order or 1688.com.",
-      "fix": "Ask the user to make a free account or log in on 1688order.com or 1688.com in their own browser (the agent never types credentials), or use Fabulk without login. Rerun the check.",
+      "fix": "Ask the user to make a free account or log in on 1688order.com or 1688.com in their own browser (the agent never types credentials), or use Fabulk without login. Rerun the check. Still nothing: ask the owner for another route and search the web (TOOL-ALTERNATIVES.md).",
       "missing_blocks": false,
       "routes": [
         {
@@ -103,7 +106,7 @@
       "proven_when": "Logged in, plan known, enough daily allowance for today's work.",
       "partial_when": "Logged in on a trial, or today's allowance is partly used. Record what is left.",
       "missing_when": "Login wall, or no Kalo account.",
-      "fix": "Human logs in to Kalodata in that Chrome profile themself. If the daily allowance is used up, continue tomorrow or use a higher plan."
+      "fix": "Human logs in to Kalodata in that Chrome profile themself. If the daily allowance is used up, continue tomorrow or use a higher plan. No Kalodata account: ask the owner what they use instead (for example FastMoss or EchoTik) and search the web for current options (TOOL-ALTERNATIVES.md); a chosen substitute is recorded as PARTIAL."
     },
     {
       "id": "sheets",
@@ -122,24 +125,51 @@
       "fix": "Human connects Google Drive/Sheets to the agent, or logs in to Google in Chrome themself, and names the output folder."
     },
     {
-      "id": "optional_sources",
-      "label": "E. TrendTrack / Google Trends / Meta Ad Library",
+      "id": "trendtrack",
+      "label": "E1. TrendTrack",
       "required": false,
-      "on_missing": "Continue. No product can go green until all three are checked for that exact product.",
-      "on_partial": "Continue with the limit noted.",
-      "sub_checks": [
-        "trendtrack",
-        "google_trends",
-        "meta_ad_library"
-      ],
+      "missing_blocks": false,
+      "on_missing": "Continue. No product can pass Green's appeal check, and the Competitor Files have no stores or ads, until TrendTrack or a substitute works. If it is missing, ask the owner what they use instead and search the web for current alternatives (PREFLIGHT.md G, TOOL-ALTERNATIVES.md). A chosen substitute is recorded as PARTIAL with its name in the note.",
+      "on_partial": "Continue with the limit noted (for example few credits left, or a substitute in use).",
       "steps": [
-        "Open each tool and confirm it can be read.",
-        "Record one state per tool."
+        "Run check_credits on the TrendTrack connector.",
+        "Record the credits left in the batch record (about 2 credits per returned item)."
       ],
-      "proven_when": "All three open and can be read.",
-      "partial_when": "One or two of the three work.",
-      "missing_when": "None of the three work.",
-      "fix": "Human connects or logs in to the missing tool. Google Trends and Meta Ad Library need only a working browser."
+      "proven_when": "check_credits answers and enough credits are left for this batch.",
+      "partial_when": "Few credits left, or a substitute tool is in use.",
+      "missing_when": "No TrendTrack connector and no substitute.",
+      "fix": "Human connects the TrendTrack connector, or names the tool they use instead."
+    },
+    {
+      "id": "ad_library",
+      "label": "E2. Ad Library",
+      "required": false,
+      "missing_blocks": false,
+      "on_missing": "Continue. No product can be Orange or Green until the Ad Library check runs; Ad Library keywords stay RECHECK. If it is missing, ask the owner what they use instead and search the web for current alternatives (PREFLIGHT.md G, TOOL-ALTERNATIVES.md). A chosen substitute is recorded as PARTIAL with its name in the note.",
+      "on_partial": "Throttled now: deliver with RECHECK keywords and re-check the control every 20-30 minutes.",
+      "steps": [
+        "Search the control \"dryer vent\" (exact phrase, US, active, video): about 2,300 ads.",
+        "0 or 'No ads match' = throttled (PARTIAL), not missing."
+      ],
+      "proven_when": "The control returns ads.",
+      "partial_when": "The page opens but the control returns 0 (throttled).",
+      "missing_when": "The Ad Library does not open in any connected Chrome.",
+      "fix": "Try another connected Chrome or wait out a throttle (AD-LIBRARY.md). The Ad Library is public; no login is needed."
+    },
+    {
+      "id": "google_trends",
+      "label": "E3. Google Trends",
+      "required": false,
+      "missing_blocks": false,
+      "on_missing": "Continue. The trend line is shown on every row but is not a tier gate; rows link the search instead. If it is missing, ask the owner what they use instead and search the web for current alternatives (PREFLIGHT.md G, TOOL-ALTERNATIVES.md). A chosen substitute is recorded as PARTIAL with its name in the note.",
+      "on_partial": "Continue with the limit noted.",
+      "steps": [
+        "Open one trends.google.com explore page and read it."
+      ],
+      "proven_when": "The explore page loads with a chart.",
+      "partial_when": "It loads but shows a quota or error message.",
+      "missing_when": "It does not load.",
+      "fix": "Retry later, or use the substitute the owner names (for example Glimpse or Pinterest Trends)."
     },
     {
       "id": "supplier_agent",

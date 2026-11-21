@@ -31,6 +31,8 @@ def main(argv):
     stop = False
     limited = False
     pending = False
+    main_tools = ("kalo", "1688", "trendtrack", "ad_library", "google_trends")
+    missing_main = []
 
     for check_id in checklist["run_order"]:
         check = by_id[check_id]
@@ -48,6 +50,8 @@ def main(argv):
             print("    Not run yet. Run this check before research (it is not a failure).")
             continue
         if state == "MISSING":
+            if check_id in main_tools:
+                missing_main.append(check["label"])
             if check["required"] and check.get("missing_blocks", True):
                 stop = True
                 print("    STOP. Fix: %s" % check["fix"])
@@ -73,6 +77,9 @@ def main(argv):
         verdict = "GO"
     message = checklist["verdicts"].get(verdict, "Run the PENDING checks, then evaluate again.")
     print("\nVERDICT: %s - %s" % (verdict, message))
+    if missing_main:
+        print("Missing main tools: %s. Before research, ask the owner what they use instead and search the web for "
+              "current alternatives (PREFLIGHT.md G, TOOL-ALTERNATIVES.md). Record a chosen substitute as PARTIAL." % "; ".join(missing_main))
     return 2 if stop else 3 if pending else 0
 
 
