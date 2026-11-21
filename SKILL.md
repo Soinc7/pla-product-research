@@ -1,6 +1,6 @@
 ---
 name: pla-product-research
-description: Read-only TikTok Shop product research. Runs a tool preflight, discovers 10 candidates on Kalodata with a named filter setup, proves 10 exact-product videos each, confirms the factory price on 1688, gets a supplier-agent delivered estimate, applies the under-$8 cost gate and 8-point scoring, then outputs the top 3 greens or HOLD to a Google Sheet with a paused handoff. Use when asked to run product research, a research batch, a Kalo screen, a 1688 counter-price check, or a preflight for these tools.
+description: Read-only TikTok Shop product research. Runs a tool preflight, finds 10 candidates on Kalodata with a named filter setup, proves 10 exact-product videos each, checks Meta Ad Library with 5 keywords for competitors running the Kalo videos, prices the closest 1688 / Fabulk item, and grades every product Green / Orange / Yellow (3+ Greens or HOLD) with budget launch math. Delivers a Google Sheet, a Competitor Files workbook, a web page and a PDF report. Use when asked to run product research, a research batch or draft, a Kalo screen, a Meta competitor check, a 1688 price check, or a preflight for these tools.
 ---
 
 # PLA Product Research
@@ -17,17 +17,19 @@ description: Read-only TikTok Shop product research. Runs a tool preflight, disc
 6. **Never lower the bar.** Fewer than 3 qualifying products means `HOLD`. Never fabricate a third.
 7. **Nothing private in outputs.** No account IDs, customer data or financial account data.
 8. **Run to completion. Never pause for "go".** Once preflight says GO or GO_LIMITED, run every step through to the delivered draft sheet in one pass. Do not stop to ask "should I continue?", and do not end a turn with a half-done draft. The only reasons to stop early are a hard STOP (Chrome or Kalo MISSING), a login, CAPTCHA or consent wall that only the human can clear, or an explicit "stop" from the human. Even then, first write everything already found into the draft sheet, marking the rest HOLD or MISSING, and deliver it.
-9. **A draft is done only when the deliverables exist: the sheet (if Sheets access exists) and the local report.** Done means: the next-numbered batch sheet (named as in Step 1) is in the same Drive folder as the last one, with all 10 rows, tier fills, notes and the Candidates tab, and it has been read back. A chat summary or repo file alone is not a delivered draft.
+9. **A draft is done only when the deliverables exist: the sheet (if Sheets access exists), the local report and the web page.** Done means: the next-numbered draft sheet (named as in Step 1) is in the same Drive folder as the last one, with all 10 rows, tier fills and the three tabs in `templates/sheet-layout.md`, and it has been read back. If the owner gives a name or folder, use it. On a first run with no folder named, use My Drive root and say so in the end-of-run report. A chat summary or repo file alone is not a delivered draft.
 10. **Never block on one product.** If one product's 1688 match, Meta check or TrendTrack check stalls, mark that field MISSING with the reason, keep going with the rest, and finish the sheet.
 
 ## Outcome words
 
 | Word | Meaning |
 |---|---|
-| GREEN | Passed every hard gate, has all required evidence, scored 75/100 or more, no fatal risk |
-| HOLD | Evidence missing or not yet matched. Can be cleared later. |
+| GREEN / ORANGE / YELLOW | The research tier from `TIERS.md` (v1.3 ladder). WHITE = a potential that fails a hard gate or has incomplete evidence. |
+| HOLD | A draft with fewer than 3 Greens, or a field whose evidence is missing or not yet matched. Can be cleared later. |
 | FAIL | A hard gate is failed on real evidence |
 | BATCH_FILTERED | Outside this batch's price band. Not rejected forever. |
+
+The launch gate (Steps 7-10: delivered quote under $8, 75/100 score, day-one floor) is separate. It must pass before the paused handoff in Step 13, and it never changes a research tier.
 
 ## Run procedure
 
@@ -43,11 +45,15 @@ If there is no `state/intake.json`, ask the user **in one message**, before open
 4. Price band and categories (default: the filter setup's).
 5. Anything to avoid.
 
+Optional, in the same message: which supplier agent quotes delivered cost (default: none, so rows use the +$5.00 estimate).
+
 Then write a **rough-draft paragraph of 4-6 sentences**: what kind of 10 products you intend to find for that buyer and budget. Show it to the user and **start the hunt**. Do not wait for approval unless the user asked to approve first.
 
-Save `state/intake.json` from `templates/intake.json` (fields: `cbo_daily_budget_usd`, `cbo_setup`, `demographic`, `price_band`, `categories`, `avoid`, `brief`, `created`, plus `breakeven_roas_max`, default 3).
+Save `state/intake.json` from `templates/intake.json` (fields: `cbo_daily_budget_usd`, `cbo_setup`, `demographic`, `price_band`, `categories`, `avoid`, `brief`, `created`, plus `breakeven_roas_max` (default 3), `sale_value_max` (default 30) and `supplier_agent` (default "none")).
 
-**Memory in the repo.** `state/intake.json` and `state/feedback.md` live in the user's own copy of this repo. Commit both to their fork or clone at the end of the run. When the owner corrects a draft, add a row to `state/feedback.md` (date, correction, rule it became; template `templates/feedback.md`). Every later draft reuses the saved intake and applies all earlier corrections. See `state/README.md`.
+**Price band vs sale value.** The intake price band sets the Kalo price filter. The sale-value rule still applies: a product whose perceived sale value is above `sale_value_max` is WHITE. If the owner's band goes higher (for example $10-$40), raise `sale_value_max` to match, with their OK.
+
+**Memory in the repo.** `state/intake.json` and `state/feedback.md` live in the user's own copy of this repo. Commit both to their fork or clone at the end of the run. If your copy is not a git repo (for example it was copied through a connector), run `git init` and commit locally, or keep the files and say so in the end-of-run report. Never push to the original owner's repo. When the owner corrects a draft, add a row to `state/feedback.md` (date, correction, rule it became; template `templates/feedback.md`). Every later draft reuses the saved intake and applies all earlier corrections. See `state/README.md`.
 
 The budget feeds the launch math in `TIERS.md`, which ranks the Greens.
 
@@ -61,7 +67,8 @@ Any MISSING on **Chrome or Kalo** = STOP. Report the exact fix and end the run.
 ### Step 1 — Open the batch record
 
 - Name the batch `Product Research Batch N`. Your own numbering: your first batch is N = 1. Read the last N from `state/` (highest `batch-N.json`); if none exists, N = 1. Older "Product Research Draft" titles do not advance N.
-- Owner-facing names: each batch is a **Chapter**, and each delivered version of it is a **Draft** ("Product Research — Chapter C · Draft D"). A fresh 10-product hunt starts a new chapter at Draft 1. A correction or re-check of the same 10 products is the next draft of the same chapter. Write the mapping in `state/batch-N.json` (`report_name`, e.g. `chapter2-draft1`).
+- Owner-facing names: each batch is a **Chapter**, and each delivered version of it is a **Draft** ("Product Research — Chapter C · Draft D"). A fresh 10-product hunt starts a new chapter at Draft 1. A correction or re-check of the same 10 products is the next draft of the same chapter. If the owner names the draft, their name wins. Write the mapping in `state/batch-N.json` (`report_name`, e.g. `chapter2-draft1`).
+- Record the Chrome you use by its **deviceId** (from `list_connected_browsers`) in `state/batch-N.json`. Browser labels such as "Browser 1" change when a browser reconnects; the deviceId does not.
 - Create `state/batch-N.json` from `templates/batch-state.json`. Update it after every page, every Kalo detail visit and every quote request.
 - Record: `observed_at_utc`, `region`, `currency`, `account_check` (`MATCH`, `MISMATCH` or `NOT_CHECKED`). Never store the account ID itself.
 - Pick the filter setup from `FILTER-SETUPS.md`. Default: **AVD-36**.
@@ -71,13 +78,15 @@ Any MISSING on **Chrome or Kalo** = STOP. Report the exact fix and end the run.
 ### Step 2 — Kalo discovery
 
 - Content type is **TikTok Shop product videos**. Lives are excluded and never counted.
+- **Drive Kalo through its UI only.** Its internal API needs a region header that page scripts don't send, so direct calls silently return Singapore data. The exact clicks are in `FILTER-SETUPS.md` ("How to enter any setup in Kalo"). **Apply** only stages a filter; **Submit** runs it.
 - Enter the chosen filter setup exactly. Write every value you actually entered into the receipt. If a filter is not available on your plan, write `NOT_APPLIED`, do not pretend.
-- Go through **all result pages**. For every product you keep, record result page and rank.
+- Go through **all result pages your plan shows** (the Basic plan stops at 500 rows; record the rest as `NOT_READ (plan limit)`). For every product you keep, record result page and rank.
 - Record the **direct product-detail URL**. Pattern:
   `https://www.kalodata.com/product/detail?id=<ID>&region=US&currency=USD&language=en-US`
-- Capture both metric windows: 30 days and 90 days, revenue and orders.
-- Mind the plan limits noted in preflight. On a trial, plan the batch across days instead of skipping checks.
+- Capture the 30-day window (revenue and orders). The 90-day window is optional for a research draft: record it when the detail page is already open. It is required before a launch handoff.
+- Mind the plan limits noted in preflight. On a trial, plan the batch across days instead of skipping checks. Kalo can log itself out mid-run; if it does, the human logs in again and you resume.
 - **Resume rule:** when a run stops (daily limit, waiting on a quote, session end), save `state/batch-N.json` and stop. Next run: rerun preflight, open the same `batch-N.json`, continue from `next_step`. Never restart a batch or repeat a done step.
+- **Moving to another computer mid-batch.** Save `state/*` (batch, lane and intake files), `reports/<run>/images/` and the Chrome deviceId, and note `next_step` in `batch-N.json`. Lane files may hold half-done work tied to one Chrome's tabs: mark those items `RECHECK`. On the new computer, copy the files in, rerun the preflight, then resume.
 
 ### Step 3 — Select exactly 10 candidates
 
@@ -94,15 +103,16 @@ Any MISSING on **Chrome or Kalo** = STOP. Report the exact fix and end the run.
 - On the product page: last 30 days, left menu **"Video & Ad"**. Rows are sorted by revenue.
 - Collect at least **10 unique TikTok Shop videos** whose product ID exactly matches the candidate's Kalo product ID.
 - Do not count: Lives, duplicates, compilations, or videos for a different product.
-- Sales screen: 30-day video revenue of $20,000 or more, 300 or more video-attributed units, 10 same-product video references.
-- To save a clip: row thumbnail → preview → "Download". Do **not** open `/video/detail` pages (blank player).
-- Fewer than 10 valid videos = that evidence is PARTIAL and the product cannot be green.
+- Sales screen (only for filter setups that list one; AVD-36 does not): 30-day video revenue of $20,000 or more, 300 or more video-attributed units, 10 same-product video references. The winning-video bars for Green are in `TIERS.md` Step 3.
+- To save a clip: row thumbnail → preview → "Download". Link `/video/detail` pages in outputs, but do **not** open them for data (blank player).
+- **Video IDs.** The Video & Ad table shows no IDs on the page; they are in the table's own data (the page's network response). Store every video as `n` (its revenue order) plus its ID. Public image patterns: video cover `https://img.kalocdn.com/tiktok.video/<VIDEO_ID>/cover.png`, product photo `https://img.kalocdn.com/tiktok.product/<PRODUCT_ID>/cover.png`. Some covers return 404; then use the Kalo row thumbnail or `https://www.tiktok.com/player/v1/<VIDEO_ID>`.
+- Fewer than 10 valid videos = that evidence is PARTIAL and the product is WHITE (`TIERS.md` Step 1).
 
 ### Step 5 — 1688 exact-match factory price (the "counter price")
 
 Follow `PRICING-1688-SUPPLIER.md`, part A.
 Short version: find the **exact** product and variant through any 1688 route (Fabulk photo search first: camera icon, upload the Kalo main photo), compare several independent factories, record offer ID, CNY price, FX date and what the price excludes.
-No exact match = `HOLD`.
+The research row always shows the closest item found (`EXACT`, `CLOSE` or `SIMILAR`). No exact match = no launch handoff yet (`HOLD` for launch); it never changes the research tier.
 
 ### Step 6 — Supplier-agent delivered estimate
 
@@ -118,23 +128,23 @@ An item-only 1688 price is **not** a delivered quote.
 | Gate | Rule |
 |---|---|
 | All-in COGS | Below **$8** per unit, after supplier uplift and logistics. $10 is a stretch ceiling, not a pass. |
-| Sale value | Perceived sale value **$30 or less** |
-| Proof | An exact delivered quote below $8. No such quote = no green. |
+| Sale value | Perceived sale value at or below `sale_value_max` (default **$30**) |
+| Proof | An exact delivered quote below $8. No such quote = no launch handoff (the research tier is unchanged). |
 
 `supplier_landed_cost_usd` is its own field. It is never copied from the Kalo price.
 
-### Step 7b — Meta Ad Library check (required for any tier)
+### Step 7b — Meta Ad Library check (required for Orange or Green)
 
-Run `META-AD-LIBRARY.md` for every candidate: **5 different keywords** (mix exact-phrase and unordered; a product must clear all 5 to be Orange or Green), competitor brands grouped and counted, oldest active ad, cloned copy, and the Kalo top-3 videos matched against running video ads. Record the competition band (`NONE` / `LIGHT` / `HEALTHY` / `CROWDED` / `SATURATED`). Not run, or any keyword throttled (`RECHECK`) = the product cannot be Orange or Green. Never conclude "no competitor" from a throttled search.
+Run `META-AD-LIBRARY.md` for every candidate: **5 different keywords** (mix exact-phrase and unordered; a product must clear all 5 to be Orange or Green), competitor brands grouped and counted, oldest active ad, cloned copy, and the first frames of the product's top 10 Kalo videos matched against running video ads. Record the competition band (`NONE` / `LIGHT` / `HEALTHY` / `CROWDED` / `SATURATED`); it is shown, not a tier gate. Not run, or any keyword throttled (`RECHECK`) = the product stays Yellow and cannot be Orange or Green yet. Never conclude "no competitor" from a throttled search, and never run two Meta lanes at once.
 
-### Step 8 — Green evidence checklist
+### Step 8 — Launch evidence checklist (launch gate, not the research tier)
 
-A green needs all of these for the exact product. Any one missing = HOLD.
+A launch handoff needs all of these for the exact product. Any one missing = no handoff (`HOLD` for launch). None of them changes the research tier from `TIERS.md`.
 
 | Evidence | Rule |
 |---|---|
 | Sources | Kalo, 1688, TrendTrack, Google Trends checked; Meta Ad Library band `HEALTHY` (see `META-AD-LIBRARY.md`) |
-| Buyer age | Purchasers proven 45+, better 55+ or 65+, with conversion data (period and sample). Search interest or creator audience is not proof. Target buyer is 55–65 and not tech-savvy. |
+| Buyer age | Purchasers proven 45+, better 55+ or 65+, with conversion data (period and sample). Search interest or creator audience is not proof. Target buyer = `intake.demographic`. |
 | Store-age cohorts | Real store creation dates for 30-day and 180-day cohorts. Product first-seen dates and ad start dates do not count. |
 | Current trend | Recent vs prior Kalo video revenue and units, plus monthly seasonal search |
 | URLs | Complete for every claim |
@@ -145,7 +155,7 @@ Tie-break preference: favor products that convert very well and whose 1688 cost 
 
 ### Step 9 — Scoring
 
-- 8 dimensions, each 0–5, each with evidence. Green needs **75/100 or more**.
+- 8 dimensions, each 0–5, each with evidence. The launch gate needs **75/100 or more** (the research tier does not use this score).
 - The 8 dimensions are the sheet's scoring columns: Perceived Value, Problem Solving, Emotional problem, Proven Sales Demand, Appeals To Impulse Purchasers, Content, Evergreen, Brandable.
 - A dimension with no evidence is `MISSING`. It is not scored 0, and the total is then "not computable".
 
@@ -171,7 +181,7 @@ UNKNOWN: the method for the "projected seasonal day-one floor" is not in the sou
 
 ### Step 11 — Tier every candidate: Green, Orange, Yellow
 
-- Apply `TIERS.md` (v1.2 owner ladder, then the launch math to rank inside each tier): every product starts **YELLOW** (Kalo demand), graduates to **ORANGE** when no Meta competitor uses any of its top-10 Kalo videos (first-frame match, more frames when unsure), and to **GREEN** when a winning video is verified (Kalo orders + conversion + views, TrendTrack appeal). **WHITE** = potential, fails a hard gate.
+- Apply `TIERS.md` (v1.3 owner ladder, then the launch math to rank inside each tier): every product starts **YELLOW** (Kalo demand), graduates to **ORANGE** when no Meta competitor uses any of its top-10 Kalo videos (first-frame match, more frames when unsure), and to **GREEN** when a winning video is verified: **one** video passes all three Kalo bars (orders, conversion, views), plus a TrendTrack appeal video of the same product. **WHITE** = potential, fails a hard gate.
 - A list needs at least 3 Greens: keep pulling Kalo candidates until it has them. Never promote without proof.
 
 ### Step 11b — Launch math
@@ -179,31 +189,56 @@ UNKNOWN: the method for the "projected seasonal day-one floor" is not in the sou
 For each product compute the launch math in `TIERS.md` using the saved intake budget. Rank Greens by it (lower break-even ROAS first), after they pass every gate. A weak result (margin <= 0 or break-even ROAS above `breakeven_roas_max`) is a watch-out, and the report says what price or bundle fixes it.
 
 ### Step 12 — Outputs
-Every run delivers two things: (1) the Google Sheet below, if Sheets access exists, and (2) the local report (Step 12b).
+Every run delivers: (1) the Google Sheet below, if Sheets access exists, (2) the Competitor Files workbook, (3) the local report (Step 12b) and (4) the web page (Step 12c). Chapter 2 · Draft 1 is the reference for all four (`STANDARD.md`).
 
-Build the sheet from `templates/sheet-layout.md`:
+Names: replace C and D with the chapter and draft numbers from `report_name` in `batch-N.json` (`chapter2-draft1` → "Chapter 2 · Draft 1").
 
-- Tab 1 **Template**: 10 names, LINK cells to the Kalo URL, cost and score columns. Fill each name by tier: Green `#00FF00`, Orange `#FFA500`, Yellow `#FFFF00`, not tiered = no fill. Green fill only on verified Greens.
-- Tab 2 **Candidates**: filter receipt on top, evidence table below.
+**Merge first.** Every output reads `state/report.json`, which the merge writes from the lane files and `TIERS.md`:
+
+```
+python3 tools/report/merge_lanes.py --title "Product Research · Chapter C · Draft D" --source "<filter setup> · US · <window>"
+```
+
+The format is in `FOR-YOUR-AGENT.md` (reference `examples/chapter1/report.json`). The merge also reads `state/host-overrides.json` (the host's short names, variants and Trends keywords per product) and `state/competitor-files*.json` (the Competitor Files tab links); both are described in `state/README.md`.
+
+**Competitor Files workbook** ("Competitor Files — Chapter C · Draft D", same Drive folder). There is no builder script yet; the host or an L5 worker writes it through the Sheets connector:
+
+1. Gather the data with TrendTrack per product (`search_products` with an AND query such as "faucet + cover", `search_ads` / `get_product_ads`, `search_tiktok_library`) and save it as `state/lane-L5-compfiles.json`. Keep only rows for the same product; mark look-alikes `UNCERTAIN`.
+2. Create the workbook with one tab per product, named `T<rank> · <short name>`, laid out as in `templates/sheet-layout.md` ("Companion workbook"). Write the values with `values:batchUpdate` (`USER_ENTERED`, so `HYPERLINK` and `IMAGE` formulas work). A product with nothing found gets a "none found: <query> returned <what>" line, never a blank tab.
+3. Save the tab links as `state/competitor-files-<chapter>.json` (`{"spreadsheet_id": "...", "tabs": [{"rank", "pid", "title", "sheetId", "gid_url"}]}`), run the merge again so `competitor_file` is filled, then link the draft's column M: `python3 tools/sheets/competitor_links.py state/report.json --tab "Chapter C · Draft D"` (send the body to `values:batchUpdate`).
+
+Build the sheet from `templates/sheet-layout.md` (v2.1), three tabs:
+
+- Tab 1 **Chapter C · Draft D**: the 10 ranked rows, columns A-Q. Fill each name by tier: Green `#00FF00`, Orange `#FFA500`, Yellow `#FFFF00`, not tiered = no fill. Green fill only on verified Greens. Tier chips in column D use the darker `#1E8E3E` / `#E37400` / `#B08800`.
+- Tab 2 **Top videos** and Tab 3 **How it was graded**.
+- The filter receipt is saved as `state/filter-receipt-batch-N.md`, not as a tab.
 - Also save one record per product using `templates/candidate-record.json`.
+
+`python3 tools/sheets/build_sheet.py state/report.json --tab "Chapter C · Draft D" --out state/sheet` writes the request bodies. Column K holds 5 links in one cell, which needs a raw Sheets `batchUpdate` (`textFormatRuns`). If your Sheets connector has no raw batchUpdate tool, send the bodies through a proxy call (for example Composio `COMPOSIO_PROXY_EXECUTE`); see `templates/sheet-layout.md`.
 
 ### Step 12b — Local report (PDF + HTML)
 
-Write `state/report.json` (format in `FOR-YOUR-AGENT.md`; reference `examples/chapter1/report.json`), then run:
+From the merged `state/report.json`, run:
 
 ```
 python3 tools/report/build_report.py state/report.json --out reports/<chapter>-<draft>
 ```
 
-It writes a self-contained HTML (photos embedded) and a PDF. In Claude Code there are no web artifacts, so this PDF/HTML is the visual deliverable. Download each product's main Kalo photo into `reports/<run>/images/` first (or let the builder fetch it) so no image is ever missing.
+It writes a self-contained HTML (photos embedded) and a PDF. Download each product's main Kalo photo into `reports/<run>/images/` first (or let the builder fetch it) so no image is ever missing.
 
-`tools/report/merge_lanes.py` builds `state/report.json` from the lane files, and `tools/sheets/build_sheet.py` turns it into the Drive and Sheets request files. Check every draft against `STANDARD.md` before delivery.
+### Step 12c — Web page
+
+```
+python3 tools/report/build_page.py state/report.json --out reports/<chapter>-<draft>-page
+```
+
+It writes `index.html` (opens locally) and `page.html` (the same page without the html/head/body wrapper) plus `img/1.jpg` ... `img/10.jpg`. If your agent can publish a web page (for example a Claude Artifact), publish `page.html` with the `img/` files and send the owner the link. Otherwise share `index.html` with its `img/` folder. Check every draft against `STANDARD.md` before delivery.
 
 ### Step 13 — Paused handoff
 
 Only when there are 3 greens. The handoff contains:
 
-- 3 products, 10 videos each, 30 creatives.
+- 3 products that passed the launch gate (Steps 7-10), each with its 10 Kalo video IDs: the 30 reference videos the creatives will be made from. Research makes no creatives itself.
 - `authorized_spend_usd = 0`
 - `state = PAUSED/OFF`
 
@@ -211,4 +246,4 @@ Then stop. Research never launches, publishes or spends. A human decides what ha
 
 ## End-of-run report
 
-Report in plain words: the intake used (budget, buyer), batch name, filter setup used, preflight states, 10 candidates with outcome and reason, greens or HOLD, sheet link, report path, the launch-math watch-outs, and every item still MISSING.
+Report in plain words: the intake used (budget, buyer), batch name, filter setup used, preflight states, 10 candidates with outcome and reason, greens or HOLD, sheet link, Competitor Files link, web page link, report path, the launch-math watch-outs, and every item still MISSING or RECHECK.
