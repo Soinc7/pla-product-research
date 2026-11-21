@@ -2,7 +2,7 @@
 """Build a self-contained HTML report (+ PDF) from a product-research report.json.
 
 Usage:
-    python3 tools/report/build_report.py examples/chapter1/report.json --out reports/chapter1-draft3
+    python3 tools/report/build_report.py examples/chapter1/report.json --out reports/example
 
 Standard library only. Pillow is used to shrink large photos if it is installed.
 The PDF is printed with headless Chrome/Chromium/Edge, or Playwright as a fallback.
@@ -200,11 +200,11 @@ def gates(p, m):
                    if top is not None else "Appeal video not proven (need one 100K+ video)")
     seller_txt = f"{sellers} sellers" if sellers not in (None, "") else "sellers not counted"
     if comps:
-        g["meta"] = ("no", f"Copied on Meta: {len(comps)} competitor{'s' if len(comps) != 1 else ''} running its Kalo videos · {seller_txt}")
+        g["adlib"] = ("no", f"Copied in Ad Library: {len(comps)} competitor{'s' if len(comps) != 1 else ''} running its Kalo videos · {seller_txt}")
     elif kws and len(counted) == len(kws):
-        g["meta"] = ("ok", f"{len(counted)}/{len(kws)} Meta keywords clear · {seller_txt}, none copying")
+        g["adlib"] = ("ok", f"{len(counted)}/{len(kws)} Ad Library keywords clear · {seller_txt}, none copying")
     else:
-        g["meta"] = ("warn", f"Meta check incomplete: {len(counted)}/{len(kws)} keywords counted · {seller_txt}")
+        g["adlib"] = ("warn", f"Ad Library check incomplete: {len(counted)}/{len(kws)} keywords counted · {seller_txt}")
     g["match"] = ({"EXACT": "ok", "CLOSE": "ok"}.get(match, "warn"),
                   f"Factory match {match or '—'} · item {p.get('item_txt') or '—'}"
                   + (" (similar item, confirm the cost)" if match == "SIMILAR" else ""))
@@ -243,7 +243,7 @@ def watchouts(p, m):
 MARK = {"ok": "✓", "no": "✗", "warn": "!", "info": "•"}
 
 
-def checklist(g, keys=("demand", "video", "cvr", "appeal", "meta", "match", "cost")):
+def checklist(g, keys=("demand", "video", "cvr", "appeal", "adlib", "match", "cost")):
     rows = "".join(f'<li class="g-{g[k][0]}"><span class="mk">{MARK[g[k][0]]}</span><span>{esc(g[k][1])}</span></li>' for k in keys)
     return f'<ul class="proof">{rows}</ul>'
 
@@ -254,11 +254,11 @@ def keyword_block(p, g):
         f'<a class="kw" href="{esc(safe_url(k.get("url")) or "#")}" target="_blank" rel="noopener">'
         f'<span class="kq">{esc(k.get("q"))}</span><span class="kn">{esc(k.get("results") or "—")}</span></a>'
         for k in kws)
-    state = g["meta"][0]
+    state = g["adlib"][0]
     verdict = {"ok": "CLEAR — no competitor uses its Kalo videos",
                "no": "COPIED — competitors run its Kalo videos",
                "warn": "RECHECK — keyword counts missing"}[state]
-    return (f'<div class="kwbox"><div class="kwhead"><span class="lbl">Meta Ad Library · {len(kws)} keywords (video ads found)</span>'
+    return (f'<div class="kwbox"><div class="kwhead"><span class="lbl">Ad Library · {len(kws)} keywords (video ads found)</span>'
             f'<span class="verdict v-{state}">{MARK[state]} {esc(verdict)}</span></div><div class="kws">{chips}</div></div>')
 
 
@@ -318,7 +318,7 @@ def copied_block(p):
         return ""
     rows = "".join(f'<li>{link(c.get("ad"), c.get("name") or "competitor", "plain")}'
                    f'<span class="cv">Kalo video {esc(c.get("videos") or "—")}</span></li>' for c in comps)
-    return (f'<div class="copied"><div class="chead">⚠ Copied on Meta — {len(comps)} competitor{"s" if len(comps) != 1 else ""} '
+    return (f'<div class="copied"><div class="chead">⚠ Copied in Ad Library — {len(comps)} competitor{"s" if len(comps) != 1 else ""} '
             f'already run its Kalo videos</div><ul>{rows}</ul></div>')
 
 
@@ -357,7 +357,7 @@ def card(p, m, g, img):
                 f'<div class="y2">{copied_block(p)}{watch_block(p, m)}</div>'
                 f'<div class="y3">{math_block(m, compact=True)}{cost_block(p, m)}{keyword_block(p, g)}</div></div></article>')
     if color == "GREEN":
-        proven = all(g[k][0] == "ok" for k in ("demand", "video", "cvr", "appeal", "meta"))
+        proven = all(g[k][0] == "ok" for k in ("demand", "video", "cvr", "appeal", "adlib"))
         if proven and not m["weak"]:
             extra = '<div class="seal">✓ Launch-ready<small>all proof gates passed</small></div>'
         elif proven:
@@ -429,17 +429,17 @@ def scoreboard(rows, budget):
             need = f'<td>{need_sales(m)}</td>'
         else:
             roas, need = '<td class="s-no">loss</td>', '<td class="s-no">—</td>'
-        passed = sum(1 for k in ("demand", "meta", "video", "cvr", "appeal") if g[k][0] == "ok")
+        passed = sum(1 for k in ("demand", "adlib", "video", "cvr", "appeal") if g[k][0] == "ok")
         trs.append(f'<tr class="r-{c}"><td class="nm"><span class="dot d-{c}"></span><a href="#p{esc(p.get("rank"))}">{esc(p.get("rank"))}. {esc(p.get("name"))}</a></td>'
-                   + cell(g["demand"][0], short_money(m["rev"])) + cell(g["meta"][0]) + cell(g["video"][0], str(p.get("orders") or "—"))
+                   + cell(g["demand"][0], short_money(m["rev"])) + cell(g["adlib"][0]) + cell(g["video"][0], str(p.get("orders") or "—"))
                    + cell(g["cvr"][0], str(p.get("cvr", "—"))) + cell(g["appeal"][0], str(p.get("topvid") or "—"))
                    + f'<td class="s-{g["match"][0]}">{esc((p.get("match") or "—").title())}</td>' + roas + need
                    + f'<td class="tot t{passed}">{passed}/5</td></tr>')
     return ('<section class="score avoid"><div class="sech">The mountain of data — every product against every gate</div>'
-            '<table><thead><tr><th>Product</th><th>Kalo demand</th><th>Meta clear</th><th>Video orders 500+</th><th>Conv. 0.6+</th>'
+            '<table><thead><tr><th>Product</th><th>Kalo demand</th><th>Ad Library clear</th><th>Video orders 500+</th><th>Conv. 0.6+</th>'
             f'<th>Appeal 100K+</th><th>Factory</th><th>Break-even ROAS</th><th>Sales/day at {money(budget, False)}</th><th>Proof</th></tr></thead>'
             f'<tbody>{"".join(trs)}</tbody></table>'
-            '<div class="fine">Proof = the five tier gates (demand, Meta clear, video orders + views, conversion, appeal). '
+            '<div class="fine">Proof = the five tier gates (demand, Ad Library clear, video orders + views, conversion, appeal). '
             'Factory match and break-even ROAS are shown for choosing between products; red numbers are weak at the TikTok price.</div></section>')
 
 
@@ -450,7 +450,7 @@ body{margin:0;background:#f4f6f8;color:#1c2430;font:14px/1.45 -apple-system,Blin
 a{color:#0b57d0;text-decoration:none}a:hover{text-decoration:underline}
 .wrap{max-width:980px;margin:0 auto;padding:22px 18px 40px}
 .top{background:#12261a;color:#fff;border-radius:16px;padding:20px 24px;display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
-.top h1{margin:0;font-size:25px;letter-spacing:-.3px}.top .meta{font-size:12.5px;opacity:.85;text-align:right}
+.top h1{margin:0;font-size:25px;letter-spacing:-.3px}.top .when{font-size:12.5px;opacity:.85;text-align:right}
 .top .bud{display:inline-block;margin-top:8px;background:#1E8E3E;border-radius:999px;padding:4px 12px;font-weight:700;font-size:13px}
 .panel{background:#fff;border:1px solid #e1e5ea;border-radius:16px;padding:18px 20px;margin-top:16px}
 .sech{font-size:17px;font-weight:800;margin:0 0 10px;letter-spacing:-.2px}.sech.small{font-size:14px}
@@ -597,7 +597,7 @@ def build_html(data, base_dir, notes):
 
     top = (f'<header class="top"><div><h1>{esc(data.get("title") or "Product Research")}</h1>'
            f'<span class="bud">{b}/day · {esc(setup)}</span></div>'
-           f'<div class="meta">{esc(data.get("date"))}<br>{esc(data.get("source"))}<br>{len(rows)} products ranked</div></header>')
+           f'<div class="adlib">{esc(data.get("date"))}<br>{esc(data.get("source"))}<br>{len(rows)} products ranked</div></header>')
     intake_html = (
         '<section class="panel"><div class="sech">Intake</div><div class="igrid">'
         f'<div class="ibox b"><div class="lbl">Budget</div><div class="v">{b}/day</div><div class="fine">{esc(setup)}</div></div>'
@@ -609,9 +609,9 @@ def build_html(data, base_dir, notes):
     copied_total = sum(len(r[0].get("competitors") or []) for r in by["YELLOW"])
     legend = (
         '<section class="panel avoid"><div class="sech">How to read this</div><div class="legend">'
-        '<div class="leg g"><span class="pill big p-green">GREEN</span><p><b>Launch first.</b> Demand, a clear Meta field and a proven winning video — every gate passed.</p></div>'
-        '<div class="leg o"><span class="pill big p-orange">ORANGE</span><p><b>Hold.</b> Nobody is copying it on Meta, but the winning video is not proven yet.</p></div>'
-        '<div class="leg y"><span class="pill big p-yellow">YELLOW</span><p><b>Skip for now.</b> It sells on TikTok, but competitors already run its videos on Meta.</p></div></div>'
+        '<div class="leg g"><span class="pill big p-green">GREEN</span><p><b>Launch first.</b> Demand, a clear Ad Library and a proven winning video — every gate passed.</p></div>'
+        '<div class="leg o"><span class="pill big p-orange">ORANGE</span><p><b>Hold.</b> Nobody is copying it in the Ad Library, but the winning video is not proven yet.</p></div>'
+        '<div class="leg y"><span class="pill big p-yellow">YELLOW</span><p><b>Skip for now.</b> It sells on TikTok, but competitors already run its videos in the Ad Library.</p></div></div>'
         '<div class="why3">'
         f'<div class="w3 g"><b>{ng} Green</b>Proof is complete. At {b}/day, three days of testing is {money(budget * 3, False)} — spend it where every gate is already passed.</div>'
         f'<div class="w3 o"><b>{no} Orange</b>One gate short. The same {money(budget * 3, False)}, but on an unproven video.</div>'
@@ -633,13 +633,13 @@ def build_html(data, base_dir, notes):
     if green_cards:
         sections += tierhead("green", "GREEN", "<b>Launch-ready.</b> Full proof on each one — compare the launch math to choose the order.") + green_cards
     if orange_cards:
-        sections += tierhead("orange", "ORANGE", "<b>Hold.</b> Clear on Meta, but one proof is still missing. Re-check when the video numbers move.") + orange_cards
+        sections += tierhead("orange", "ORANGE", "<b>Hold.</b> Clear in the Ad Library, but one proof is still missing. Re-check when the video numbers move.") + orange_cards
     if yellow_rows:
-        sections += tierhead("yellow", "YELLOW", "<b>Skip for now.</b> Competitors are already running these Kalo videos on Meta.") + yellow_rows
+        sections += tierhead("yellow", "YELLOW", "<b>Skip for now.</b> Competitors are already running these Kalo videos in the Ad Library.") + yellow_rows
 
     foot = (
         '<section class="panel foot avoid"><div class="sech">Grading rules</div><ul>'
-        '<li><b>Yellow → Orange:</b> all 5 Meta keywords show no competitor using its Kalo top-10 videos.</li>'
+        '<li><b>Yellow → Orange:</b> all 5 Ad Library keywords show no competitor using its Kalo top-10 videos.</li>'
         '<li><b>Orange → Green:</b> winning video proven — 500+ orders, 0.6+ sales per 1K views, 300K+ views, plus a 100K+ appeal video.</li>'
         f'<li>{esc(data.get("est_rule") or "Est. delivered = item cost + standard shipping and fees.")}</li>'
         '<li>Sales per 1K views is a TikTok conversion signal, not ROAS.</li>'
