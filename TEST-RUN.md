@@ -23,7 +23,7 @@ For every product the record holds: 10 observed video IDs, and 1688 source statu
 | 9 | Mechanical corner-angle tool | $21.97k | $24.98 | $10.00 |
 | 10 | Flip-latch door reinforcer | $24.61k | $15.99 | $8.50 |
 
-**Not in the data (UNKNOWN):** Kalo product IDs and URLs, the video IDs themselves, video units, per-product commission, 90-day metrics, shop snapshots, the low/high estimate per product, planned selling price, which 5 are women-targeted and which 5 men-targeted, and all TrendTrack / Google Trends / Meta Ad Library / buyer-age / store-age evidence.
+**Not in the data (UNKNOWN):** Kalo product IDs and URLs, the video IDs themselves, video units, per-product commission, 90-day metrics, shop snapshots, the low/high estimate per product, planned selling price, which 5 are women-targeted and which 5 men-targeted, and all TrendTrack / Google Trends / Ad Library / buyer-age / store-age evidence.
 
 ## How outcomes are decided in this test
 
@@ -128,7 +128,7 @@ For each product, to clear the HOLD:
 | 3 | On 1688 (logged in), find the exact product and variant by photo and keyword. Compare 2 or more independent factories. Record offer ID, CNY, MOQ, FX date, excluded charges. | Exact 1688 match |
 | 4 | Have the human request an exact delivered quote from the supplier agent for that offer, with the cost parts split out. | COGS gate (needs below $8) |
 | 5 | Set the planned selling price and confirm perceived value is $30 or less. | Sale-value gate |
-| 6 | Check TrendTrack, Google Trends and Meta Ad Library for the exact product. | Required sources |
+| 6 | Check TrendTrack, Google Trends and Ad Library for the exact product. | Required sources |
 | 7 | Get purchaser-age proof (45+), store-age cohorts and recent-vs-prior trend. | Green evidence |
 | 8 | Score all 8 dimensions with evidence, once the owner confirms the rubric. | Score 75/100 or more |
 

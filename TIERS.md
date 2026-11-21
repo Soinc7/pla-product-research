@@ -5,7 +5,7 @@ v1.3, 2026-11-20 (v1.2 ladder, with the 5-keyword competitor check). This is the
 | Tier | Sheet fill | How a product gets here |
 |---|---|---|
 | 🟢 **GREEN** | `#00FF00` | It is Orange **and** a winning video is verified. Every list needs **at least 3 Greens**. |
-| 🟠 **ORANGE** | `#FFA500` | It is Yellow **and** competitors on Meta are **not** using its Kalo videos, after 5 different keyword searches all clear. |
+| 🟠 **ORANGE** | `#FFA500` | It is Yellow **and** competitors in the Ad Library are **not** using its Kalo videos, after 5 different keyword searches all clear. |
 | 🟡 **YELLOW** | `#FFFF00` | It passed the Kalo demand filters (the filter setup's revenue, price, commission and video rules). |
 | ⚪ **WHITE** | no fill | A potential, not a tier. It fails a hard gate or its evidence is incomplete. |
 
@@ -18,7 +18,7 @@ v1.3, 2026-11-20 (v1.2 ladder, with the 5-keyword competitor check). This is the
 
 ## Step 2. Yellow → Orange: no competitor uses the Kalo videos (5-keyword check)
 
-Run `META-AD-LIBRARY.md` for the product.
+Run `AD-LIBRARY.md` for the product.
 
 1. **Search 5 different keywords** that describe the product (mix exact-phrase and unordered; brand, function and problem words). The product must clear **all 5**.
 2. Take the **first frame** of each of the product's **top 10 Kalo videos** (the thumbnail on Kalo's "Video & Ad" tab) and compare them with the video ads the searches return.
@@ -30,14 +30,14 @@ Run `META-AD-LIBRARY.md` for the product.
 
 ## Step 3. Orange → Green: a winning video is verified
 
-All of these must be true. The data comes from Kalo (orders per video) and TrendTrack (appeal on TikTok and Meta).
+All of these must be true. The data comes from Kalo (orders per video) and TrendTrack (appeal on TikTok and in the Ad Library).
 
 | Check | Source | Pass (PROPOSED default) |
 |---|---|---|
 | Orders | Kalo, one video, 30 days | **500+ orders** from that video |
 | Conversion | Kalo, orders ÷ views | **0.6+ orders per 1,000 views** on that same video |
 | Viewership | Kalo / TrendTrack | That same video has **300k+ views** |
-| Appeal | TrendTrack TikTok library and Meta ads for the product | At least one video or ad of the **same product** with **100k+ views**, showing the hook works beyond one creator |
+| Appeal | TrendTrack TikTok library and ads for the product | At least one video or ad of the **same product** with **100k+ views**, showing the hook works beyond one creator |
 
 - **One video must pass all three Kalo bars** (orders, conversion, views). Two videos that each pass part of it do not count. The winning video is the highest-revenue video that passes all three (`merge_lanes.py` does this).
 - **Same product** for appeal means the same design doing the same job. A different brand of the same design counts. A different product type that solves the same problem (for example a non-contact voltage pen for a 12V circuit probe) does not: mark it `UNCERTAIN` and keep looking. Appeal `PARTIAL` means a hit was found but not yet confirmed by eye; it does not pass until it is `PROVEN`.
@@ -69,6 +69,6 @@ Uses the intake budget (`state/intake.json`). Price = the TikTok price as refere
 ## Shown on every row, but not a tier gate
 
 - **Cost:** shown on every row (Green, Orange and Yellow): the 1688 / Fabulk item cost with a match label `EXACT` / `CLOSE` / `SIMILAR`, and "Est. delivered (standard)" = item cost + $5.00 flat. See `PRICING-1688-SUPPLIER.md`. Estimates rank products but never release a Green by themselves. A real exact match and supplier-agent quote must be cleared before any launch handoff.
-- **Meta crowding:** brand count, the oldest ad, and copied ad text. This helps choose between Greens.
+- **Ad Library crowding:** brand count, the oldest ad, and copied ad text. This helps choose between Greens.
 
 The numbers marked PROPOSED (500 orders, 0.6 per 1,000, 300k, 100k) can be changed by the owner. Note any change in `CHANGELOG.md`.
