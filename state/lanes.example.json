@@ -44,8 +44,8 @@
       }
     ]
   },
-  "lane-L2-meta.json": {
-    "meta_sweep": [
+  "lane-L2-adlibrary.json": {
+    "adlibrary_sweep": [
       {
         "pid": "1730000000000000001",
         "product": "Example tongs",
@@ -157,7 +157,7 @@
             "product_url": "https://example-store.com/products/tongs",
             "price": 19.99,
             "est_rev_30d": 24000,
-            "active_meta_ads": 12,
+            "active_ads": 12,
             "note": ""
           }
         ],

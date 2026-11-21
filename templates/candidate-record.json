@@ -390,7 +390,7 @@
         "google_trends": {
           "$ref": "#/$defs/evidence"
         },
-        "meta_ad_library": {
+        "ad_library": {
           "$ref": "#/$defs/evidence"
         },
         "buyer_age_45_plus": {
@@ -557,7 +557,7 @@
         "NOT_TIERED"
       ]
     },
-    "meta_ad_library": {
+    "ad_library": {
       "type": "object",
       "properties": {
         "keywords": {
